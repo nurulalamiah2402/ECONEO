@@ -428,7 +428,6 @@
 
     <script>
         // --- KONFIGURASI API KIMI AI ---
-        // Masukkan API Key Anda di sini
         const KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
         const KIMI_ENDPOINT = "https://api.moonshot.cn/v1/chat/completions";
 
@@ -459,7 +458,7 @@
                 isSpeaking: false,
                 hasShared: false,
                 hasChatted: false,
-                chatHistory: [] // Menyimpan riwayat chat untuk konteks Kimi AI
+                chatHistory: [] 
             },
 
             init() {
@@ -679,7 +678,7 @@
                 lucide.createIcons();
             },
 
-            // --- INTEGRASI KIMI AI ---
+            // --- INTEGRASI KIMI AI PERBAIKAN ---
             async handleChatSubmit(e) {
                 e.preventDefault();
                 const input = document.getElementById('chat-input');
@@ -688,7 +687,7 @@
                 
                 if(!userText || this.state.isChatting) return;
 
-                // 1. Tampilkan pesan user
+                // 1. Tampilkan pesan user di UI
                 this.addChatMessage('user', userText);
                 input.value = '';
                 input.disabled = true;
@@ -701,50 +700,42 @@
                 const typingId = this.showTypingIndicator();
 
                 try {
-                    // Update riwayat untuk konteks
+                    // Update riwayat internal untuk pengiriman API (Hanya role 'user' & 'assistant')
                     this.state.chatHistory.push({ role: "user", content: userText });
 
-                    // Jika API Key kosong, gunakan fallback mock
-                    if (!KIMI_API_KEY) {
-                        setTimeout(() => {
-                            this.removeTypingIndicator(typingId);
-                            const mockMsg = "Kunci API Kimi AI belum terpasang. Harap sertakan kunci Anda di dalam variabel KIMI_API_KEY untuk fitur diskusi cerdas.";
-                            this.addBotMessage(mockMsg);
-                            this.finalizeChat(input, btn);
-                        }, 1000);
-                        return;
-                    }
-
-                    // Panggilan API sesuai instruksi gambar
+                    // 3. Panggilan API Kimi AI sesuai format gambar
                     const response = await fetch(KIMI_ENDPOINT, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${KIMI_API_KEY}`
+                            'Authorization': `Bearer ${KIMI_API_KEY}` // Sesuai Image 1
                         },
                         body: JSON.stringify({
-                            model: "kimi-pro",
+                            model: "kimi-pro", // Sesuai Image 2
                             messages: [
                                 { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dengan ramah, informatif, dan menginspirasi gaya hidup berkelanjutan dalam Bahasa Indonesia." },
                                 ...this.state.chatHistory
                             ],
-                            stream: false
+                            stream: false // Diset false agar respon JSON utuh bisa ditangani mudah di client-side
                         })
                     });
 
-                    if (!response.ok) throw new Error("Gagal terhubung ke Kimi AI.");
+                    if (!response.ok) throw new Error("Gagal terhubung ke Kimi AI. Pastikan API Key valid.");
 
                     const data = await response.json();
                     const botContent = data.choices[0].message.content;
 
+                    // 4. Update UI dengan jawaban Bot
                     this.removeTypingIndicator(typingId);
                     this.addBotMessage(botContent);
+                    
+                    // Simpan jawaban bot ke riwayat untuk konteks percakapan selanjutnya
                     this.state.chatHistory.push({ role: "assistant", content: botContent });
 
                 } catch (error) {
                     this.removeTypingIndicator(typingId);
-                    this.addBotMessage("Maaf, terjadi gangguan saat mencoba menghubungi asisten cerdas. Silakan coba beberapa saat lagi.");
-                    console.error(error);
+                    this.addBotMessage("Maaf, terjadi gangguan saat menghubungi asisten cerdas. Silakan coba lagi nanti.");
+                    console.error("Kimi AI Error:", error);
                 } finally {
                     this.finalizeChat(input, btn);
                 }
