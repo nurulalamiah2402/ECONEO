@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNeo - Literasi Hijau Masa Depan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4035;
+            --secondary: #4A6354;
+            --accent: #D6A6B1;
+            --sky: #7CB9E8;
+            --bg-light: #F8FBFA;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #F0F4F3;
+            color: var(--primary);
+        }
+        
+        .font-serif { font-family: 'Lora', serif; }
+        
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Smooth View Transitions */
+        .view-section { 
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .view-section.active { 
+            display: block; 
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Navigation Active State */
+        .nav-active { color: var(--primary) !important; font-weight: 800; }
+        .nav-active i { transform: translateY(-4px); transition: transform 0.3s ease; }
+        
+        /* Tab Active State */
+        .tab-active { background: var(--secondary); color: white; }
+
+        /* Floating Animation for Hero */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Buttons Styling */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(45, 64, 53, 0.5);
+        }
+
+        /* Background Blobs */
+        .blob {
+            position: fixed;
+            z-index: -1;
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2D4035',
+                        secondary: '#4A6354',
+                        accent: '#D6A6B1',
+                        sky: '#7CB9E8',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- BACKGROUND BLOBS -->
+    <div class="blob w-96 h-96 bg-sky top-[-10%] right-[-10%]"></div>
+    <div class="blob w-[30rem] h-[30rem] bg-accent bottom-[-10%] left-[-10%]"></div>
+
+    <div id="app-wrapper" class="relative min-h-screen flex flex-col pb-32">
+        
+        <!-- TOP NAVIGATION BAR -->
+        <header id="main-header" class="hidden bg-white/60 backdrop-blur-xl sticky top-0 z-50 border-b border-white/40">
+            <div class="max-w-6xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
+                <div class="flex items-center gap-2.5 cursor-pointer" onclick="app.setView('dashboard')">
+                    <div class="bg-primary p-1.5 rounded-lg text-white">
+                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                    </div>
+                    <h1 class="text-xl md:text-2xl font-black text-primary tracking-tighter">ECONEO</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
+                        <span id="header-streak-icon"></span>
+                        <span class="text-xs font-bold text-primary"><span id="header-streak-val">8</span> Hari</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-primary px-3 py-1.5 rounded-full shadow-sm text-white">
+                        <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                        <span class="text-xs font-bold"><span id="header-xp-val">0</span> XP</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN VIEW CONTAINER -->
+        <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10">
+            
+            <!-- VIEW: HOME (HERO) -->
+            <section id="view-home" class="view-section active flex flex-col items-center justify-center text-center min-h-[70vh]">
+                <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Platform Edukasi Hijau #1
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black text-primary mb-6 leading-[1.1] tracking-tight">
+                    Masa Depan Bumi <br> Ada di <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">Literasi Kita.</span>
+                </h2>
+                <p class="text-lg md:text-xl text-secondary max-w-2xl mb-12 font-medium leading-relaxed opacity-80">
+                    Akses perpustakaan pintar untuk memahami krisis iklim, ekonomi sirkular, dan teknologi hijau melalui materi akademik yang ringkas dan interaktif.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button onclick="app.setView('login')" class="btn-primary px-10 py-5 rounded-full text-white font-bold text-lg flex items-center justify-center gap-2">
+                        Mulai Belajar Sekarang <i data-lucide="arrow-right"></i>
+                    </button>
+                    <button class="px-10 py-5 rounded-full bg-white/50 border border-white text-primary font-bold text-lg hover:bg-white transition-all">
+                        Pelajari Fitur
+                    </button>
+                </div>
+                <div class="mt-16 floating opacity-20 grayscale">
+                    <i data-lucide="earth" class="w-40 h-40"></i>
+                </div>
+            </section>
+
+            <!-- VIEW: LOGIN -->
+            <section id="view-login" class="view-section flex items-center justify-center min-h-[60vh]">
+                <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-black text-primary mb-2">Selamat Datang</h2>
+                        <p class="text-secondary font-medium opacity-70 text-sm">Masuk untuk menyimpan progres belajarmu.</p>
+                    </div>
+                    <form onsubmit="app.handleLogin(event)" class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-primary uppercase ml-1 opacity-60">Alamat Email</label>
+                            <div class="relative">
+                                <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                <input type="email" id="login-email" required value="pengguna@econeo.com" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-inner transition-all">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-primary uppercase ml-1 opacity-60">Kata Sandi</label>
+                            <div class="relative">
+                                <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                <input type="password" required value="password123" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-inner transition-all">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-5 rounded-2xl text-white font-bold shadow-lg mt-4">Masuk ke Dashboard</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW: DASHBOARD -->
+            <section id="view-dashboard" class="view-section space-y-10">
+                <!-- User Profile Card -->
+                <div class="bg-white rounded-[2.5rem] p-8 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-8">
+                    <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-50 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
+                        <i data-lucide="user" class="text-accent w-12 h-12"></i>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h2 class="text-3xl md:text-4xl font-black text-primary mb-2">Halo, <span id="dash-username" class="text-secondary">Agen</span>!</h2>
+                        <p class="text-secondary font-medium opacity-70 mb-6 text-sm md:text-base">Misi hari ini menunggu Anda. Selesaikan literasi untuk mendapatkan badge pelestari bumi.</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <button onclick="app.setView('modules')" class="btn-primary px-8 py-3 rounded-xl text-white font-bold flex items-center gap-2">
+                                Jelajah Modul <i data-lucide="arrow-right-circle" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="app.setView('profile')" class="px-8 py-3 rounded-xl bg-gray-50 text-secondary border border-gray-200 font-bold hover:bg-white transition-all">
+                                Edit Profil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats and Missions -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Daily Missions -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-black text-primary flex items-center gap-2">
+                                <i data-lucide="list-todo" class="text-sky w-5 h-5"></i> Misi Harian
+                            </h3>
+                            <span class="text-xs font-bold text-gray-400 bg-white px-3 py-1 rounded-full border border-gray-100">Baru Diperbarui</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="mission-list">
+                            <!-- Missions rendered via JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-black text-primary flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="text-accent w-5 h-5"></i> Ringkasan
+                        </h3>
+                        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-lg space-y-6">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-white p-2 rounded-xl shadow-sm text-sky"><i data-lucide="book-open" class="w-5 h-5"></i></div>
+                                    <span class="text-sm font-bold opacity-60">Modul Selesai</span>
+                                </div>
+                                <span class="text-xl font-black text-primary" id="dash-mod-count">0</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-white p-2 rounded-xl shadow-sm text-accent"><i data-lucide="check-square" class="w-5 h-5"></i></div>
+                                    <span class="text-sm font-bold opacity-60">Skor Kuis</span>
+                                </div>
+                                <span class="text-xl font-black text-primary" id="dash-quiz-count">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: CATALOG -->
+            <section id="view-modules" class="view-section space-y-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-4">
+                    <div>
+                        <h2 class="text-4xl font-black text-primary mb-2">Katalog Literasi</h2>
+                        <p class="text-secondary font-medium opacity-60">Pilih topik yang ingin Anda kuasai hari ini.</p>
+                    </div>
+                    <div class="relative w-full md:w-80">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4"></i>
+                        <input type="text" id="search-input" oninput="app.handleSearch()" placeholder="Cari topik..." class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none shadow-sm font-medium">
+                    </div>
+                </div>
+                <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+                    <!-- Cards via JS -->
+                </div>
+            </section>
+
+            <!-- VIEW: MODULE DETAIL (FIXED ID FROM 'view-module-detail' to 'view-module_detail') -->
+            <section id="view-module_detail" class="view-section space-y-8 pb-12 max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-2">
+                    <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-sm hover:text-primary transition-all">
+                        <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i> Kembali ke Katalog
+                    </button>
+                    <span id="detail-cat" class="bg-accent/20 text-accent px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-accent/10">KATEGORI</span>
+                </div>
+                
+                <h1 id="detail-title" class="text-4xl md:text-6xl font-black text-primary leading-tight">Judul Modul</h1>
+
+                <!-- Mobile-friendly tabs -->
+                <div class="sticky top-20 z-40 bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-white flex gap-1 shadow-sm">
+                    <button id="btn-tab-literasi" onclick="app.switchTab('literasi')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active">
+                        <i data-lucide="align-left" class="w-4 h-4"></i> Literasi
+                    </button>
+                    <button id="btn-tab-kuis" onclick="app.switchTab('kuis')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i> Kuis Interaktif
+                    </button>
+                </div>
+
+                <!-- Tab Content: Literasi -->
+                <div id="tab-literasi" class="view-tab active space-y-10">
+                    <div class="bg-primary/5 p-6 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="text-center md:text-left">
+                            <h4 class="font-bold text-primary">Mode Baca Audio</h4>
+                            <p class="text-xs text-secondary opacity-60">Dengarkan materi sambil bersantai.</p>
+                        </div>
+                        <button id="tts-btn" onclick="app.toggleTTS()" class="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl font-black bg-white text-primary border border-gray-100 shadow-sm hover:bg-primary hover:text-white transition-all">
+                            <i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi
+                        </button>
+                    </div>
+                    
+                    <div id="detail-content" class="text-lg md:text-xl text-primary leading-loose md:leading-[2.2] text-justify font-serif whitespace-pre-line px-1">
+                        <!-- Content -->
+                    </div>
+                    
+                    <div class="pt-10 flex justify-center border-t border-gray-100">
+                        <button id="finish-btn" onclick="app.finishRead()" class="btn-primary text-white px-12 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-lg">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i> Saya Telah Membaca (+200 XP)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Kuis -->
+                <div id="tab-kuis" class="view-tab hidden space-y-8">
+                    <div id="quiz-list" class="space-y-6">
+                        <!-- Quiz cards -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: LEADERBOARD -->
+            <section id="view-leaderboard" class="view-section max-w-2xl mx-auto space-y-10">
+                <div class="text-center">
+                    <h2 class="text-4xl font-black text-primary mb-2">Klasemen Global</h2>
+                    <p class="text-secondary font-medium opacity-60">Lihat siapa kontributor literasi paling aktif.</p>
+                </div>
+                
+                <div class="bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
+                    <div id="leaderboard-top" class="p-8 bg-gradient-to-br from-primary to-secondary text-white flex flex-col items-center justify-center gap-4 text-center">
+                        <div class="bg-white/20 p-4 rounded-3xl backdrop-blur-md mb-2">
+                            <i data-lucide="trophy" class="w-12 h-12 text-yellow-300"></i>
+                        </div>
+                        <h4 class="text-2xl font-black">Eco-Warrior Teratas</h4>
+                        <button onclick="app.showAlert('Data tersinkronisasi ke server pusat.')" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-xs font-bold transition-all">
+                            Refresh Data
+                        </button>
+                    </div>
+                    <div id="leaderboard-list" class="p-6 bg-gray-50/50 space-y-3">
+                        <!-- Leaderboard items -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: CHAT AI -->
+            <section id="view-ai_chat" class="view-section max-w-4xl mx-auto h-[75vh] flex flex-col bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
+                <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center gap-4">
+                    <div class="bg-primary p-2 rounded-xl text-white">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-primary leading-tight">EcoNeo Asisten Pintar</h3>
+                        <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Terhubung
+                        </p>
+                    </div>
+                </div>
+                
+                <div id="chat-messages" class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 custom-scrollbar bg-white">
+                    <!-- Chat rendered via JS -->
+                </div>
+
+                <div class="p-6 bg-gray-50 border-t border-gray-100">
+                    <form onsubmit="app.handleChatSubmit(event)" class="flex gap-3">
+                        <input type="text" id="chat-input" placeholder="Tanyakan apapun soal keberlanjutan..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm">
+                        <button type="submit" class="bg-primary text-white p-4 rounded-2xl hover:bg-secondary transition-all shadow-md">
+                            <i data-lucide="send" class="w-6 h-6"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- VIEW: PROFILE -->
+            <section id="view-profile" class="view-section max-w-xl mx-auto space-y-8">
+                <div class="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white text-center relative overflow-hidden">
+                    <!-- Background Decor -->
+                    <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-r from-sky/10 to-accent/10 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="profile-avatar-box" class="w-36 h-36 rounded-3xl bg-gray-100 flex items-center justify-center border-4 border-white shadow-2xl overflow-hidden mb-6 rotate-2 transition-transform hover:rotate-0">
+                            <i data-lucide="user" class="text-accent w-16 h-16"></i>
+                        </div>
+                        <input type="file" id="avatar-input" class="hidden" accept="image/*" onchange="app.updateAvatar(event)">
+                        <button onclick="document.getElementById('avatar-input').click()" class="bg-white text-primary p-3 rounded-2xl border border-gray-100 shadow-lg hover:scale-110 transition-all -mt-10 relative z-20">
+                            <i data-lucide="camera" class="w-5 h-5"></i>
+                        </button>
+                        
+                        <h3 id="profile-name" class="text-3xl font-black text-primary mt-6 mb-1">User</h3>
+                        <p id="profile-email" class="text-sm font-bold text-gray-400 mb-8 uppercase tracking-widest">user@econeo.com</p>
+
+                        <div class="grid grid-cols-2 gap-4 w-full mb-10">
+                            <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 shadow-inner">
+                                <i data-lucide="award" class="mx-auto text-sky mb-3 w-6 h-6"></i>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase mb-1">XP Saya</p>
+                                <p class="text-2xl font-black text-primary"><span id="profile-xp">0</span></p>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 shadow-inner">
+                                <span id="profile-streak-icon" class="block mb-3"></span>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase mb-1">Streak</p>
+                                <p class="text-2xl font-black text-accent"><span id="profile-streak">8</span></p>
+                            </div>
+                        </div>
+
+                        <div class="w-full space-y-4">
+                            <button onclick="app.openShare()" class="w-full flex justify-between items-center bg-gray-50 text-secondary px-8 py-5 rounded-[2rem] font-bold border border-gray-100 hover:bg-white transition-all shadow-sm">
+                                <span class="flex items-center gap-4"><i data-lucide="share-2" class="text-sky w-5 h-5"></i> Bagikan Aplikasi</span>
+                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-30"></i>
+                            </button>
+                            <button onclick="location.reload()" class="w-full flex justify-between items-center bg-gray-50 text-[#A67D86] px-8 py-5 rounded-[2rem] font-bold border border-gray-100 hover:bg-[#FFF5F7] transition-all shadow-sm">
+                                <span class="flex items-center gap-4"><i data-lucide="log-out" class="text-accent w-5 h-5"></i> Keluar Sesi</span>
+                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-30"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FLOATING BOTTOM NAVIGATION -->
+        <nav id="bottom-nav" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg glass rounded-[2.5rem] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] z-[60] flex items-center justify-between px-3 py-3 border-white/50">
+            <button onclick="app.setView('dashboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="dashboard">
+                <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Home</span>
+            </button>
+            <button onclick="app.setView('modules')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="modules">
+                <i data-lucide="book-marked" class="w-5 h-5"></i>
+                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Modul</span>
+            </button>
+            
+            <div class="relative -top-10">
+                <button onclick="app.setView('ai_chat')" class="bg-primary text-white p-5 rounded-full shadow-2xl transform hover:scale-110 active:scale-95 transition-all">
+                    <i data-lucide="message-circle" class="w-7 h-7"></i>
+                </button>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 border border-gray-100 px-3 py-0.5 rounded-full shadow-sm text-[9px] font-black text-primary">TANYA AI</div>
+            </div>
+
+            <button onclick="app.setView('leaderboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="leaderboard">
+                <i data-lucide="medal" class="w-5 h-5"></i>
+                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Rank</span>
+            </button>
+            <button onclick="app.setView('profile')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="profile">
+                <i data-lucide="user-circle" class="w-5 h-5"></i>
+                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Profil</span>
+            </button>
+        </nav>
+
+        <!-- GLOBAL ALERT MODAL -->
+        <div id="modal-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
+            <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl text-center border border-white">
+                <div class="bg-green-50 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner border border-green-100">
+                    <i data-lucide="smile" class="text-green-500 w-12 h-12"></i>
+                </div>
+                <h3 id="modal-message" class="text-primary font-black text-xl mb-8 leading-tight">Berhasil!</h3>
+                <button onclick="app.closeModal()" class="w-full bg-primary text-white py-5 rounded-2xl font-black shadow-xl hover:shadow-2xl transition-all">Lanjutkan</button>
+            </div>
+        </div>
+
+        <!-- SHARE MODAL -->
+        <div id="share-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
+            <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl relative border border-white">
+                <button onclick="app.closeShare()" class="absolute top-6 right-6 text-gray-300 hover:text-primary"><i data-lucide="x"></i></button>
+                <div class="bg-sky/5 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-sky"><i data-lucide="share-2" class="w-10 h-10"></i></div>
+                <h3 class="text-2xl font-black text-primary text-center mb-2">Sebarkan Dampak</h3>
+                <p class="text-gray-400 text-sm text-center mb-10 font-medium">Ajak kerabatmu untuk membangun kebiasaan literasi hijau setiap hari.</p>
+                <div class="space-y-4">
+                    <button onclick="app.copyLink()" class="w-full flex justify-center items-center gap-4 bg-primary text-white py-4 rounded-2xl font-black shadow-xl"><i data-lucide="link-2" class="w-5 h-5"></i> Salin Tautan</button>
+                    <button onclick="app.copyLink()" class="w-full flex justify-center items-center gap-4 bg-[#F2F7F5] text-primary py-4 rounded-2xl font-black border border-gray-100"><i data-lucide="instagram" class="w-5 h-5"></i> Bagikan Story</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONTENT DATABASE (10 MODUL) ---
+        const modulesData = [
+            { id: 1, title: 'Ekonomi Sirkular & Fast Fashion', category: 'Keberlanjutan', content: `Industri fesyen global saat ini berada pada titik krisis lingkungan yang belum pernah terjadi sebelumnya. Model bisnis "Fast Fashion" yang didorong oleh konsumsi hiperaktif telah mengubah cara masyarakat memandang pakaian sebagai barang habis pakai yang murah. \n\nDampak lingkungan dari Fast Fashion sangat mengerikan. Diperlukan sekitar 2.700 liter air hanya untuk membuat satu buah kaus katun—jumlah air yang cukup untuk diminum satu orang selama 2,5 tahun. \n\nSolusi yang paling rasional adalah transisi menuju "Ekonomi Sirkular". Berlawanan dengan ekonomi linier (Ambil - Buat - Buang), ekonomi sirkular berpusat pada tiga prinsip utama: meminimalkan limbah dan polusi sejak fase desain, menjaga produk dan material agar terus digunakan selama mungkin, serta meregenerasi sistem alam.`, quiz: [ { q: 'Berapa banyak air yang dibutuhkan untuk memproduksi satu kaus katun?', options: ['500 liter', '1.000 liter', '2.700 liter', '5.000 liter'], ans: '2.700 liter' }, { q: 'Prinsip ekonomi yang bertujuan meminimalkan limbah disebut?', options: ['Ekonomi Linier', 'Ekonomi Sirkular', 'Ekonomi Mikro', 'Ekonomi Digital'], ans: 'Ekonomi Sirkular' } ] },
+            { id: 2, title: 'Manajemen E-Waste & Keusangan', category: 'Manajemen Limbah', content: `Limbah elektronik atau E-Waste kini menjadi aliran limbah dengan pertumbuhan tercepat di dunia. Secara global, kita menghasilkan lebih dari 50 juta ton E-Waste setiap tahunnya. Salah satu pendorong utamanya adalah taktik bisnis yang disebut "Keusangan Terencana" (Planned Obsolescence).\n\nBanyak produsen teknologi merancang produk mereka agar memiliki masa pakai yang pendek, cepat rusak, atau menjadi sangat lambat setelah beberapa kali pembaruan perangkat lunak. E-Waste sebenarnya adalah "tambang perkotaan" (urban mine) yang sangat bernilai secara ekonomi. Satu ton ponsel bekas mengandung lebih banyak emas daripada satu ton bijih emas murni yang ditambang langsung dari bumi.`, quiz: [ { q: 'Istilah produk dirancang cepat rusak adalah?', options: ['Planned Obsolescence', 'Fast Tech', 'Eco Mode', 'Green Mining'], ans: 'Planned Obsolescence' }, { q: 'Mengekstraksi logam dari limbah elektronik kota disebut?', options: ['Urban Mining', 'Deforestasi', 'Industrialisasi', 'Recycling'], ans: 'Urban Mining' } ] },
+            { id: 3, title: 'Transisi Energi Terbarukan (EBT)', category: 'Energi Terbarukan', content: `Dunia sedang berpacu dengan waktu untuk mencegah kenaikan suhu bumi melewati batas kritis 1,5 derajat Celcius. Penyumbang emisi terbesar adalah sektor energi berbasis bahan bakar fosil. Energi terbarukan mencakup energi surya, angin, panas bumi, dan hidro.\n\nKonsep "Desentralisasi Energi" menjadi vital. Sistem kelistrikan tradisional sangat tersentralisasi. Sebaliknya, EBT memungkinkan setiap desa atau rumah memproduksi listrik mereka sendiri (prosumer). Kelemahan intermitensi kini diatasi dengan Sistem Penyimpanan Baterai (BESS) skala jaringan cerdas.`, quiz: [ { q: 'Gas yang diperangkap efek rumah kaca paling banyak berasal dari?', options: ['Oksigen', 'Bahan bakar fosil', 'Air tawar', 'Nitrogen'], ans: 'Bahan bakar fosil' }, { q: 'Pengguna yang juga memproduksi listrik sendiri disebut?', options: ['Konsumen', 'Prosumer', 'Distributor', 'Produsen'], ans: 'Prosumer' } ] },
+            { id: 4, title: 'Jejak Karbon Digital & Polusi Internet', category: 'Edukasi Digital', content: `Setiap email, setiap scroll media sosial, memerlukan perangkat keras fisik yang menyedot energi masif. Inilah Jejak Karbon Digital. Sektor TIK menyumbang hampir 3,7% dari emisi gas rumah kaca global.\n\nKecerdasan Buatan (AI) memperburuk krisis ini. Satu permintaan AI butuh energi 10 kali lebih besar dibanding Google Search biasa. Sebagai warga digital, kita bisa melakukan "Diet Data": hapus email lama, kurangi resolusi streaming, dan kurangi unggahan file tak berguna di cloud storage.`, quiz: [ { q: 'Berapa persen sumbangan industri TIK terhadap emisi global?', options: ['1%', '3.7%', '10%', '25%'], ans: '3.7%' }, { q: 'Langkah individu mengurangi jejak digital disebut?', options: ['Diet Data', 'Digital Detox', 'Hacktivism', 'Cloud Mining'], ans: 'Diet Data' } ] },
+            { id: 5, title: 'Bursa Karbon (Carbon Trading)', category: 'Ekonomi Hijau', content: `Konsep "Nilai Ekonomi Karbon" bertujuan membuat polusi menjadi mahal. Mekanisme utamanya adalah "Cap-and-Trade". Pemerintah membatasi emisi tahunan industri. Perusahaan yang emisi di bawah batas bisa menjual sisa kuotanya.\n\nMekanisme kedua adalah "Carbon Offsetting". Hutan mangrove (Blue Carbon) menyerap karbon secara efisien. Perusahaan membeli kredit karbon dari proyek restorasi. Namun, waspadai "Greenwashing": perusahaan hanya membayar kompensasi tanpa serius mengubah operasional menjadi energi bersih.`, quiz: [ { q: 'Sistem jual-beli kuota emisi karbon adalah?', options: ['Cap and Trade', 'Carbon Tax', 'Carbon Copy', 'Offsetting'], ans: 'Cap and Trade' }, { q: 'Tindakan mencitrakan diri ramah lingkungan secara palsu disebut?', options: ['Greenwashing', 'Whitewashing', 'Eco-Friendly', 'Marketing'], ans: 'Greenwashing' } ] },
+            { id: 6, title: 'Krisis Iklim & Ketahanan Pangan', category: 'Aksi Iklim', content: `Sektor pangan menyumbang hampir 30% emisi gas rumah kaca. Penggunaan pupuk kimia sintetis melepaskan gas Nitrous Oxide yang 300x lebih merusak dibanding CO2. Industri peternakan ruminansia menjadi pabrik gas Metana terbesar.\n\nSisa makanan (Food Waste) juga memicu gas metana saat membusuk di TPA. Solusinya adalah beralih ke diet nabati (plant-based) dan praktik pertanian cerdas iklim. Membeli pangan lokal (Farm to Table) sangat membantu memangkas emisi logistik transportasi global.`, quiz: [ { q: 'Sektor pangan berkontribusi berapa persen pada emisi global?', options: ['10%', '30%', '50%', '80%'], ans: '30%' }, { q: 'Gas rumah kaca utama dari sendawa sapi adalah?', options: ['Metana', 'Nitrogen', 'Oksigen', 'Ozon'], ans: 'Metana' } ] },
+            { id: 7, title: 'Bioremediasi: Pulihkan Alam', category: 'Konservasi', content: `Bioremediasi adalah proses menggunakan organisme hidup (mikroba, jamur, tanaman) untuk menetralkan polutan berbahaya menjadi zat aman. Fitoremediasi menggunakan akar tanaman untuk menyedot logam berat dari tanah eks-tambang.\n\nMikoremediasi menggunakan jaringan jamur (miselium) untuk mengurai ikatan polimer plastik. Teknik ini jauh lebih murah dibanding kimiawi, tidak merusak topografi lahan, dan berjalan selaras dengan ekosistem asli. Ini adalah solusi berbasis alam (Nature-Based Solutions) yang sangat efektif.`, quiz: [ { q: 'Teknik menggunakan akar tanaman menyerap racun adalah?', options: ['Fitoremediasi', 'Erosi', 'Dehidrasi', 'Deforestasi'], ans: 'Fitoremediasi' }, { q: 'Zat sisa aman hasil proses bioremediasi adalah?', options: ['Air dan CO2', 'Asam sulfat', 'Logam cair', 'Debu batu'], ans: 'Air dan CO2' } ] },
+            { id: 8, title: 'Ekonomi Biru (Blue Economy)', category: 'Keberlanjutan', content: `Lautan menyerap 90% hawa panas ekstra bumi. Ekonomi Biru menuntut pemanfaatan sumber daya laut dengan syarat mutlak kelestarian kesehatan ekosistem. Fenomena "Coral Bleaching" adalah tanda bahaya besar saat air terlalu panas.\n\nMangrove dan padang lamun (Blue Carbon) menyimpan karbon 10x lebih cepat dibanding hutan darat. Perlindungan Kawasan Konservasi Perairan (MPA) sangat krusial untuk memastikan ketahanan pangan dan kestabilan siklus karbon samudra global.`, quiz: [ { q: 'Berapa persen panas ekstra bumi yang diserap lautan?', options: ['50%', '70%', '90%', '100%'], ans: '90%' }, { q: 'Karbon yang disimpan ekosistem pesisir disebut?', options: ['Blue Carbon', 'Green Carbon', 'Black Carbon', 'White Carbon'], ans: 'Blue Carbon' } ] },
+            { id: 9, title: 'Arsitektur Hijau Tropis', category: 'Konservasi', content: `Sektor bangunan berkontribusi terhadap 40% emisi karbon global. "Passive Design" (Desain Pasif) adalah pilar utama arsitektur tropis: mengandalkan ventilasi silang dan arah matahari untuk mendinginkan ruangan tanpa AC.\n\nTeknologi Rainwater Harvesting menampung air hujan untuk toilet dan taman, menghemat air tanah yang makin langka. Roof Garden atau taman atap berfungsi menurunkan suhu gedung secara alami. Di Indonesia, sertifikasi GREENSHIP menjadi standar baku bangunan ramah lingkungan.`, quiz: [ { q: 'Sumbangan sektor bangunan terhadap emisi karbon adalah?', options: ['10%', '25%', '40%', '60%'], ans: '40%' }, { q: 'Strategi mengandalkan alam untuk pendinginan gedung?', options: ['Passive Design', 'Active Design', 'Virtual Design', 'Neon Design'], ans: 'Passive Design' } ] },
+            { id: 10, title: 'Krisis Air & Land Subsidence', category: 'Konservasi', content: `Kurang dari 1% air di bumi adalah air tawar yang dapat diakses manusia. Ekstraksi air tanah berlebih memicu "Land Subsidence" (penurunan tanah). Kota-kota pesisir terancam tenggelam oleh rob samudra pada 2050.\n\nSanitasi buruk juga memicu rembesan bakteri e-coli ke sumur. Solusinya adalah pembuatan "Biopori" (sumur resapan) dan pembangunan Instalasi Pengolahan Air Limbah (IPAL) yang masif untuk mencegah pencemaran kuman patogen ke sumber air warga.`, quiz: [ { q: 'Berapa persen air tawar yang bisa diakses manusia?', options: ['< 1%', '5%', '10%', '50%'], ans: '< 1%' }, { q: 'Fenomena turunnya tanah akibat pompa air berlebih adalah?', options: ['Land Subsidence', 'Likuifaksi', 'Abrasi', 'Erosi'], ans: 'Land Subsidence' } ] }
+        ];
+
+        // --- CORE APPLICATION LOGIC ---
+        const app = {
+            state: {
+                user: null,
+                view: 'home',
+                xp: 0,
+                streak: 8,
+                streakIcon: 'flame',
+                readModules: [],
+                completedQuizzes: {},
+                activeModule: null,
+                activeTab: 'literasi',
+                isSpeaking: false,
+                hasShared: false,
+                hasChatted: false
+            },
+
+            init() {
+                this.renderModules();
+                this.updateUI();
+                lucide.createIcons();
+                this.addBotMessage("Halo! Saya EcoNeo AI 🍃. Ada yang bisa saya bantu seputar literasi hijau hari ini?");
+            },
+
+            setView(viewName) {
+                // GUARD: Cek apakah target view ada sebelum manipulasi style
+                const target = document.getElementById(`view-${viewName}`);
+                if (!target) {
+                    console.error(`Gagal memuat view: view-${viewName} tidak ditemukan.`);
+                    return;
+                }
+
+                this.state.view = viewName;
+                
+                // Switch Visibility
+                document.querySelectorAll('.view-section').forEach(sec => {
+                    sec.classList.remove('active');
+                    // Menyembunyikan elemen setelah animasi keluar (400ms)
+                    setTimeout(() => { 
+                        if(sec.id !== `view-${viewName}`) sec.style.display = 'none'; 
+                    }, 400);
+                });
+                
+                target.style.display = 'block';
+                // Memberikan delay kecil agar transisi opacity berjalan
+                setTimeout(() => target.classList.add('active'), 50);
+
+                // Header & Nav Visibility
+                const isAuth = !['home', 'login'].includes(viewName);
+                document.getElementById('main-header').classList.toggle('hidden', !isAuth);
+                document.getElementById('bottom-nav').classList.toggle('hidden', !isAuth);
+
+                // Active Link Visuals
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('nav-active');
+                    if(btn.dataset.view === viewName) btn.classList.add('nav-active');
+                });
+
+                if(this.state.isSpeaking) this.toggleTTS();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                lucide.createIcons();
+            },
+
+            handleLogin(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                this.state.user = { name: email.split('@')[0], email };
+                this.updateUI();
+                this.setView('dashboard');
+                setTimeout(() => this.showAlert("Selamat datang kembali! Streak harian Anda tetap terjaga. 🔥"), 500);
+            },
+
+            updateUI() {
+                if(!this.state.user) return;
+                
+                // Stats Elements
+                document.getElementById('header-streak-val').innerText = this.state.streak;
+                document.getElementById('header-xp-val').innerText = this.state.xp;
+                document.getElementById('dash-username').innerText = this.state.user.name;
+                document.getElementById('dash-mod-count').innerText = this.state.readModules.length;
+                document.getElementById('dash-quiz-count').innerText = Object.keys(this.state.completedQuizzes).length;
+
+                // Profile Page
+                document.getElementById('profile-name').innerText = this.state.user.name;
+                document.getElementById('profile-email').innerText = this.state.user.email;
+                document.getElementById('profile-xp').innerText = this.state.xp;
+                document.getElementById('profile-streak').innerText = this.state.streak;
+
+                const iconHTML = `<i data-lucide="${this.state.streakIcon}" class="${this.getStreakColor(this.state.streakIcon)} w-4 h-4 animate-pulse"></i>`;
+                document.getElementById('header-streak-icon').innerHTML = iconHTML;
+                document.getElementById('profile-streak-icon').innerHTML = iconHTML;
+
+                // Avatars
+                const avBox = [document.getElementById('dash-avatar'), document.getElementById('profile-avatar-box')];
+                avBox.forEach(box => {
+                    if(box) {
+                        if(this.state.user.avatar) {
+                            box.innerHTML = `<img src="${this.state.user.avatar}" class="w-full h-full object-cover">`;
+                        } else {
+                            box.innerHTML = `<i data-lucide="user" class="text-accent w-10 h-10"></i>`;
+                        }
+                    }
+                });
+
+                // Missions List
+                this.renderMissions();
+                this.renderLeaderboard();
+                lucide.createIcons();
+            },
+
+            getStreakColor(type) {
+                const map = { flame: 'text-orange-500', leaf: 'text-green-500', droplets: 'text-blue-400', sun: 'text-yellow-500', zap: 'text-indigo-400' };
+                return map[type] || 'text-orange-500';
+            },
+
+            renderMissions() {
+                const mList = document.getElementById('mission-list');
+                if (!mList) return;
+                mList.innerHTML = '';
+                const missions = [
+                    { id: 'm1', text: 'Absen Kehadiran', done: true },
+                    { id: 'm2', text: 'Tanya EcoNeo AI 1x', done: this.state.hasChatted },
+                    { id: 'm3', text: 'Bagikan ke Teman', done: this.state.hasShared },
+                    { id: 'm4', text: 'Selesaikan 1 Modul', done: this.state.readModules.length > 0 }
+                ];
+
+                missions.forEach(m => {
+                    const div = document.createElement('div');
+                    div.className = `flex items-center gap-3 p-4 rounded-2xl border transition-all ${m.done ? 'bg-green-50/50 border-green-100 opacity-70' : 'bg-white border-gray-100 shadow-sm'}`;
+                    div.innerHTML = `
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center ${m.done ? 'border-green-500 bg-green-500 text-white' : 'border-gray-200'}">
+                            ${m.done ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}
+                        </div>
+                        <span class="text-sm font-bold ${m.done ? 'text-green-800' : 'text-primary'}">${m.text}</span>
+                    `;
+                    mList.appendChild(div);
+                });
+            },
+
+            renderModules(query = '') {
+                const grid = document.getElementById('modules-grid');
+                if (!grid) return;
+                grid.innerHTML = '';
+                const filtered = modulesData.filter(m => m.title.toLowerCase().includes(query.toLowerCase()));
+
+                filtered.forEach(m => {
+                    const isRead = this.state.readModules.includes(m.id);
+                    const card = document.createElement('div');
+                    card.className = "group bg-white rounded-[2rem] p-7 shadow-lg border border-gray-50 hover:shadow-2xl transition-all flex flex-col hover:-translate-y-1";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="bg-gray-50 text-gray-400 text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-tighter border border-gray-100">${m.category}</span>
+                            ${isRead ? '<div class="bg-green-100 text-green-500 p-1.5 rounded-xl"><i data-lucide="check-circle-2" class="w-4 h-4"></i></div>' : ''}
+                        </div>
+                        <h3 class="text-xl font-black text-primary mb-3 leading-tight group-hover:text-secondary">${m.title}</h3>
+                        <p class="text-secondary text-xs mb-8 line-clamp-3 font-medium leading-relaxed opacity-60">${m.content}</p>
+                        <button onclick="app.openModule(${m.id})" class="w-full bg-gray-50 hover:bg-primary text-primary hover:text-white py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 text-sm">
+                            Buka Literasi <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+                lucide.createIcons();
+            },
+
+            handleSearch() { this.renderModules(document.getElementById('search-input').value); },
+
+            openModule(id) {
+                this.state.activeModule = modulesData.find(m => m.id === id);
+                document.getElementById('detail-title').innerText = this.state.activeModule.title;
+                document.getElementById('detail-cat').innerText = this.state.activeModule.category;
+                document.getElementById('detail-content').innerText = this.state.activeModule.content;
+                
+                // Mengarahkan ke view 'module_detail' (Gunakan underscore sesuai pemanggilan di setView)
+                this.setView('module_detail');
+                this.switchTab('literasi');
+                this.renderQuiz();
+                
+                const btn = document.getElementById('finish-btn');
+                if(this.state.readModules.includes(id)) {
+                    btn.className = "bg-green-50 text-green-500 px-10 py-5 rounded-3xl font-black border border-green-100 cursor-not-allowed";
+                    btn.innerHTML = `<i data-lucide="check-circle-2"></i> Materi Selesai (+200 XP)`;
+                } else {
+                    btn.className = "btn-primary text-white px-10 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-lg";
+                    btn.innerHTML = `<i data-lucide="check-circle-2"></i> Saya Telah Membaca (+200 XP)`;
+                }
+            },
+
+            switchTab(tab) {
+                this.state.activeTab = tab;
+                document.querySelectorAll('.view-tab').forEach(t => t.classList.add('hidden'));
+                document.getElementById(`tab-${tab}`).classList.remove('hidden');
+                
+                const lBtn = document.getElementById('btn-tab-literasi');
+                const qBtn = document.getElementById('btn-tab-kuis');
+                lBtn.className = tab === 'literasi' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400";
+                qBtn.className = tab === 'kuis' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400";
+                lucide.createIcons();
+            },
+
+            renderQuiz() {
+                const list = document.getElementById('quiz-list');
+                if (!list) return;
+                list.innerHTML = '';
+                this.state.activeModule.quiz.forEach((q, idx) => {
+                    const key = `${this.state.activeModule.id}_${idx}`;
+                    const isDone = this.state.completedQuizzes[key];
+                    const div = document.createElement('div');
+                    div.className = "bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start mb-6">
+                            <p class="font-black text-primary text-lg flex-1"><span class="text-sky/40 mr-2">Q${idx+1}</span> ${q.q}</p>
+                            ${isDone ? '<span class="bg-green-50 text-green-500 text-[9px] font-black px-2 py-1 rounded-lg">+20 XP</span>' : ''}
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${q.options.map(opt => `
+                                <button onclick="app.checkAnswer(${this.state.activeModule.id}, ${idx}, '${opt}', '${q.ans}')" class="bg-gray-50 hover:bg-accent hover:text-white font-bold py-4 px-5 rounded-2xl border border-gray-100 text-left transition-all text-sm shadow-sm">${opt}</button>
+                            `).join('')}
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+            },
+
+            checkAnswer(modId, qIdx, val, correct) {
+                const key = `${modId}_${qIdx}`;
+                if(val === correct) {
+                    if(!this.state.completedQuizzes[key]) {
+                        this.state.completedQuizzes[key] = true;
+                        this.state.xp += 20;
+                        this.updateUI();
+                        this.renderQuiz();
+                        this.showAlert("✅ Jawaban Tepat! (+20 XP). Wawasan Anda bertambah.");
+                    } else {
+                        this.showAlert("✅ Jawaban Benar! XP sudah diklaim sebelumnya.");
+                    }
+                } else {
+                    this.showAlert("❌ Masih Kurang Tepat. Coba baca ulang paragraf terakhir.");
+                }
+            },
+
+            finishRead() {
+                const id = this.state.activeModule.id;
+                if(this.state.readModules.includes(id)) return;
+                this.state.readModules.push(id);
+                this.state.xp += 200;
+                this.updateUI();
+                this.renderModules();
+                this.openModule(id);
+                this.showAlert("🎉 Luar Biasa! Literasi tuntas, XP Anda bertambah.");
+            },
+
+            toggleTTS() {
+                const btn = document.getElementById('tts-btn');
+                if(this.state.isSpeaking) {
+                    window.speechSynthesis.cancel();
+                    this.state.isSpeaking = false;
+                    btn.innerHTML = `<i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi`;
+                } else {
+                    const ut = new SpeechSynthesisUtterance(this.state.activeModule.content);
+                    ut.lang = 'id-ID';
+                    ut.onend = () => {
+                        this.state.isSpeaking = false;
+                        btn.innerHTML = `<i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi`;
+                        lucide.createIcons();
+                    };
+                    window.speechSynthesis.speak(ut);
+                    this.state.isSpeaking = true;
+                    btn.innerHTML = `<i data-lucide="square" class="w-5 h-5"></i> Hentikan Audio`;
+                }
+                lucide.createIcons();
+            },
+
+            handleChatSubmit(e) {
+                e.preventDefault();
+                const input = document.getElementById('chat-input');
+                const val = input.value.trim();
+                if(!val) return;
+                this.addChatMessage('user', val);
+                input.value = '';
+                this.state.hasChatted = true;
+                this.updateUI();
+                setTimeout(() => this.addBotMessage("Itu adalah pertanyaan yang berbobot! Berdasarkan data terbaru, tindakan paling efektif yang bisa dilakukan individu adalah mengurangi jejak digital dengan menghapus data sampah di cloud."), 1000);
+            },
+
+            addChatMessage(sender, text) {
+                const box = document.getElementById('chat-messages');
+                if (!box) return;
+                const div = document.createElement('div');
+                div.className = `flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'}`;
+                div.innerHTML = `
+                    <div class="max-w-[85%] p-5 rounded-3xl ${sender === 'user' ? 'bg-primary text-white rounded-tr-none shadow-xl' : 'bg-gray-100 text-primary rounded-tl-none border border-gray-50 shadow-sm'} text-sm md:text-base leading-relaxed font-medium">
+                        ${text}
+                    </div>
+                `;
+                box.appendChild(div);
+                box.scrollTop = box.scrollHeight;
+            },
+            addBotMessage(t) { this.addChatMessage('bot', t); },
+
+            renderLeaderboard() {
+                const list = document.getElementById('leaderboard-list');
+                if (!list) return;
+                list.innerHTML = `
+                    <div class="p-5 flex items-center justify-between rounded-3xl bg-white border border-gray-100 shadow-sm animate-fadeIn">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center font-black text-white shadow-lg bg-accent rotate-1">
+                                <i data-lucide="user-check" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="font-black text-primary text-lg">${this.state.user.name} (Anda)</p>
+                                <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest">Peringkat 1 Sesi Ini</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-2.5 rounded-2xl border border-gray-100 shadow-inner">
+                            <p class="font-black text-primary text-lg">${this.state.xp} XP</p>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+            },
+
+            updateAvatar(e) {
+                const f = e.target.files[0];
+                if(f) {
+                    this.state.user.avatar = URL.createObjectURL(f);
+                    this.updateUI();
+                    this.showAlert("Foto profil berhasil diperbarui!");
+                }
+            },
+
+            setStreakIcon(t) {
+                this.state.streakIcon = t;
+                this.updateUI();
+                this.showAlert("Gaya ikon streak telah diubah.");
+            },
+
+            showAlert(msg) {
+                const modal = document.getElementById('modal-wrapper');
+                const text = document.getElementById('modal-message');
+                if (modal && text) {
+                    text.innerText = msg;
+                    modal.classList.remove('hidden');
+                }
+                lucide.createIcons();
+            },
+            closeModal() { document.getElementById('modal-wrapper').classList.add('hidden'); },
+
+            openShare() { document.getElementById('share-wrapper').classList.remove('hidden'); lucide.createIcons(); },
+            closeShare() { document.getElementById('share-wrapper').classList.add('hidden'); },
+            copyLink() { 
+                document.execCommand('copy'); 
+                this.state.hasShared = true; 
+                this.updateUI(); 
+                this.closeShare(); 
+                this.showAlert("Tautan disalin! Misi harian diperbarui."); 
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>
