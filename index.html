@@ -78,7 +78,6 @@
             opacity: 0.4;
         }
 
-        /* Typing Indicator Animation */
         .dot { animation: typing 1.4s infinite; }
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
@@ -129,6 +128,7 @@
 
         <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10">
             
+            <!-- VIEW: HOME -->
             <section id="view-home" class="view-section active flex flex-col items-center justify-center text-center min-h-[70vh]">
                 <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Platform Edukasi Hijau #1
@@ -152,6 +152,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: LOGIN -->
             <section id="view-login" class="view-section flex items-center justify-center min-h-[60vh]">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white">
                     <div class="text-center mb-10">
@@ -178,6 +179,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: DASHBOARD -->
             <section id="view-dashboard" class="view-section space-y-10">
                 <div class="bg-white rounded-[2.5rem] p-8 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-8">
                     <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-50 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
@@ -232,6 +234,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: CATALOG -->
             <section id="view-modules" class="view-section space-y-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-4">
                     <div>
@@ -246,6 +249,7 @@
                 <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8"></div>
             </section>
 
+            <!-- VIEW: MODULE DETAIL -->
             <section id="view-module_detail" class="view-section space-y-8 pb-12 max-w-4xl mx-auto">
                 <div class="flex items-center justify-between mb-2">
                     <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-sm hover:text-primary transition-all">
@@ -290,6 +294,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: LEADERBOARD -->
             <section id="view-leaderboard" class="view-section max-w-2xl mx-auto space-y-10">
                 <div class="text-center">
                     <h2 class="text-4xl font-black text-primary mb-2">Klasemen Global</h2>
@@ -306,6 +311,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: AI CHAT -->
             <section id="view-ai_chat" class="view-section max-w-4xl mx-auto h-[75vh] flex flex-col bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
                 <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center justify-between">
                     <div class="flex items-center gap-4">
@@ -336,6 +342,7 @@
                 </div>
             </section>
 
+            <!-- VIEW: PROFILE -->
             <section id="view-profile" class="view-section max-w-xl mx-auto space-y-8">
                 <div class="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white text-center relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-r from-sky/10 to-accent/10 pointer-events-none"></div>
@@ -456,6 +463,7 @@
                 activeModule: null,
                 activeTab: 'literasi',
                 isSpeaking: false,
+                isChatting: false,
                 hasShared: false,
                 hasChatted: false,
                 chatHistory: [] 
@@ -678,7 +686,6 @@
                 lucide.createIcons();
             },
 
-            // --- INTEGRASI KIMI AI PERBAIKAN ---
             async handleChatSubmit(e) {
                 e.preventDefault();
                 const input = document.getElementById('chat-input');
@@ -687,7 +694,6 @@
                 
                 if(!userText || this.state.isChatting) return;
 
-                // 1. Tampilkan pesan user di UI
                 this.addChatMessage('user', userText);
                 input.value = '';
                 input.disabled = true;
@@ -696,27 +702,24 @@
                 this.state.hasChatted = true;
                 this.updateUI();
 
-                // 2. Tampilkan indikator mengetik
                 const typingId = this.showTypingIndicator();
 
                 try {
-                    // Update riwayat internal untuk pengiriman API (Hanya role 'user' & 'assistant')
                     this.state.chatHistory.push({ role: "user", content: userText });
 
-                    // 3. Panggilan API Kimi AI sesuai format gambar
                     const response = await fetch(KIMI_ENDPOINT, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${KIMI_API_KEY}` // Sesuai Image 1
+                            'Authorization': KIMI_API_KEY // DIUBAH: Hilangkan awalan "Bearer "
                         },
                         body: JSON.stringify({
-                            model: "kimi-pro", // Sesuai Image 2
+                            model: "kimi-pro",
                             messages: [
                                 { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dengan ramah, informatif, dan menginspirasi gaya hidup berkelanjutan dalam Bahasa Indonesia." },
                                 ...this.state.chatHistory
                             ],
-                            stream: false // Diset false agar respon JSON utuh bisa ditangani mudah di client-side
+                            stream: false
                         })
                     });
 
@@ -725,11 +728,9 @@
                     const data = await response.json();
                     const botContent = data.choices[0].message.content;
 
-                    // 4. Update UI dengan jawaban Bot
                     this.removeTypingIndicator(typingId);
                     this.addBotMessage(botContent);
                     
-                    // Simpan jawaban bot ke riwayat untuk konteks percakapan selanjutnya
                     this.state.chatHistory.push({ role: "assistant", content: botContent });
 
                 } catch (error) {
