@@ -24,7 +24,6 @@
         
         .font-serif { font-family: 'Lora', serif; }
         
-        /* Glassmorphism Effect */
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -32,12 +31,10 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        /* Custom Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* Smooth View Transitions */
         .view-section { 
             display: none; 
             opacity: 0;
@@ -50,14 +47,11 @@
             transform: translateY(0);
         }
         
-        /* Navigation Active State */
         .nav-active { color: var(--primary) !important; font-weight: 800; }
         .nav-active i { transform: translateY(-4px); transition: transform 0.3s ease; }
         
-        /* Tab Active State */
         .tab-active { background: var(--secondary); color: white; }
 
-        /* Floating Animation for Hero */
         .floating {
             animation: floating 3s ease-in-out infinite;
         }
@@ -67,7 +61,6 @@
             100% { transform: translateY(0px); }
         }
 
-        /* Buttons Styling */
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             transition: all 0.3s ease;
@@ -77,7 +70,6 @@
             box-shadow: 0 10px 20px -10px rgba(45, 64, 53, 0.5);
         }
 
-        /* Background Blobs */
         .blob {
             position: fixed;
             z-index: -1;
@@ -85,6 +77,12 @@
             border-radius: 50%;
             opacity: 0.4;
         }
+
+        /* Typing Indicator Animation */
+        .dot { animation: typing 1.4s infinite; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
     </style>
     <script>
         tailwind.config = {
@@ -103,13 +101,11 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <!-- BACKGROUND BLOBS -->
     <div class="blob w-96 h-96 bg-sky top-[-10%] right-[-10%]"></div>
     <div class="blob w-[30rem] h-[30rem] bg-accent bottom-[-10%] left-[-10%]"></div>
 
     <div id="app-wrapper" class="relative min-h-screen flex flex-col pb-32">
         
-        <!-- TOP NAVIGATION BAR -->
         <header id="main-header" class="hidden bg-white/60 backdrop-blur-xl sticky top-0 z-50 border-b border-white/40">
             <div class="max-w-6xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
                 <div class="flex items-center gap-2.5 cursor-pointer" onclick="app.setView('dashboard')">
@@ -131,10 +127,8 @@
             </div>
         </header>
 
-        <!-- MAIN VIEW CONTAINER -->
         <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10">
             
-            <!-- VIEW: HOME (HERO) -->
             <section id="view-home" class="view-section active flex flex-col items-center justify-center text-center min-h-[70vh]">
                 <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Platform Edukasi Hijau #1
@@ -158,7 +152,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: LOGIN -->
             <section id="view-login" class="view-section flex items-center justify-center min-h-[60vh]">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white">
                     <div class="text-center mb-10">
@@ -185,9 +178,7 @@
                 </div>
             </section>
 
-            <!-- VIEW: DASHBOARD -->
             <section id="view-dashboard" class="view-section space-y-10">
-                <!-- User Profile Card -->
                 <div class="bg-white rounded-[2.5rem] p-8 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-8">
                     <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-50 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
                         <i data-lucide="user" class="text-accent w-12 h-12"></i>
@@ -206,9 +197,7 @@
                     </div>
                 </div>
 
-                <!-- Stats and Missions -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Daily Missions -->
                     <div class="lg:col-span-2 space-y-6">
                         <div class="flex items-center justify-between">
                             <h3 class="text-xl font-black text-primary flex items-center gap-2">
@@ -216,12 +205,9 @@
                             </h3>
                             <span class="text-xs font-bold text-gray-400 bg-white px-3 py-1 rounded-full border border-gray-100">Baru Diperbarui</span>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="mission-list">
-                            <!-- Missions rendered via JS -->
-                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="mission-list"></div>
                     </div>
                     
-                    <!-- Quick Stats -->
                     <div class="space-y-6">
                         <h3 class="text-xl font-black text-primary flex items-center gap-2">
                             <i data-lucide="bar-chart-3" class="text-accent w-5 h-5"></i> Ringkasan
@@ -246,7 +232,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: CATALOG -->
             <section id="view-modules" class="view-section space-y-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-4">
                     <div>
@@ -258,12 +243,9 @@
                         <input type="text" id="search-input" oninput="app.handleSearch()" placeholder="Cari topik..." class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none shadow-sm font-medium">
                     </div>
                 </div>
-                <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
-                    <!-- Cards via JS -->
-                </div>
+                <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8"></div>
             </section>
 
-            <!-- VIEW: MODULE DETAIL (FIXED ID FROM 'view-module-detail' to 'view-module_detail') -->
             <section id="view-module_detail" class="view-section space-y-8 pb-12 max-w-4xl mx-auto">
                 <div class="flex items-center justify-between mb-2">
                     <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-sm hover:text-primary transition-all">
@@ -274,7 +256,6 @@
                 
                 <h1 id="detail-title" class="text-4xl md:text-6xl font-black text-primary leading-tight">Judul Modul</h1>
 
-                <!-- Mobile-friendly tabs -->
                 <div class="sticky top-20 z-40 bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-white flex gap-1 shadow-sm">
                     <button id="btn-tab-literasi" onclick="app.switchTab('literasi')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active">
                         <i data-lucide="align-left" class="w-4 h-4"></i> Literasi
@@ -284,7 +265,6 @@
                     </button>
                 </div>
 
-                <!-- Tab Content: Literasi -->
                 <div id="tab-literasi" class="view-tab active space-y-10">
                     <div class="bg-primary/5 p-6 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="text-center md:text-left">
@@ -296,9 +276,7 @@
                         </button>
                     </div>
                     
-                    <div id="detail-content" class="text-lg md:text-xl text-primary leading-loose md:leading-[2.2] text-justify font-serif whitespace-pre-line px-1">
-                        <!-- Content -->
-                    </div>
+                    <div id="detail-content" class="text-lg md:text-xl text-primary leading-loose md:leading-[2.2] text-justify font-serif whitespace-pre-line px-1"></div>
                     
                     <div class="pt-10 flex justify-center border-t border-gray-100">
                         <button id="finish-btn" onclick="app.finishRead()" class="btn-primary text-white px-12 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-lg">
@@ -307,71 +285,60 @@
                     </div>
                 </div>
 
-                <!-- Tab Content: Kuis -->
                 <div id="tab-kuis" class="view-tab hidden space-y-8">
-                    <div id="quiz-list" class="space-y-6">
-                        <!-- Quiz cards -->
-                    </div>
+                    <div id="quiz-list" class="space-y-6"></div>
                 </div>
             </section>
 
-            <!-- VIEW: LEADERBOARD -->
             <section id="view-leaderboard" class="view-section max-w-2xl mx-auto space-y-10">
                 <div class="text-center">
                     <h2 class="text-4xl font-black text-primary mb-2">Klasemen Global</h2>
                     <p class="text-secondary font-medium opacity-60">Lihat siapa kontributor literasi paling aktif.</p>
                 </div>
-                
                 <div class="bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
                     <div id="leaderboard-top" class="p-8 bg-gradient-to-br from-primary to-secondary text-white flex flex-col items-center justify-center gap-4 text-center">
                         <div class="bg-white/20 p-4 rounded-3xl backdrop-blur-md mb-2">
                             <i data-lucide="trophy" class="w-12 h-12 text-yellow-300"></i>
                         </div>
                         <h4 class="text-2xl font-black">Eco-Warrior Teratas</h4>
-                        <button onclick="app.showAlert('Data tersinkronisasi ke server pusat.')" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full text-xs font-bold transition-all">
-                            Refresh Data
-                        </button>
                     </div>
-                    <div id="leaderboard-list" class="p-6 bg-gray-50/50 space-y-3">
-                        <!-- Leaderboard items -->
-                    </div>
+                    <div id="leaderboard-list" class="p-6 bg-gray-50/50 space-y-3"></div>
                 </div>
             </section>
 
-            <!-- VIEW: CHAT AI -->
             <section id="view-ai_chat" class="view-section max-w-4xl mx-auto h-[75vh] flex flex-col bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
-                <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center gap-4">
-                    <div class="bg-primary p-2 rounded-xl text-white">
-                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-primary p-2 rounded-xl text-white">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-black text-primary leading-tight">EcoNeo Asisten Pintar</h3>
+                            <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Terhubung
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="font-black text-primary leading-tight">EcoNeo Asisten Pintar</h3>
-                        <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Terhubung
-                        </p>
-                    </div>
+                    <button onclick="app.clearChat()" class="text-gray-400 hover:text-accent transition-colors" title="Bersihkan percakapan">
+                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    </button>
                 </div>
                 
-                <div id="chat-messages" class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 custom-scrollbar bg-white">
-                    <!-- Chat rendered via JS -->
-                </div>
+                <div id="chat-messages" class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 custom-scrollbar bg-white"></div>
 
                 <div class="p-6 bg-gray-50 border-t border-gray-100">
                     <form onsubmit="app.handleChatSubmit(event)" class="flex gap-3">
-                        <input type="text" id="chat-input" placeholder="Tanyakan apapun soal keberlanjutan..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm">
-                        <button type="submit" class="bg-primary text-white p-4 rounded-2xl hover:bg-secondary transition-all shadow-md">
+                        <input type="text" id="chat-input" placeholder="Tanyakan apapun soal keberlanjutan..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm transition-all disabled:opacity-50">
+                        <button type="submit" id="chat-send-btn" class="bg-primary text-white p-4 rounded-2xl hover:bg-secondary transition-all shadow-md disabled:opacity-50">
                             <i data-lucide="send" class="w-6 h-6"></i>
                         </button>
                     </form>
                 </div>
             </section>
 
-            <!-- VIEW: PROFILE -->
             <section id="view-profile" class="view-section max-w-xl mx-auto space-y-8">
                 <div class="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white text-center relative overflow-hidden">
-                    <!-- Background Decor -->
                     <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-r from-sky/10 to-accent/10 pointer-events-none"></div>
-                    
                     <div class="relative z-10 flex flex-col items-center">
                         <div id="profile-avatar-box" class="w-36 h-36 rounded-3xl bg-gray-100 flex items-center justify-center border-4 border-white shadow-2xl overflow-hidden mb-6 rotate-2 transition-transform hover:rotate-0">
                             <i data-lucide="user" class="text-accent w-16 h-16"></i>
@@ -380,10 +347,8 @@
                         <button onclick="document.getElementById('avatar-input').click()" class="bg-white text-primary p-3 rounded-2xl border border-gray-100 shadow-lg hover:scale-110 transition-all -mt-10 relative z-20">
                             <i data-lucide="camera" class="w-5 h-5"></i>
                         </button>
-                        
                         <h3 id="profile-name" class="text-3xl font-black text-primary mt-6 mb-1">User</h3>
                         <p id="profile-email" class="text-sm font-bold text-gray-400 mb-8 uppercase tracking-widest">user@econeo.com</p>
-
                         <div class="grid grid-cols-2 gap-4 w-full mb-10">
                             <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 shadow-inner">
                                 <i data-lucide="award" class="mx-auto text-sky mb-3 w-6 h-6"></i>
@@ -396,7 +361,6 @@
                                 <p class="text-2xl font-black text-accent"><span id="profile-streak">8</span></p>
                             </div>
                         </div>
-
                         <div class="w-full space-y-4">
                             <button onclick="app.openShare()" class="w-full flex justify-between items-center bg-gray-50 text-secondary px-8 py-5 rounded-[2rem] font-bold border border-gray-100 hover:bg-white transition-all shadow-sm">
                                 <span class="flex items-center gap-4"><i data-lucide="share-2" class="text-sky w-5 h-5"></i> Bagikan Aplikasi</span>
@@ -412,7 +376,6 @@
             </section>
         </main>
 
-        <!-- FLOATING BOTTOM NAVIGATION -->
         <nav id="bottom-nav" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg glass rounded-[2.5rem] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] z-[60] flex items-center justify-between px-3 py-3 border-white/50">
             <button onclick="app.setView('dashboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="dashboard">
                 <i data-lucide="layout-grid" class="w-5 h-5"></i>
@@ -422,14 +385,12 @@
                 <i data-lucide="book-marked" class="w-5 h-5"></i>
                 <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Modul</span>
             </button>
-            
             <div class="relative -top-10">
                 <button onclick="app.setView('ai_chat')" class="bg-primary text-white p-5 rounded-full shadow-2xl transform hover:scale-110 active:scale-95 transition-all">
                     <i data-lucide="message-circle" class="w-7 h-7"></i>
                 </button>
                 <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 border border-gray-100 px-3 py-0.5 rounded-full shadow-sm text-[9px] font-black text-primary">TANYA AI</div>
             </div>
-
             <button onclick="app.setView('leaderboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="leaderboard">
                 <i data-lucide="medal" class="w-5 h-5"></i>
                 <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Rank</span>
@@ -440,7 +401,6 @@
             </button>
         </nav>
 
-        <!-- GLOBAL ALERT MODAL -->
         <div id="modal-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
             <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl text-center border border-white">
                 <div class="bg-green-50 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner border border-green-100">
@@ -451,7 +411,6 @@
             </div>
         </div>
 
-        <!-- SHARE MODAL -->
         <div id="share-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
             <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl relative border border-white">
                 <button onclick="app.closeShare()" class="absolute top-6 right-6 text-gray-300 hover:text-primary"><i data-lucide="x"></i></button>
@@ -468,21 +427,24 @@
     </div>
 
     <script>
-        // --- CONTENT DATABASE (10 MODUL) ---
+        // --- KONFIGURASI API KIMI AI ---
+        // Masukkan API Key Anda di sini
+        const KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
+        const KIMI_ENDPOINT = "https://api.moonshot.cn/v1/chat/completions";
+
         const modulesData = [
             { id: 1, title: 'Ekonomi Sirkular & Fast Fashion', category: 'Keberlanjutan', content: `Industri fesyen global saat ini berada pada titik krisis lingkungan yang belum pernah terjadi sebelumnya. Model bisnis "Fast Fashion" yang didorong oleh konsumsi hiperaktif telah mengubah cara masyarakat memandang pakaian sebagai barang habis pakai yang murah. \n\nDampak lingkungan dari Fast Fashion sangat mengerikan. Diperlukan sekitar 2.700 liter air hanya untuk membuat satu buah kaus katun—jumlah air yang cukup untuk diminum satu orang selama 2,5 tahun. \n\nSolusi yang paling rasional adalah transisi menuju "Ekonomi Sirkular". Berlawanan dengan ekonomi linier (Ambil - Buat - Buang), ekonomi sirkular berpusat pada tiga prinsip utama: meminimalkan limbah dan polusi sejak fase desain, menjaga produk dan material agar terus digunakan selama mungkin, serta meregenerasi sistem alam.`, quiz: [ { q: 'Berapa banyak air yang dibutuhkan untuk memproduksi satu kaus katun?', options: ['500 liter', '1.000 liter', '2.700 liter', '5.000 liter'], ans: '2.700 liter' }, { q: 'Prinsip ekonomi yang bertujuan meminimalkan limbah disebut?', options: ['Ekonomi Linier', 'Ekonomi Sirkular', 'Ekonomi Mikro', 'Ekonomi Digital'], ans: 'Ekonomi Sirkular' } ] },
             { id: 2, title: 'Manajemen E-Waste & Keusangan', category: 'Manajemen Limbah', content: `Limbah elektronik atau E-Waste kini menjadi aliran limbah dengan pertumbuhan tercepat di dunia. Secara global, kita menghasilkan lebih dari 50 juta ton E-Waste setiap tahunnya. Salah satu pendorong utamanya adalah taktik bisnis yang disebut "Keusangan Terencana" (Planned Obsolescence).\n\nBanyak produsen teknologi merancang produk mereka agar memiliki masa pakai yang pendek, cepat rusak, atau menjadi sangat lambat setelah beberapa kali pembaruan perangkat lunak. E-Waste sebenarnya adalah "tambang perkotaan" (urban mine) yang sangat bernilai secara ekonomi. Satu ton ponsel bekas mengandung lebih banyak emas daripada satu ton bijih emas murni yang ditambang langsung dari bumi.`, quiz: [ { q: 'Istilah produk dirancang cepat rusak adalah?', options: ['Planned Obsolescence', 'Fast Tech', 'Eco Mode', 'Green Mining'], ans: 'Planned Obsolescence' }, { q: 'Mengekstraksi logam dari limbah elektronik kota disebut?', options: ['Urban Mining', 'Deforestasi', 'Industrialisasi', 'Recycling'], ans: 'Urban Mining' } ] },
             { id: 3, title: 'Transisi Energi Terbarukan (EBT)', category: 'Energi Terbarukan', content: `Dunia sedang berpacu dengan waktu untuk mencegah kenaikan suhu bumi melewati batas kritis 1,5 derajat Celcius. Penyumbang emisi terbesar adalah sektor energi berbasis bahan bakar fosil. Energi terbarukan mencakup energi surya, angin, panas bumi, dan hidro.\n\nKonsep "Desentralisasi Energi" menjadi vital. Sistem kelistrikan tradisional sangat tersentralisasi. Sebaliknya, EBT memungkinkan setiap desa atau rumah memproduksi listrik mereka sendiri (prosumer). Kelemahan intermitensi kini diatasi dengan Sistem Penyimpanan Baterai (BESS) skala jaringan cerdas.`, quiz: [ { q: 'Gas yang diperangkap efek rumah kaca paling banyak berasal dari?', options: ['Oksigen', 'Bahan bakar fosil', 'Air tawar', 'Nitrogen'], ans: 'Bahan bakar fosil' }, { q: 'Pengguna yang juga memproduksi listrik sendiri disebut?', options: ['Konsumen', 'Prosumer', 'Distributor', 'Produsen'], ans: 'Prosumer' } ] },
             { id: 4, title: 'Jejak Karbon Digital & Polusi Internet', category: 'Edukasi Digital', content: `Setiap email, setiap scroll media sosial, memerlukan perangkat keras fisik yang menyedot energi masif. Inilah Jejak Karbon Digital. Sektor TIK menyumbang hampir 3,7% dari emisi gas rumah kaca global.\n\nKecerdasan Buatan (AI) memperburuk krisis ini. Satu permintaan AI butuh energi 10 kali lebih besar dibanding Google Search biasa. Sebagai warga digital, kita bisa melakukan "Diet Data": hapus email lama, kurangi resolusi streaming, dan kurangi unggahan file tak berguna di cloud storage.`, quiz: [ { q: 'Berapa persen sumbangan industri TIK terhadap emisi global?', options: ['1%', '3.7%', '10%', '25%'], ans: '3.7%' }, { q: 'Langkah individu mengurangi jejak digital disebut?', options: ['Diet Data', 'Digital Detox', 'Hacktivism', 'Cloud Mining'], ans: 'Diet Data' } ] },
-            { id: 5, title: 'Bursa Karbon (Carbon Trading)', category: 'Ekonomi Hijau', content: `Konsep "Nilai Ekonomi Karbon" bertujuan membuat polusi menjadi mahal. Mekanisme utamanya adalah "Cap-and-Trade". Pemerintah membatasi emisi tahunan industri. Perusahaan yang emisi di bawah batas bisa menjual sisa kuotanya.\n\nMekanisme kedua adalah "Carbon Offsetting". Hutan mangrove (Blue Carbon) menyerap karbon secara efisien. Perusahaan membeli kredit karbon dari proyek restorasi. Namun, waspadai "Greenwashing": perusahaan hanya membayar kompensasi tanpa serius mengubah operasional menjadi energi bersih.`, quiz: [ { q: 'Sistem jual-beli kuota emisi karbon adalah?', options: ['Cap and Trade', 'Carbon Tax', 'Carbon Copy', 'Offsetting'], ans: 'Cap and Trade' }, { q: 'Tindakan mencitrakan diri ramah lingkungan secara palsu disebut?', options: ['Greenwashing', 'Whitewashing', 'Eco-Friendly', 'Marketing'], ans: 'Greenwashing' } ] },
-            { id: 6, title: 'Krisis Iklim & Ketahanan Pangan', category: 'Aksi Iklim', content: `Sektor pangan menyumbang hampir 30% emisi gas rumah kaca. Penggunaan pupuk kimia sintetis melepaskan gas Nitrous Oxide yang 300x lebih merusak dibanding CO2. Industri peternakan ruminansia menjadi pabrik gas Metana terbesar.\n\nSisa makanan (Food Waste) juga memicu gas metana saat membusuk di TPA. Solusinya adalah beralih ke diet nabati (plant-based) dan praktik pertanian cerdas iklim. Membeli pangan lokal (Farm to Table) sangat membantu memangkas emisi logistik transportasi global.`, quiz: [ { q: 'Sektor pangan berkontribusi berapa persen pada emisi global?', options: ['10%', '30%', '50%', '80%'], ans: '30%' }, { q: 'Gas rumah kaca utama dari sendawa sapi adalah?', options: ['Metana', 'Nitrogen', 'Oksigen', 'Ozon'], ans: 'Metana' } ] },
-            { id: 7, title: 'Bioremediasi: Pulihkan Alam', category: 'Konservasi', content: `Bioremediasi adalah proses menggunakan organisme hidup (mikroba, jamur, tanaman) untuk menetralkan polutan berbahaya menjadi zat aman. Fitoremediasi menggunakan akar tanaman untuk menyedot logam berat dari tanah eks-tambang.\n\nMikoremediasi menggunakan jaringan jamur (miselium) untuk mengurai ikatan polimer plastik. Teknik ini jauh lebih murah dibanding kimiawi, tidak merusak topografi lahan, dan berjalan selaras dengan ekosistem asli. Ini adalah solusi berbasis alam (Nature-Based Solutions) yang sangat efektif.`, quiz: [ { q: 'Teknik menggunakan akar tanaman menyerap racun adalah?', options: ['Fitoremediasi', 'Erosi', 'Dehidrasi', 'Deforestasi'], ans: 'Fitoremediasi' }, { q: 'Zat sisa aman hasil proses bioremediasi adalah?', options: ['Air dan CO2', 'Asam sulfat', 'Logam cair', 'Debu batu'], ans: 'Air dan CO2' } ] },
-            { id: 8, title: 'Ekonomi Biru (Blue Economy)', category: 'Keberlanjutan', content: `Lautan menyerap 90% hawa panas ekstra bumi. Ekonomi Biru menuntut pemanfaatan sumber daya laut dengan syarat mutlak kelestarian kesehatan ekosistem. Fenomena "Coral Bleaching" adalah tanda bahaya besar saat air terlalu panas.\n\nMangrove dan padang lamun (Blue Carbon) menyimpan karbon 10x lebih cepat dibanding hutan darat. Perlindungan Kawasan Konservasi Perairan (MPA) sangat krusial untuk memastikan ketahanan pangan dan kestabilan siklus karbon samudra global.`, quiz: [ { q: 'Berapa persen panas ekstra bumi yang diserap lautan?', options: ['50%', '70%', '90%', '100%'], ans: '90%' }, { q: 'Karbon yang disimpan ekosistem pesisir disebut?', options: ['Blue Carbon', 'Green Carbon', 'Black Carbon', 'White Carbon'], ans: 'Blue Carbon' } ] },
-            { id: 9, title: 'Arsitektur Hijau Tropis', category: 'Konservasi', content: `Sektor bangunan berkontribusi terhadap 40% emisi karbon global. "Passive Design" (Desain Pasif) adalah pilar utama arsitektur tropis: mengandalkan ventilasi silang dan arah matahari untuk mendinginkan ruangan tanpa AC.\n\nTeknologi Rainwater Harvesting menampung air hujan untuk toilet dan taman, menghemat air tanah yang makin langka. Roof Garden atau taman atap berfungsi menurunkan suhu gedung secara alami. Di Indonesia, sertifikasi GREENSHIP menjadi standar baku bangunan ramah lingkungan.`, quiz: [ { q: 'Sumbangan sektor bangunan terhadap emisi karbon adalah?', options: ['10%', '25%', '40%', '60%'], ans: '40%' }, { q: 'Strategi mengandalkan alam untuk pendinginan gedung?', options: ['Passive Design', 'Active Design', 'Virtual Design', 'Neon Design'], ans: 'Passive Design' } ] },
-            { id: 10, title: 'Krisis Air & Land Subsidence', category: 'Konservasi', content: `Kurang dari 1% air di bumi adalah air tawar yang dapat diakses manusia. Ekstraksi air tanah berlebih memicu "Land Subsidence" (penurunan tanah). Kota-kota pesisir terancam tenggelam oleh rob samudra pada 2050.\n\nSanitasi buruk juga memicu rembesan bakteri e-coli ke sumur. Solusinya adalah pembuatan "Biopori" (sumur resapan) dan pembangunan Instalasi Pengolahan Air Limbah (IPAL) yang masif untuk mencegah pencemaran kuman patogen ke sumber air warga.`, quiz: [ { q: 'Berapa persen air tawar yang bisa diakses manusia?', options: ['< 1%', '5%', '10%', '50%'], ans: '< 1%' }, { q: 'Fenomena turunnya tanah akibat pompa air berlebih adalah?', options: ['Land Subsidence', 'Likuifaksi', 'Abrasi', 'Erosi'], ans: 'Land Subsidence' } ] }
+            { id: 5, title: 'Bursa Karbon (Carbon Trading)', category: 'Ekonomi Hijau', content: `Konsep "Nilai Ekonomi Karbon" bertujuan membuat polusi menjadi mahal. Mekanisme utamanya adalah "Cap-and-Trade". Pemerintah membatasi emisi tahunan industri. Perusahaan yang emisi di bawah batas bisa menjual sisa kuota. Mekanisme kedua adalah "Carbon Offsetting". Hutan mangrove (Blue Carbon) menyerap karbon secara efisien.`, quiz: [ { q: 'Sistem jual-beli kuota emisi karbon adalah?', options: ['Cap and Trade', 'Carbon Tax', 'Carbon Copy', 'Offsetting'], ans: 'Cap and Trade' }, { q: 'Tindakan mencitrakan diri ramah lingkungan secara palsu disebut?', options: ['Greenwashing', 'Whitewashing', 'Eco-Friendly', 'Marketing'], ans: 'Greenwashing' } ] },
+            { id: 6, title: 'Krisis Iklim & Ketahanan Pangan', category: 'Aksi Iklim', content: `Sektor pangan menyumbang hampir 30% emisi gas rumah kaca. Penggunaan pupuk kimia sintetis melepaskan gas Nitrous Oxide yang 300x lebih merusak dibanding CO2. Industri peternakan ruminansia menjadi pabrik gas Metana terbesar.`, quiz: [ { q: 'Sektor pangan berkontribusi berapa persen pada emisi global?', options: ['10%', '30%', '50%', '80%'], ans: '30%' }, { q: 'Gas rumah kaca utama dari sendawa sapi adalah?', options: ['Metana', 'Nitrogen', 'Oksigen', 'Ozon'], ans: 'Metana' } ] },
+            { id: 7, title: 'Bioremediasi: Pulihkan Alam', category: 'Konservasi', content: `Bioremediasi adalah proses menggunakan organisme hidup (mikroba, jamur, tanaman) untuk menetralkan polutan berbahaya menjadi zat aman. Fitoremediasi menggunakan akar tanaman untuk menyedot logam berat dari tanah eks-tambang.`, quiz: [ { q: 'Teknik menggunakan akar tanaman menyerap racun adalah?', options: ['Fitoremediasi', 'Erosi', 'Dehidrasi', 'Deforestasi'], ans: 'Fitoremediasi' }, { q: 'Zat sisa aman hasil proses bioremediasi adalah?', options: ['Air dan CO2', 'Asam sulfat', 'Logam cair', 'Debu batu'], ans: 'Air dan CO2' } ] },
+            { id: 8, title: 'Ekonomi Biru (Blue Economy)', category: 'Keberlanjutan', content: `Lautan menyerap 90% hawa panas ekstra bumi. Ekonomi Biru menuntut pemanfaatan sumber daya laut dengan syarat mutlak kelestarian kesehatan ekosistem. Fenomena "Coral Bleaching" adalah tanda bahaya besar saat air terlalu panas.`, quiz: [ { q: 'Berapa persen panas ekstra bumi yang diserap lautan?', options: ['50%', '70%', '90%', '100%'], ans: '90%' }, { q: 'Karbon yang disimpan ekosistem pesisir disebut?', options: ['Blue Carbon', 'Green Carbon', 'Black Carbon', 'White Carbon'], ans: 'Blue Carbon' } ] },
+            { id: 9, title: 'Arsitektur Hijau Tropis', category: 'Konservasi', content: `Sektor bangunan berkontribusi terhadap 40% emisi karbon global. "Passive Design" (Desain Pasif) adalah pilar utama arsitektur tropis: mengandalkan ventilasi silang dan arah matahari untuk mendinginkan ruangan tanpa AC.`, quiz: [ { q: 'Sumbangan sektor bangunan terhadap emisi karbon adalah?', options: ['10%', '25%', '40%', '60%'], ans: '40%' }, { q: 'Strategi mengandalkan alam untuk pendinginan gedung?', options: ['Passive Design', 'Active Design', 'Virtual Design', 'Neon Design'], ans: 'Passive Design' } ] },
+            { id: 10, title: 'Krisis Air & Land Subsidence', category: 'Konservasi', content: `Kurang dari 1% air di bumi adalah air tawar yang dapat diakses manusia. Ekstraksi air tanah berlebih memicu "Land Subsidence" (penurunan tanah). Kota-kota pesisir terancam tenggelam oleh rob samudra pada 2050.`, quiz: [ { q: 'Berapa persen air tawar yang bisa diakses manusia?', options: ['< 1%', '5%', '10%', '50%'], ans: '< 1%' }, { q: 'Fenomena turunnya tanah akibat pompa air berlebih adalah?', options: ['Land Subsidence', 'Likuifaksi', 'Abrasi', 'Erosi'], ans: 'Land Subsidence' } ] }
         ];
 
-        // --- CORE APPLICATION LOGIC ---
         const app = {
             state: {
                 user: null,
@@ -496,7 +458,8 @@
                 activeTab: 'literasi',
                 isSpeaking: false,
                 hasShared: false,
-                hasChatted: false
+                hasChatted: false,
+                chatHistory: [] // Menyimpan riwayat chat untuk konteks Kimi AI
             },
 
             init() {
@@ -507,39 +470,22 @@
             },
 
             setView(viewName) {
-                // GUARD: Cek apakah target view ada sebelum manipulasi style
                 const target = document.getElementById(`view-${viewName}`);
-                if (!target) {
-                    console.error(`Gagal memuat view: view-${viewName} tidak ditemukan.`);
-                    return;
-                }
-
+                if (!target) return;
                 this.state.view = viewName;
-                
-                // Switch Visibility
                 document.querySelectorAll('.view-section').forEach(sec => {
                     sec.classList.remove('active');
-                    // Menyembunyikan elemen setelah animasi keluar (400ms)
-                    setTimeout(() => { 
-                        if(sec.id !== `view-${viewName}`) sec.style.display = 'none'; 
-                    }, 400);
+                    setTimeout(() => { if(sec.id !== `view-${viewName}`) sec.style.display = 'none'; }, 400);
                 });
-                
                 target.style.display = 'block';
-                // Memberikan delay kecil agar transisi opacity berjalan
                 setTimeout(() => target.classList.add('active'), 50);
-
-                // Header & Nav Visibility
                 const isAuth = !['home', 'login'].includes(viewName);
                 document.getElementById('main-header').classList.toggle('hidden', !isAuth);
                 document.getElementById('bottom-nav').classList.toggle('hidden', !isAuth);
-
-                // Active Link Visuals
                 document.querySelectorAll('.nav-btn').forEach(btn => {
                     btn.classList.remove('nav-active');
                     if(btn.dataset.view === viewName) btn.classList.add('nav-active');
                 });
-
                 if(this.state.isSpeaking) this.toggleTTS();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 lucide.createIcons();
@@ -556,37 +502,25 @@
 
             updateUI() {
                 if(!this.state.user) return;
-                
-                // Stats Elements
                 document.getElementById('header-streak-val').innerText = this.state.streak;
                 document.getElementById('header-xp-val').innerText = this.state.xp;
                 document.getElementById('dash-username').innerText = this.state.user.name;
                 document.getElementById('dash-mod-count').innerText = this.state.readModules.length;
                 document.getElementById('dash-quiz-count').innerText = Object.keys(this.state.completedQuizzes).length;
-
-                // Profile Page
                 document.getElementById('profile-name').innerText = this.state.user.name;
                 document.getElementById('profile-email').innerText = this.state.user.email;
                 document.getElementById('profile-xp').innerText = this.state.xp;
                 document.getElementById('profile-streak').innerText = this.state.streak;
-
                 const iconHTML = `<i data-lucide="${this.state.streakIcon}" class="${this.getStreakColor(this.state.streakIcon)} w-4 h-4 animate-pulse"></i>`;
                 document.getElementById('header-streak-icon').innerHTML = iconHTML;
                 document.getElementById('profile-streak-icon').innerHTML = iconHTML;
-
-                // Avatars
                 const avBox = [document.getElementById('dash-avatar'), document.getElementById('profile-avatar-box')];
                 avBox.forEach(box => {
                     if(box) {
-                        if(this.state.user.avatar) {
-                            box.innerHTML = `<img src="${this.state.user.avatar}" class="w-full h-full object-cover">`;
-                        } else {
-                            box.innerHTML = `<i data-lucide="user" class="text-accent w-10 h-10"></i>`;
-                        }
+                        if(this.state.user.avatar) box.innerHTML = `<img src="${this.state.user.avatar}" class="w-full h-full object-cover">`;
+                        else box.innerHTML = `<i data-lucide="user" class="text-accent w-10 h-10"></i>`;
                     }
                 });
-
-                // Missions List
                 this.renderMissions();
                 this.renderLeaderboard();
                 lucide.createIcons();
@@ -607,7 +541,6 @@
                     { id: 'm3', text: 'Bagikan ke Teman', done: this.state.hasShared },
                     { id: 'm4', text: 'Selesaikan 1 Modul', done: this.state.readModules.length > 0 }
                 ];
-
                 missions.forEach(m => {
                     const div = document.createElement('div');
                     div.className = `flex items-center gap-3 p-4 rounded-2xl border transition-all ${m.done ? 'bg-green-50/50 border-green-100 opacity-70' : 'bg-white border-gray-100 shadow-sm'}`;
@@ -626,7 +559,6 @@
                 if (!grid) return;
                 grid.innerHTML = '';
                 const filtered = modulesData.filter(m => m.title.toLowerCase().includes(query.toLowerCase()));
-
                 filtered.forEach(m => {
                     const isRead = this.state.readModules.includes(m.id);
                     const card = document.createElement('div');
@@ -654,12 +586,9 @@
                 document.getElementById('detail-title').innerText = this.state.activeModule.title;
                 document.getElementById('detail-cat').innerText = this.state.activeModule.category;
                 document.getElementById('detail-content').innerText = this.state.activeModule.content;
-                
-                // Mengarahkan ke view 'module_detail' (Gunakan underscore sesuai pemanggilan di setView)
                 this.setView('module_detail');
                 this.switchTab('literasi');
                 this.renderQuiz();
-                
                 const btn = document.getElementById('finish-btn');
                 if(this.state.readModules.includes(id)) {
                     btn.className = "bg-green-50 text-green-500 px-10 py-5 rounded-3xl font-black border border-green-100 cursor-not-allowed";
@@ -674,7 +603,6 @@
                 this.state.activeTab = tab;
                 document.querySelectorAll('.view-tab').forEach(t => t.classList.add('hidden'));
                 document.getElementById(`tab-${tab}`).classList.remove('hidden');
-                
                 const lBtn = document.getElementById('btn-tab-literasi');
                 const qBtn = document.getElementById('btn-tab-kuis');
                 lBtn.className = tab === 'literasi' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400";
@@ -715,12 +643,8 @@
                         this.updateUI();
                         this.renderQuiz();
                         this.showAlert("✅ Jawaban Tepat! (+20 XP). Wawasan Anda bertambah.");
-                    } else {
-                        this.showAlert("✅ Jawaban Benar! XP sudah diklaim sebelumnya.");
-                    }
-                } else {
-                    this.showAlert("❌ Masih Kurang Tepat. Coba baca ulang paragraf terakhir.");
-                }
+                    } else this.showAlert("✅ Jawaban Benar! XP sudah diklaim sebelumnya.");
+                } else this.showAlert("❌ Masih Kurang Tepat. Coba baca ulang paragraf terakhir.");
             },
 
             finishRead() {
@@ -755,23 +679,112 @@
                 lucide.createIcons();
             },
 
-            handleChatSubmit(e) {
+            // --- INTEGRASI KIMI AI ---
+            async handleChatSubmit(e) {
                 e.preventDefault();
                 const input = document.getElementById('chat-input');
-                const val = input.value.trim();
-                if(!val) return;
-                this.addChatMessage('user', val);
+                const btn = document.getElementById('chat-send-btn');
+                const userText = input.value.trim();
+                
+                if(!userText || this.state.isChatting) return;
+
+                // 1. Tampilkan pesan user
+                this.addChatMessage('user', userText);
                 input.value = '';
+                input.disabled = true;
+                btn.disabled = true;
+                this.state.isChatting = true;
                 this.state.hasChatted = true;
                 this.updateUI();
-                setTimeout(() => this.addBotMessage("Itu adalah pertanyaan yang berbobot! Berdasarkan data terbaru, tindakan paling efektif yang bisa dilakukan individu adalah mengurangi jejak digital dengan menghapus data sampah di cloud."), 1000);
+
+                // 2. Tampilkan indikator mengetik
+                const typingId = this.showTypingIndicator();
+
+                try {
+                    // Update riwayat untuk konteks
+                    this.state.chatHistory.push({ role: "user", content: userText });
+
+                    // Jika API Key kosong, gunakan fallback mock
+                    if (!KIMI_API_KEY) {
+                        setTimeout(() => {
+                            this.removeTypingIndicator(typingId);
+                            const mockMsg = "Kunci API Kimi AI belum terpasang. Harap sertakan kunci Anda di dalam variabel KIMI_API_KEY untuk fitur diskusi cerdas.";
+                            this.addBotMessage(mockMsg);
+                            this.finalizeChat(input, btn);
+                        }, 1000);
+                        return;
+                    }
+
+                    // Panggilan API sesuai instruksi gambar
+                    const response = await fetch(KIMI_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${KIMI_API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: "kimi-pro",
+                            messages: [
+                                { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dengan ramah, informatif, dan menginspirasi gaya hidup berkelanjutan dalam Bahasa Indonesia." },
+                                ...this.state.chatHistory
+                            ],
+                            stream: false
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("Gagal terhubung ke Kimi AI.");
+
+                    const data = await response.json();
+                    const botContent = data.choices[0].message.content;
+
+                    this.removeTypingIndicator(typingId);
+                    this.addBotMessage(botContent);
+                    this.state.chatHistory.push({ role: "assistant", content: botContent });
+
+                } catch (error) {
+                    this.removeTypingIndicator(typingId);
+                    this.addBotMessage("Maaf, terjadi gangguan saat mencoba menghubungi asisten cerdas. Silakan coba beberapa saat lagi.");
+                    console.error(error);
+                } finally {
+                    this.finalizeChat(input, btn);
+                }
+            },
+
+            showTypingIndicator() {
+                const box = document.getElementById('chat-messages');
+                const id = "typing-" + Date.now();
+                const div = document.createElement('div');
+                div.id = id;
+                div.className = "flex flex-col items-start";
+                div.innerHTML = `
+                    <div class="bg-gray-100 p-4 rounded-3xl rounded-tl-none flex gap-1">
+                        <span class="dot w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                        <span class="dot w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                        <span class="dot w-1.5 h-1.5 bg-gray-400 rounded-full"></span>
+                    </div>
+                `;
+                box.appendChild(div);
+                box.scrollTop = box.scrollHeight;
+                return id;
+            },
+
+            removeTypingIndicator(id) {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            },
+
+            finalizeChat(input, btn) {
+                input.disabled = false;
+                btn.disabled = false;
+                this.state.isChatting = false;
+                input.focus();
             },
 
             addChatMessage(sender, text) {
                 const box = document.getElementById('chat-messages');
                 if (!box) return;
                 const div = document.createElement('div');
-                div.className = `flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'}`;
+                div.className = `flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'} animate-fadeIn`;
                 div.innerHTML = `
                     <div class="max-w-[85%] p-5 rounded-3xl ${sender === 'user' ? 'bg-primary text-white rounded-tr-none shadow-xl' : 'bg-gray-100 text-primary rounded-tl-none border border-gray-50 shadow-sm'} text-sm md:text-base leading-relaxed font-medium">
                         ${text}
@@ -781,6 +794,12 @@
                 box.scrollTop = box.scrollHeight;
             },
             addBotMessage(t) { this.addChatMessage('bot', t); },
+
+            clearChat() {
+                document.getElementById('chat-messages').innerHTML = '';
+                this.state.chatHistory = [];
+                this.addBotMessage("Percakapan telah dibersihkan. Ada lagi yang ingin Anda diskusikan?");
+            },
 
             renderLeaderboard() {
                 const list = document.getElementById('leaderboard-list');
@@ -822,10 +841,7 @@
             showAlert(msg) {
                 const modal = document.getElementById('modal-wrapper');
                 const text = document.getElementById('modal-message');
-                if (modal && text) {
-                    text.innerText = msg;
-                    modal.classList.remove('hidden');
-                }
+                if (modal && text) { text.innerText = msg; modal.classList.remove('hidden'); }
                 lucide.createIcons();
             },
             closeModal() { document.getElementById('modal-wrapper').classList.add('hidden'); },
