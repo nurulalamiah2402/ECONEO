@@ -128,7 +128,6 @@
 
         <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10">
             
-            <!-- VIEW: HOME -->
             <section id="view-home" class="view-section active flex flex-col items-center justify-center text-center min-h-[70vh]">
                 <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Platform Edukasi Hijau #1
@@ -152,7 +151,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: LOGIN -->
             <section id="view-login" class="view-section flex items-center justify-center min-h-[60vh]">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white">
                     <div class="text-center mb-10">
@@ -179,10 +177,9 @@
                 </div>
             </section>
 
-            <!-- VIEW: DASHBOARD -->
             <section id="view-dashboard" class="view-section space-y-10">
                 <div class="bg-white rounded-[2.5rem] p-8 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-8">
-                    <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-50 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
+                    <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-100 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
                         <i data-lucide="user" class="text-accent w-12 h-12"></i>
                     </div>
                     <div class="flex-1 text-center md:text-left">
@@ -234,7 +231,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: CATALOG -->
             <section id="view-modules" class="view-section space-y-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-4">
                     <div>
@@ -249,7 +245,6 @@
                 <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8"></div>
             </section>
 
-            <!-- VIEW: MODULE DETAIL -->
             <section id="view-module_detail" class="view-section space-y-8 pb-12 max-w-4xl mx-auto">
                 <div class="flex items-center justify-between mb-2">
                     <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-sm hover:text-primary transition-all">
@@ -294,7 +289,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: LEADERBOARD -->
             <section id="view-leaderboard" class="view-section max-w-2xl mx-auto space-y-10">
                 <div class="text-center">
                     <h2 class="text-4xl font-black text-primary mb-2">Klasemen Global</h2>
@@ -311,7 +305,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: AI CHAT -->
             <section id="view-ai_chat" class="view-section max-w-4xl mx-auto h-[75vh] flex flex-col bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
                 <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center justify-between">
                     <div class="flex items-center gap-4">
@@ -332,7 +325,7 @@
                 
                 <div id="chat-messages" class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 custom-scrollbar bg-white"></div>
 
-                <div class="p-6 bg-gray-50 border-t border-gray-100">
+                <div class="p-4 bg-gray-50 border-t border-gray-100">
                     <form onsubmit="app.handleChatSubmit(event)" class="flex gap-3">
                         <input type="text" id="chat-input" placeholder="Tanyakan apapun soal keberlanjutan..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm transition-all disabled:opacity-50">
                         <button type="submit" id="chat-send-btn" class="bg-primary text-white p-4 rounded-2xl hover:bg-secondary transition-all shadow-md disabled:opacity-50">
@@ -342,7 +335,6 @@
                 </div>
             </section>
 
-            <!-- VIEW: PROFILE -->
             <section id="view-profile" class="view-section max-w-xl mx-auto space-y-8">
                 <div class="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white text-center relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-r from-sky/10 to-accent/10 pointer-events-none"></div>
@@ -434,9 +426,9 @@
     </div>
 
     <script>
-        // --- KONFIGURASI API KIMI AI ---
+        // --- KONFIGURASI API (MIMIC OPENAI SDK LOGIC) ---
         const KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
-        const KIMI_ENDPOINT = "https://api.moonshot.cn/v1/chat/completions";
+        const KIMI_ENDPOINT = "https://konektika.web.id/v1/chat/completions";
 
         const modulesData = [
             { id: 1, title: 'Ekonomi Sirkular & Fast Fashion', category: 'Keberlanjutan', content: `Industri fesyen global saat ini berada pada titik krisis lingkungan yang belum pernah terjadi sebelumnya. Model bisnis "Fast Fashion" yang didorong oleh konsumsi hiperaktif telah mengubah cara masyarakat memandang pakaian sebagai barang habis pakai yang murah. \n\nDampak lingkungan dari Fast Fashion sangat mengerikan. Diperlukan sekitar 2.700 liter air hanya untuk membuat satu buah kaus katun—jumlah air yang cukup untuk diminum satu orang selama 2,5 tahun. \n\nSolusi yang paling rasional adalah transisi menuju "Ekonomi Sirkular". Berlawanan dengan ekonomi linier (Ambil - Buat - Buang), ekonomi sirkular berpusat pada tiga prinsip utama: meminimalkan limbah dan polusi sejak fase desain, menjaga produk dan material agar terus digunakan selama mungkin, serta meregenerasi sistem alam.`, quiz: [ { q: 'Berapa banyak air yang dibutuhkan untuk memproduksi satu kaus katun?', options: ['500 liter', '1.000 liter', '2.700 liter', '5.000 liter'], ans: '2.700 liter' }, { q: 'Prinsip ekonomi yang bertujuan meminimalkan limbah disebut?', options: ['Ekonomi Linier', 'Ekonomi Sirkular', 'Ekonomi Mikro', 'Ekonomi Digital'], ans: 'Ekonomi Sirkular' } ] },
@@ -623,7 +615,7 @@
                 list.innerHTML = '';
                 this.state.activeModule.quiz.forEach((q, idx) => {
                     const key = `${this.state.activeModule.id}_${idx}`;
-                    const isDone = this.state.completedQuizzes[key];
+                    const isDone = this.completedQuizzes[key];
                     const div = document.createElement('div');
                     div.className = "bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm";
                     div.innerHTML = `
@@ -686,6 +678,7 @@
                 lucide.createIcons();
             },
 
+            // --- PERBAIKAN INTEGRASI AI MENGGUNAKAN LOGIC PROGRAM BARU ---
             async handleChatSubmit(e) {
                 e.preventDefault();
                 const input = document.getElementById('chat-input');
@@ -694,6 +687,7 @@
                 
                 if(!userText || this.state.isChatting) return;
 
+                // Tampilkan pesan user
                 this.addChatMessage('user', userText);
                 input.value = '';
                 input.disabled = true;
@@ -702,28 +696,29 @@
                 this.state.hasChatted = true;
                 this.updateUI();
 
+                // Tampilkan indikator mengetik
                 const typingId = this.showTypingIndicator();
 
                 try {
                     this.state.chatHistory.push({ role: "user", content: userText });
 
+                    // Panggilan API Menggunakan Base URL & Key yang diberikan
                     const response = await fetch(KIMI_ENDPOINT, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': KIMI_API_KEY // DIUBAH: Hilangkan awalan "Bearer "
+                            'Authorization': 'Bearer ' + KIMI_API_KEY // Standard OpenAI format
                         },
                         body: JSON.stringify({
                             model: "kimi-pro",
                             messages: [
-                                { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dengan ramah, informatif, dan menginspirasi gaya hidup berkelanjutan dalam Bahasa Indonesia." },
+                                { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dalam Bahasa Indonesia yang informatif dan ramah." },
                                 ...this.state.chatHistory
-                            ],
-                            stream: false
+                            ]
                         })
                     });
 
-                    if (!response.ok) throw new Error("Gagal terhubung ke Kimi AI. Pastikan API Key valid.");
+                    if (!response.ok) throw new Error("Gagal terhubung ke AI. Pastikan Key valid dan Server Aktif.");
 
                     const data = await response.json();
                     const botContent = data.choices[0].message.content;
@@ -735,8 +730,8 @@
 
                 } catch (error) {
                     this.removeTypingIndicator(typingId);
-                    this.addBotMessage("Maaf, terjadi gangguan saat menghubungi asisten cerdas. Silakan coba lagi nanti.");
-                    console.error("Kimi AI Error:", error);
+                    this.addBotMessage("Gagal mendapatkan respon. Periksa koneksi internet atau kunci API Anda.");
+                    console.error("AI Error:", error);
                 } finally {
                     this.finalizeChat(input, btn);
                 }
@@ -790,7 +785,7 @@
             clearChat() {
                 document.getElementById('chat-messages').innerHTML = '';
                 this.state.chatHistory = [];
-                this.addBotMessage("Percakapan telah dibersihkan. Ada lagi yang ingin Anda diskusikan?");
+                this.addBotMessage("Percakapan telah dibersihkan. Ada lagi yang ingin Anda tanyakan?");
             },
 
             renderLeaderboard() {
