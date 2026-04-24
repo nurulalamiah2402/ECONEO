@@ -42,7 +42,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .view-section.active { 
-            display: block; 
+            display: flex; /* Changed to flex for centering */
+            flex-direction: column;
             opacity: 1;
             transform: translateY(0);
         }
@@ -82,6 +83,10 @@
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes typing { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+
+        /* Fix for AI message formatting */
+        .ai-message-content b { font-weight: 800; color: var(--primary); }
+        .ai-message-content p { margin-bottom: 0.5rem; }
     </style>
     <script>
         tailwind.config = {
@@ -100,8 +105,8 @@
 </head>
 <body class="overflow-x-hidden">
 
-    <div class="blob w-96 h-96 bg-sky top-[-10%] right-[-10%]"></div>
-    <div class="blob w-[30rem] h-[30rem] bg-accent bottom-[-10%] left-[-10%]"></div>
+    <div class="blob w-64 h-64 md:w-96 md:h-96 bg-sky top-[-5%] right-[-5%]"></div>
+    <div class="blob w-80 h-80 md:w-[30rem] md:h-[30rem] bg-accent bottom-[-5%] left-[-5%]"></div>
 
     <div id="app-wrapper" class="relative min-h-screen flex flex-col pb-32">
         
@@ -109,49 +114,51 @@
             <div class="max-w-6xl mx-auto px-4 md:px-8 h-16 md:h-20 flex items-center justify-between">
                 <div class="flex items-center gap-2.5 cursor-pointer" onclick="app.setView('dashboard')">
                     <div class="bg-primary p-1.5 rounded-lg text-white">
-                        <i data-lucide="leaf" class="w-5 h-5"></i>
+                        <i data-lucide="leaf" class="w-4 h-4 md:w-5 md:h-5"></i>
                     </div>
-                    <h1 class="text-xl md:text-2xl font-black text-primary tracking-tighter">ECONEO</h1>
+                    <h1 class="text-lg md:text-2xl font-black text-primary tracking-tighter uppercase">ECONEO</h1>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
+                <div class="flex items-center gap-2 md:gap-3">
+                    <div class="flex items-center gap-1.5 bg-white px-2 md:px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
                         <span id="header-streak-icon"></span>
-                        <span class="text-xs font-bold text-primary"><span id="header-streak-val">8</span> Hari</span>
+                        <span class="text-[10px] md:text-xs font-bold text-primary"><span id="header-streak-val">8</span> Hari</span>
                     </div>
-                    <div class="flex items-center gap-1.5 bg-primary px-3 py-1.5 rounded-full shadow-sm text-white">
-                        <i data-lucide="award" class="w-3.5 h-3.5"></i>
-                        <span class="text-xs font-bold"><span id="header-xp-val">0</span> XP</span>
+                    <div class="flex items-center gap-1.5 bg-primary px-2 md:px-3 py-1.5 rounded-full shadow-sm text-white">
+                        <i data-lucide="award" class="w-3 h-3 md:w-3.5 md:h-3.5"></i>
+                        <span class="text-[10px] md:text-xs font-bold"><span id="header-xp-val">0</span> XP</span>
                     </div>
                 </div>
             </div>
         </header>
 
-        <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10">
+        <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-10 flex flex-col">
             
-            <section id="view-home" class="view-section active flex flex-col items-center justify-center text-center min-h-[70vh]">
-                <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
+            <!-- VIEW: HOME (CENTERED) -->
+            <section id="view-home" class="view-section active flex-1 flex flex-col items-center justify-center text-center py-10">
+                <div class="mb-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 border border-white/80 rounded-full text-[10px] md:text-xs font-bold tracking-widest text-secondary uppercase shadow-sm">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span> Platform Edukasi Hijau #1
                 </div>
-                <h2 class="text-5xl md:text-7xl font-black text-primary mb-6 leading-[1.1] tracking-tight">
+                <h2 class="text-4xl md:text-7xl font-black text-primary mb-6 leading-[1.1] tracking-tight">
                     Masa Depan Bumi <br> Ada di <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">Literasi Kita.</span>
                 </h2>
-                <p class="text-lg md:text-xl text-secondary max-w-2xl mb-12 font-medium leading-relaxed opacity-80">
+                <p class="text-base md:text-xl text-secondary max-w-2xl mb-12 font-medium leading-relaxed opacity-80">
                     Akses perpustakaan pintar untuk memahami krisis iklim, ekonomi sirkular, dan teknologi hijau melalui materi akademik yang ringkas dan interaktif.
                 </p>
-                <div class="flex flex-col md:flex-row gap-4">
-                    <button onclick="app.setView('login')" class="btn-primary px-10 py-5 rounded-full text-white font-bold text-lg flex items-center justify-center gap-2">
+                <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center justify-center">
+                    <button onclick="app.setView('login')" class="btn-primary w-full md:w-auto px-10 py-5 rounded-full text-white font-bold text-lg flex items-center justify-center gap-2">
                         Mulai Belajar Sekarang <i data-lucide="arrow-right"></i>
                     </button>
-                    <button class="px-10 py-5 rounded-full bg-white/50 border border-white text-primary font-bold text-lg hover:bg-white transition-all">
+                    <button class="w-full md:w-auto px-10 py-5 rounded-full bg-white/50 border border-white text-primary font-bold text-lg hover:bg-white transition-all">
                         Pelajari Fitur
                     </button>
                 </div>
-                <div class="mt-16 floating opacity-20 grayscale">
-                    <i data-lucide="earth" class="w-40 h-40"></i>
+                <div class="mt-16 floating opacity-10 md:opacity-20 grayscale">
+                    <i data-lucide="earth" class="w-24 h-24 md:w-40 md:h-40"></i>
                 </div>
             </section>
 
-            <section id="view-login" class="view-section flex items-center justify-center min-h-[60vh]">
+            <!-- VIEW: LOGIN -->
+            <section id="view-login" class="view-section items-center justify-center flex-1">
                 <div class="glass p-8 md:p-12 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-white">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-black text-primary mb-2">Selamat Datang</h2>
@@ -159,17 +166,17 @@
                     </div>
                     <form onsubmit="app.handleLogin(event)" class="space-y-6">
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-primary uppercase ml-1 opacity-60">Alamat Email</label>
+                            <label class="text-[10px] font-bold text-primary uppercase ml-1 opacity-60">Alamat Email</label>
                             <div class="relative">
                                 <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-                                <input type="email" id="login-email" required value="pengguna@econeo.com" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-inner transition-all">
+                                <input type="email" id="login-email" required value="pengguna@econeo.com" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-sm">
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <label class="text-xs font-bold text-primary uppercase ml-1 opacity-60">Kata Sandi</label>
+                            <label class="text-[10px] font-bold text-primary uppercase ml-1 opacity-60">Kata Sandi</label>
                             <div class="relative">
                                 <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
-                                <input type="password" required value="password123" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-inner transition-all">
+                                <input type="password" required value="password123" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none font-medium shadow-sm">
                             </div>
                         </div>
                         <button type="submit" class="btn-primary w-full py-5 rounded-2xl text-white font-bold shadow-lg mt-4">Masuk ke Dashboard</button>
@@ -177,197 +184,202 @@
                 </div>
             </section>
 
-            <section id="view-dashboard" class="view-section space-y-10">
-                <div class="bg-white rounded-[2.5rem] p-8 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-8">
-                    <div id="dash-avatar" class="w-28 h-28 rounded-3xl bg-gray-100 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
-                        <i data-lucide="user" class="text-accent w-12 h-12"></i>
+            <!-- VIEW: DASHBOARD -->
+            <section id="view-dashboard" class="view-section space-y-6 md:space-y-10">
+                <div class="bg-white rounded-[2.5rem] p-6 md:p-10 border border-gray-100 shadow-xl flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                    <div id="dash-avatar" class="w-20 h-20 md:w-28 md:h-28 rounded-3xl bg-gray-50 flex items-center justify-center border-2 border-white shadow-lg overflow-hidden shrink-0 rotate-3">
+                        <i data-lucide="user" class="text-accent w-10 h-10 md:w-12 md:h-12"></i>
                     </div>
                     <div class="flex-1 text-center md:text-left">
-                        <h2 class="text-3xl md:text-4xl font-black text-primary mb-2">Halo, <span id="dash-username" class="text-secondary">Agen</span>!</h2>
-                        <p class="text-secondary font-medium opacity-70 mb-6 text-sm md:text-base">Misi hari ini menunggu Anda. Selesaikan literasi untuk mendapatkan badge pelestari bumi.</p>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                            <button onclick="app.setView('modules')" class="btn-primary px-8 py-3 rounded-xl text-white font-bold flex items-center gap-2">
+                        <h2 class="text-2xl md:text-4xl font-black text-primary mb-2">Halo, <span id="dash-username" class="text-secondary">Agen</span>!</h2>
+                        <p class="text-secondary font-medium opacity-70 mb-6 text-xs md:text-base">Misi hari ini menunggu Anda. Selesaikan literasi untuk mendapatkan badge pelestari bumi.</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
+                            <button onclick="app.setView('modules')" class="btn-primary px-6 md:px-8 py-3 rounded-xl text-white font-bold text-sm flex items-center gap-2">
                                 Jelajah Modul <i data-lucide="arrow-right-circle" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="app.setView('profile')" class="px-8 py-3 rounded-xl bg-gray-50 text-secondary border border-gray-200 font-bold hover:bg-white transition-all">
+                            <button onclick="app.setView('profile')" class="px-6 md:px-8 py-3 rounded-xl bg-gray-50 text-secondary border border-gray-200 font-bold text-sm hover:bg-white transition-all">
                                 Edit Profil
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+                    <div class="lg:col-span-2 space-y-4 md:space-y-6">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-xl font-black text-primary flex items-center gap-2">
+                            <h3 class="text-lg md:text-xl font-black text-primary flex items-center gap-2">
                                 <i data-lucide="list-todo" class="text-sky w-5 h-5"></i> Misi Harian
                             </h3>
-                            <span class="text-xs font-bold text-gray-400 bg-white px-3 py-1 rounded-full border border-gray-100">Baru Diperbarui</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="mission-list"></div>
                     </div>
                     
-                    <div class="space-y-6">
-                        <h3 class="text-xl font-black text-primary flex items-center gap-2">
+                    <div class="space-y-4 md:space-y-6">
+                        <h3 class="text-lg md:text-xl font-black text-primary flex items-center gap-2">
                             <i data-lucide="bar-chart-3" class="text-accent w-5 h-5"></i> Ringkasan
                         </h3>
-                        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-lg space-y-6">
+                        <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-lg space-y-4">
                             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
                                 <div class="flex items-center gap-3">
-                                    <div class="bg-white p-2 rounded-xl shadow-sm text-sky"><i data-lucide="book-open" class="w-5 h-5"></i></div>
-                                    <span class="text-sm font-bold opacity-60">Modul Selesai</span>
+                                    <div class="bg-white p-2 rounded-xl shadow-sm text-sky"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+                                    <span class="text-xs font-bold opacity-60 uppercase">Modul</span>
                                 </div>
-                                <span class="text-xl font-black text-primary" id="dash-mod-count">0</span>
+                                <span class="text-lg font-black text-primary" id="dash-mod-count">0</span>
                             </div>
                             <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
                                 <div class="flex items-center gap-3">
-                                    <div class="bg-white p-2 rounded-xl shadow-sm text-accent"><i data-lucide="check-square" class="w-5 h-5"></i></div>
-                                    <span class="text-sm font-bold opacity-60">Skor Kuis</span>
+                                    <div class="bg-white p-2 rounded-xl shadow-sm text-accent"><i data-lucide="check-square" class="w-4 h-4"></i></div>
+                                    <span class="text-xs font-bold opacity-60 uppercase">Kuis</span>
                                 </div>
-                                <span class="text-xl font-black text-primary" id="dash-quiz-count">0</span>
+                                <span class="text-lg font-black text-primary" id="dash-quiz-count">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="view-modules" class="view-section space-y-8">
+            <!-- VIEW: CATALOG -->
+            <section id="view-modules" class="view-section space-y-6 md:space-y-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-4">
                     <div>
-                        <h2 class="text-4xl font-black text-primary mb-2">Katalog Literasi</h2>
-                        <p class="text-secondary font-medium opacity-60">Pilih topik yang ingin Anda kuasai hari ini.</p>
+                        <h2 class="text-3xl md:text-4xl font-black text-primary mb-2">Katalog Literasi</h2>
+                        <p class="text-secondary font-medium opacity-60 text-sm">Pilih topik yang ingin Anda kuasai hari ini.</p>
                     </div>
                     <div class="relative w-full md:w-80">
                         <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4"></i>
-                        <input type="text" id="search-input" oninput="app.handleSearch()" placeholder="Cari topik..." class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none shadow-sm font-medium">
+                        <input type="text" id="search-input" oninput="app.handleSearch()" placeholder="Cari topik..." class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-white border border-gray-100 focus:ring-2 focus:ring-accent outline-none shadow-sm font-medium text-sm">
                     </div>
                 </div>
                 <div id="modules-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8"></div>
             </section>
 
-            <section id="view-module_detail" class="view-section space-y-8 pb-12 max-w-4xl mx-auto">
+            <!-- VIEW: MODULE DETAIL -->
+            <section id="view-module_detail" class="view-section space-y-6 md:space-y-8 pb-12 max-w-4xl mx-auto w-full">
                 <div class="flex items-center justify-between mb-2">
-                    <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-sm hover:text-primary transition-all">
-                        <i data-lucide="chevron-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i> Kembali ke Katalog
+                    <button onclick="app.setView('modules')" class="group flex items-center gap-2 text-gray-400 font-bold text-xs hover:text-primary transition-all">
+                        <i data-lucide="chevron-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i> Kembali
                     </button>
-                    <span id="detail-cat" class="bg-accent/20 text-accent px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-accent/10">KATEGORI</span>
+                    <span id="detail-cat" class="bg-accent/20 text-accent px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-accent/10">KATEGORI</span>
                 </div>
                 
-                <h1 id="detail-title" class="text-4xl md:text-6xl font-black text-primary leading-tight">Judul Modul</h1>
+                <h1 id="detail-title" class="text-3xl md:text-6xl font-black text-primary leading-tight">Judul Modul</h1>
 
                 <div class="sticky top-20 z-40 bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-white flex gap-1 shadow-sm">
-                    <button id="btn-tab-literasi" onclick="app.switchTab('literasi')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active">
+                    <button id="btn-tab-literasi" onclick="app.switchTab('literasi')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm tab-active">
                         <i data-lucide="align-left" class="w-4 h-4"></i> Literasi
                     </button>
-                    <button id="btn-tab-kuis" onclick="app.switchTab('kuis')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400">
-                        <i data-lucide="help-circle" class="w-4 h-4"></i> Kuis Interaktif
+                    <button id="btn-tab-kuis" onclick="app.switchTab('kuis')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm text-gray-400">
+                        <i data-lucide="help-circle" class="w-4 h-4"></i> Kuis
                     </button>
                 </div>
 
-                <div id="tab-literasi" class="view-tab active space-y-10">
-                    <div class="bg-primary/5 p-6 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div id="tab-literasi" class="view-tab active space-y-6 md:space-y-10">
+                    <div class="bg-primary/5 p-5 md:p-6 rounded-3xl border border-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="text-center md:text-left">
-                            <h4 class="font-bold text-primary">Mode Baca Audio</h4>
-                            <p class="text-xs text-secondary opacity-60">Dengarkan materi sambil bersantai.</p>
+                            <h4 class="font-bold text-primary text-sm md:text-base">Mode Baca Audio</h4>
+                            <p class="text-[10px] md:text-xs text-secondary opacity-60">Dengarkan materi sambil bersantai.</p>
                         </div>
-                        <button id="tts-btn" onclick="app.toggleTTS()" class="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl font-black bg-white text-primary border border-gray-100 shadow-sm hover:bg-primary hover:text-white transition-all">
-                            <i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi
+                        <button id="tts-btn" onclick="app.toggleTTS()" class="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-3 rounded-2xl font-black bg-white text-primary border border-gray-100 shadow-sm hover:bg-primary hover:text-white transition-all text-sm">
+                            <i data-lucide="play-circle" class="w-4 h-4"></i> Putar Materi
                         </button>
                     </div>
                     
-                    <div id="detail-content" class="text-lg md:text-xl text-primary leading-loose md:leading-[2.2] text-justify font-serif whitespace-pre-line px-1"></div>
+                    <div id="detail-content" class="text-base md:text-xl text-primary leading-relaxed md:leading-[2.2] text-justify font-serif whitespace-pre-line px-1"></div>
                     
                     <div class="pt-10 flex justify-center border-t border-gray-100">
-                        <button id="finish-btn" onclick="app.finishRead()" class="btn-primary text-white px-12 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-lg">
-                            <i data-lucide="check-circle-2" class="w-6 h-6"></i> Saya Telah Membaca (+200 XP)
+                        <button id="finish-btn" onclick="app.finishRead()" class="btn-primary text-white w-full md:w-auto px-10 py-5 rounded-3xl font-black shadow-xl flex items-center justify-center gap-3 text-base md:text-lg">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 md:w-6 md:h-6"></i> Saya Telah Membaca (+200 XP)
                         </button>
                     </div>
                 </div>
 
-                <div id="tab-kuis" class="view-tab hidden space-y-8">
+                <div id="tab-kuis" class="view-tab hidden space-y-6 md:space-y-8">
                     <div id="quiz-list" class="space-y-6"></div>
                 </div>
             </section>
 
-            <section id="view-leaderboard" class="view-section max-w-2xl mx-auto space-y-10">
+            <!-- VIEW: LEADERBOARD -->
+            <section id="view-leaderboard" class="view-section max-w-2xl mx-auto w-full space-y-8">
                 <div class="text-center">
-                    <h2 class="text-4xl font-black text-primary mb-2">Klasemen Global</h2>
-                    <p class="text-secondary font-medium opacity-60">Lihat siapa kontributor literasi paling aktif.</p>
+                    <h2 class="text-3xl md:text-4xl font-black text-primary mb-2">Klasemen Global</h2>
+                    <p class="text-secondary font-medium opacity-60 text-sm">Peringkat kontributor literasi hijau.</p>
                 </div>
-                <div class="bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl border border-white overflow-hidden">
                     <div id="leaderboard-top" class="p-8 bg-gradient-to-br from-primary to-secondary text-white flex flex-col items-center justify-center gap-4 text-center">
                         <div class="bg-white/20 p-4 rounded-3xl backdrop-blur-md mb-2">
-                            <i data-lucide="trophy" class="w-12 h-12 text-yellow-300"></i>
+                            <i data-lucide="trophy" class="w-10 h-10 md:w-12 md:h-12 text-yellow-300"></i>
                         </div>
-                        <h4 class="text-2xl font-black">Eco-Warrior Teratas</h4>
+                        <h4 class="text-xl md:text-2xl font-black">Eco-Warrior Teratas</h4>
                     </div>
-                    <div id="leaderboard-list" class="p-6 bg-gray-50/50 space-y-3"></div>
+                    <div id="leaderboard-list" class="p-4 md:p-6 bg-gray-50/50 space-y-3"></div>
                 </div>
             </section>
 
-            <section id="view-ai_chat" class="view-section max-w-4xl mx-auto h-[75vh] flex flex-col bg-white rounded-[3rem] shadow-2xl border border-white overflow-hidden">
-                <div class="bg-gray-50 px-8 py-5 border-b border-gray-100 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
+            <!-- VIEW: AI CHAT -->
+            <section id="view-ai_chat" class="view-section max-w-4xl mx-auto w-full h-[70vh] flex flex-col bg-white rounded-[2.5rem] shadow-2xl border border-white overflow-hidden">
+                <div class="bg-gray-50 px-6 md:px-8 py-4 md:py-5 border-b border-gray-100 flex items-center justify-between">
+                    <div class="flex items-center gap-3 md:gap-4">
                         <div class="bg-primary p-2 rounded-xl text-white">
-                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                            <i data-lucide="sparkles" class="w-4 h-4 md:w-5 md:h-5"></i>
                         </div>
                         <div>
-                            <h3 class="font-black text-primary leading-tight">EcoNeo Asisten Pintar</h3>
-                            <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Terhubung
+                            <h3 class="font-black text-primary leading-tight text-sm md:text-base">EcoNeo AI</h3>
+                            <p class="text-[9px] font-bold text-green-500 uppercase tracking-widest flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Terhubung
                             </p>
                         </div>
                     </div>
-                    <button onclick="app.clearChat()" class="text-gray-400 hover:text-accent transition-colors" title="Bersihkan percakapan">
-                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                    <button onclick="app.clearChat()" class="text-gray-300 hover:text-accent transition-colors">
+                        <i data-lucide="trash-2" class="w-4 h-4 md:w-5 md:h-5"></i>
                     </button>
                 </div>
                 
-                <div id="chat-messages" class="flex-1 p-6 md:p-10 overflow-y-auto space-y-6 custom-scrollbar bg-white"></div>
+                <div id="chat-messages" class="flex-1 p-5 md:p-8 overflow-y-auto space-y-5 custom-scrollbar bg-white"></div>
 
-                <div class="p-4 bg-gray-50 border-t border-gray-100">
+                <div class="p-4 md:p-6 bg-gray-50 border-t border-gray-100">
                     <form onsubmit="app.handleChatSubmit(event)" class="flex gap-3">
-                        <input type="text" id="chat-input" placeholder="Tanyakan apapun soal keberlanjutan..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm transition-all disabled:opacity-50">
-                        <button type="submit" id="chat-send-btn" class="bg-primary text-white p-4 rounded-2xl hover:bg-secondary transition-all shadow-md disabled:opacity-50">
-                            <i data-lucide="send" class="w-6 h-6"></i>
+                        <input type="text" id="chat-input" placeholder="Tanyakan apapun..." class="flex-1 bg-white border border-gray-100 rounded-2xl px-5 py-3.5 md:py-4 outline-none focus:ring-2 focus:ring-accent font-medium shadow-sm text-sm transition-all disabled:opacity-50">
+                        <button type="submit" id="chat-send-btn" class="bg-primary text-white p-3.5 md:p-4 rounded-2xl hover:bg-secondary transition-all shadow-md disabled:opacity-50">
+                            <i data-lucide="send" class="w-5 h-5 md:w-6 md:h-6"></i>
                         </button>
                     </form>
                 </div>
             </section>
 
-            <section id="view-profile" class="view-section max-w-xl mx-auto space-y-8">
-                <div class="bg-white p-10 md:p-14 rounded-[3.5rem] shadow-2xl border border-white text-center relative overflow-hidden">
+            <!-- VIEW: PROFILE -->
+            <section id="view-profile" class="view-section max-w-xl mx-auto w-full space-y-6 md:space-y-8">
+                <div class="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl border border-white text-center relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-r from-sky/10 to-accent/10 pointer-events-none"></div>
                     <div class="relative z-10 flex flex-col items-center">
-                        <div id="profile-avatar-box" class="w-36 h-36 rounded-3xl bg-gray-100 flex items-center justify-center border-4 border-white shadow-2xl overflow-hidden mb-6 rotate-2 transition-transform hover:rotate-0">
-                            <i data-lucide="user" class="text-accent w-16 h-16"></i>
+                        <div id="profile-avatar-box" class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gray-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden mb-6 rotate-2">
+                            <i data-lucide="user" class="text-accent w-10 h-10 md:w-16 md:h-16"></i>
                         </div>
                         <input type="file" id="avatar-input" class="hidden" accept="image/*" onchange="app.updateAvatar(event)">
-                        <button onclick="document.getElementById('avatar-input').click()" class="bg-white text-primary p-3 rounded-2xl border border-gray-100 shadow-lg hover:scale-110 transition-all -mt-10 relative z-20">
-                            <i data-lucide="camera" class="w-5 h-5"></i>
+                        <button onclick="document.getElementById('avatar-input').click()" class="bg-white text-primary p-2.5 rounded-xl border border-gray-100 shadow-lg hover:scale-110 transition-all -mt-10 relative z-20">
+                            <i data-lucide="camera" class="w-4 h-4"></i>
                         </button>
-                        <h3 id="profile-name" class="text-3xl font-black text-primary mt-6 mb-1">User</h3>
-                        <p id="profile-email" class="text-sm font-bold text-gray-400 mb-8 uppercase tracking-widest">user@econeo.com</p>
-                        <div class="grid grid-cols-2 gap-4 w-full mb-10">
-                            <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 shadow-inner">
-                                <i data-lucide="award" class="mx-auto text-sky mb-3 w-6 h-6"></i>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase mb-1">XP Saya</p>
-                                <p class="text-2xl font-black text-primary"><span id="profile-xp">0</span></p>
+                        <h3 id="profile-name" class="text-2xl md:text-3xl font-black text-primary mt-6 mb-1">User</h3>
+                        <p id="profile-email" class="text-[10px] md:text-sm font-bold text-gray-400 mb-8 uppercase tracking-widest">user@econeo.com</p>
+                        <div class="grid grid-cols-2 gap-3 md:gap-4 w-full mb-8 md:mb-10">
+                            <div class="bg-gray-50 p-5 md:p-6 rounded-3xl border border-gray-100 shadow-inner">
+                                <i data-lucide="award" class="mx-auto text-sky mb-2 w-5 h-5 md:w-6 md:h-6"></i>
+                                <p class="text-[9px] text-gray-400 font-bold uppercase mb-1">XP</p>
+                                <p class="text-xl md:text-2xl font-black text-primary"><span id="profile-xp">0</span></p>
                             </div>
-                            <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 shadow-inner">
-                                <span id="profile-streak-icon" class="block mb-3"></span>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase mb-1">Streak</p>
-                                <p class="text-2xl font-black text-accent"><span id="profile-streak">8</span></p>
+                            <div class="bg-gray-50 p-5 md:p-6 rounded-3xl border border-gray-100 shadow-inner">
+                                <span id="profile-streak-icon" class="block mb-2"></span>
+                                <p class="text-[9px] text-gray-400 font-bold uppercase mb-1">Streak</p>
+                                <p class="text-xl md:text-2xl font-black text-accent"><span id="profile-streak">8</span></p>
                             </div>
                         </div>
-                        <div class="w-full space-y-4">
-                            <button onclick="app.openShare()" class="w-full flex justify-between items-center bg-gray-50 text-secondary px-8 py-5 rounded-[2rem] font-bold border border-gray-100 hover:bg-white transition-all shadow-sm">
-                                <span class="flex items-center gap-4"><i data-lucide="share-2" class="text-sky w-5 h-5"></i> Bagikan Aplikasi</span>
-                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-30"></i>
+                        <div class="w-full space-y-3 md:space-y-4">
+                            <button onclick="app.openShare()" class="w-full flex justify-between items-center bg-gray-50 text-secondary px-6 md:px-8 py-4 md:py-5 rounded-[2rem] font-bold border border-gray-100 text-sm">
+                                <span class="flex items-center gap-3 md:gap-4"><i data-lucide="share-2" class="text-sky w-4 h-4 md:w-5 md:h-5"></i> Bagikan</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-30"></i>
                             </button>
-                            <button onclick="location.reload()" class="w-full flex justify-between items-center bg-gray-50 text-[#A67D86] px-8 py-5 rounded-[2rem] font-bold border border-gray-100 hover:bg-[#FFF5F7] transition-all shadow-sm">
-                                <span class="flex items-center gap-4"><i data-lucide="log-out" class="text-accent w-5 h-5"></i> Keluar Sesi</span>
-                                <i data-lucide="chevron-right" class="w-5 h-5 opacity-30"></i>
+                            <button onclick="location.reload()" class="w-full flex justify-between items-center bg-gray-50 text-[#A67D86] px-6 md:px-8 py-4 md:py-5 rounded-[2rem] font-bold border border-gray-100 text-sm">
+                                <span class="flex items-center gap-3 md:gap-4"><i data-lucide="log-out" class="text-accent w-4 h-4 md:w-5 md:h-5"></i> Keluar</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 opacity-30"></i>
                             </button>
                         </div>
                     </div>
@@ -375,31 +387,35 @@
             </section>
         </main>
 
-        <nav id="bottom-nav" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg glass rounded-[2.5rem] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] z-[60] flex items-center justify-between px-3 py-3 border-white/50">
-            <button onclick="app.setView('dashboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="dashboard">
+        <!-- NAVIGATION: MOBILE & DESKTOP ADAPTED -->
+        <nav id="bottom-nav" class="hidden fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-lg glass rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.15)] z-[60] flex items-center justify-between px-2 md:px-3 py-2 md:py-3 border-white/50">
+            <button onclick="app.setView('dashboard')" class="nav-btn flex-1 flex flex-col items-center justify-center p-2 rounded-2xl text-gray-400 transition-all" data-view="dashboard">
                 <i data-lucide="layout-grid" class="w-5 h-5"></i>
-                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Home</span>
+                <span class="text-[8px] md:text-[9px] font-black mt-1 uppercase tracking-tighter">Home</span>
             </button>
-            <button onclick="app.setView('modules')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="modules">
+            <button onclick="app.setView('modules')" class="nav-btn flex-1 flex flex-col items-center justify-center p-2 rounded-2xl text-gray-400 transition-all" data-view="modules">
                 <i data-lucide="book-marked" class="w-5 h-5"></i>
-                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Modul</span>
+                <span class="text-[8px] md:text-[9px] font-black mt-1 uppercase tracking-tighter">Modul</span>
             </button>
-            <div class="relative -top-10">
-                <button onclick="app.setView('ai_chat')" class="bg-primary text-white p-5 rounded-full shadow-2xl transform hover:scale-110 active:scale-95 transition-all">
-                    <i data-lucide="message-circle" class="w-7 h-7"></i>
+            
+            <div class="relative -top-8 md:-top-10">
+                <button onclick="app.setView('ai_chat')" class="bg-primary text-white p-4 md:p-5 rounded-full shadow-2xl transform hover:scale-110 active:scale-95 transition-all">
+                    <i data-lucide="message-circle" class="w-6 h-6 md:w-7 md:h-7"></i>
                 </button>
-                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 border border-gray-100 px-3 py-0.5 rounded-full shadow-sm text-[9px] font-black text-primary">TANYA AI</div>
+                <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 border border-gray-100 px-2 md:px-3 py-0.5 rounded-full shadow-sm text-[8px] font-black text-primary">TANYA AI</div>
             </div>
-            <button onclick="app.setView('leaderboard')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="leaderboard">
+
+            <button onclick="app.setView('leaderboard')" class="nav-btn flex-1 flex flex-col items-center justify-center p-2 rounded-2xl text-gray-400 transition-all" data-view="leaderboard">
                 <i data-lucide="medal" class="w-5 h-5"></i>
-                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Rank</span>
+                <span class="text-[8px] md:text-[9px] font-black mt-1 uppercase tracking-tighter">Rank</span>
             </button>
-            <button onclick="app.setView('profile')" class="nav-btn flex flex-col items-center justify-center p-2 rounded-2xl w-16 h-14 text-gray-400" data-view="profile">
+            <button onclick="app.setView('profile')" class="nav-btn flex-1 flex flex-col items-center justify-center p-2 rounded-2xl text-gray-400 transition-all" data-view="profile">
                 <i data-lucide="user-circle" class="w-5 h-5"></i>
-                <span class="text-[9px] font-black mt-1 uppercase tracking-tighter">Profil</span>
+                <span class="text-[8px] md:text-[9px] font-black mt-1 uppercase tracking-tighter">Profil</span>
             </button>
         </nav>
 
+        <!-- GLOBAL ALERT MODAL -->
         <div id="modal-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
             <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl text-center border border-white">
                 <div class="bg-green-50 w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner border border-green-100">
@@ -410,12 +426,13 @@
             </div>
         </div>
 
+        <!-- SHARE MODAL -->
         <div id="share-wrapper" class="hidden fixed inset-0 bg-primary/40 backdrop-blur-md flex items-center justify-center z-[100] p-6">
-            <div class="bg-white rounded-[3rem] p-10 max-w-sm w-full shadow-2xl relative border border-white">
-                <button onclick="app.closeShare()" class="absolute top-6 right-6 text-gray-300 hover:text-primary"><i data-lucide="x"></i></button>
-                <div class="bg-sky/5 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-sky"><i data-lucide="share-2" class="w-10 h-10"></i></div>
+            <div class="bg-white rounded-[3rem] p-8 md:p-10 max-w-sm w-full shadow-2xl relative border border-white">
+                <button onclick="app.closeShare()" class="absolute top-6 right-6 text-gray-300 hover:text-primary"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <div class="bg-sky/5 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-sky"><i data-lucide="share-2" class="w-8 h-8 md:w-10 md:h-10"></i></div>
                 <h3 class="text-2xl font-black text-primary text-center mb-2">Sebarkan Dampak</h3>
-                <p class="text-gray-400 text-sm text-center mb-10 font-medium">Ajak kerabatmu untuk membangun kebiasaan literasi hijau setiap hari.</p>
+                <p class="text-gray-400 text-xs md:text-sm text-center mb-10 font-medium leading-relaxed">Ajak kerabatmu untuk membangun kebiasaan literasi hijau setiap hari.</p>
                 <div class="space-y-4">
                     <button onclick="app.copyLink()" class="w-full flex justify-center items-center gap-4 bg-primary text-white py-4 rounded-2xl font-black shadow-xl"><i data-lucide="link-2" class="w-5 h-5"></i> Salin Tautan</button>
                     <button onclick="app.copyLink()" class="w-full flex justify-center items-center gap-4 bg-[#F2F7F5] text-primary py-4 rounded-2xl font-black border border-gray-100"><i data-lucide="instagram" class="w-5 h-5"></i> Bagikan Story</button>
@@ -426,7 +443,7 @@
     </div>
 
     <script>
-        // --- KONFIGURASI API (MIMIC OPENAI SDK LOGIC) ---
+        // --- KONFIGURASI API ---
         const KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
         const KIMI_ENDPOINT = "https://konektika.web.id/v1/chat/completions";
 
@@ -476,7 +493,7 @@
                     sec.classList.remove('active');
                     setTimeout(() => { if(sec.id !== `view-${viewName}`) sec.style.display = 'none'; }, 400);
                 });
-                target.style.display = 'block';
+                target.style.display = 'flex';
                 setTimeout(() => target.classList.add('active'), 50);
                 const isAuth = !['home', 'login'].includes(viewName);
                 document.getElementById('main-header').classList.toggle('hidden', !isAuth);
@@ -517,7 +534,7 @@
                 avBox.forEach(box => {
                     if(box) {
                         if(this.state.user.avatar) box.innerHTML = `<img src="${this.state.user.avatar}" class="w-full h-full object-cover">`;
-                        else box.innerHTML = `<i data-lucide="user" class="text-accent w-10 h-10"></i>`;
+                        else box.innerHTML = `<i data-lucide="user" class="text-accent w-10 h-10 md:w-16 md:h-16"></i>`;
                     }
                 });
                 this.renderMissions();
@@ -547,7 +564,7 @@
                         <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center ${m.done ? 'border-green-500 bg-green-500 text-white' : 'border-gray-200'}">
                             ${m.done ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}
                         </div>
-                        <span class="text-sm font-bold ${m.done ? 'text-green-800' : 'text-primary'}">${m.text}</span>
+                        <span class="text-xs md:text-sm font-bold ${m.done ? 'text-green-800' : 'text-primary'}">${m.text}</span>
                     `;
                     mList.appendChild(div);
                 });
@@ -561,15 +578,15 @@
                 filtered.forEach(m => {
                     const isRead = this.state.readModules.includes(m.id);
                     const card = document.createElement('div');
-                    card.className = "group bg-white rounded-[2rem] p-7 shadow-lg border border-gray-50 hover:shadow-2xl transition-all flex flex-col hover:-translate-y-1";
+                    card.className = "group bg-white rounded-[2rem] p-6 md:p-7 shadow-lg border border-gray-50 hover:shadow-2xl transition-all flex flex-col hover:-translate-y-1";
                     card.innerHTML = `
                         <div class="flex justify-between items-start mb-6">
                             <span class="bg-gray-50 text-gray-400 text-[9px] font-black px-3 py-1.5 rounded-full uppercase tracking-tighter border border-gray-100">${m.category}</span>
                             ${isRead ? '<div class="bg-green-100 text-green-500 p-1.5 rounded-xl"><i data-lucide="check-circle-2" class="w-4 h-4"></i></div>' : ''}
                         </div>
-                        <h3 class="text-xl font-black text-primary mb-3 leading-tight group-hover:text-secondary">${m.title}</h3>
-                        <p class="text-secondary text-xs mb-8 line-clamp-3 font-medium leading-relaxed opacity-60">${m.content}</p>
-                        <button onclick="app.openModule(${m.id})" class="w-full bg-gray-50 hover:bg-primary text-primary hover:text-white py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 text-sm">
+                        <h3 class="text-lg md:text-xl font-black text-primary mb-3 leading-tight group-hover:text-secondary">${m.title}</h3>
+                        <p class="text-secondary text-[10px] md:text-xs mb-8 line-clamp-3 font-medium opacity-60">${m.content}</p>
+                        <button onclick="app.openModule(${m.id})" class="w-full bg-gray-50 hover:bg-primary text-primary hover:text-white py-4 rounded-2xl font-black transition-all flex items-center justify-center gap-2 text-xs md:text-sm">
                             Buka Literasi <i data-lucide="chevron-right" class="w-4 h-4"></i>
                         </button>
                     `;
@@ -590,10 +607,10 @@
                 this.renderQuiz();
                 const btn = document.getElementById('finish-btn');
                 if(this.state.readModules.includes(id)) {
-                    btn.className = "bg-green-50 text-green-500 px-10 py-5 rounded-3xl font-black border border-green-100 cursor-not-allowed";
+                    btn.className = "bg-green-50 text-green-500 px-10 py-5 rounded-3xl font-black border border-green-100 cursor-not-allowed text-sm md:text-base";
                     btn.innerHTML = `<i data-lucide="check-circle-2"></i> Materi Selesai (+200 XP)`;
                 } else {
-                    btn.className = "btn-primary text-white px-10 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-lg";
+                    btn.className = "btn-primary text-white px-10 py-5 rounded-3xl font-black shadow-xl flex items-center gap-3 text-sm md:text-lg";
                     btn.innerHTML = `<i data-lucide="check-circle-2"></i> Saya Telah Membaca (+200 XP)`;
                 }
             },
@@ -604,8 +621,8 @@
                 document.getElementById(`tab-${tab}`).classList.remove('hidden');
                 const lBtn = document.getElementById('btn-tab-literasi');
                 const qBtn = document.getElementById('btn-tab-kuis');
-                lBtn.className = tab === 'literasi' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400";
-                qBtn.className = tab === 'kuis' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-sm text-gray-400";
+                lBtn.className = tab === 'literasi' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm text-gray-400";
+                qBtn.className = tab === 'kuis' ? "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm tab-active" : "flex-1 flex items-center justify-center gap-2 py-3 rounded-[1rem] font-bold transition-all text-xs md:text-sm text-gray-400";
                 lucide.createIcons();
             },
 
@@ -617,15 +634,15 @@
                     const key = `${this.state.activeModule.id}_${idx}`;
                     const isDone = this.completedQuizzes[key];
                     const div = document.createElement('div');
-                    div.className = "bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm";
+                    div.className = "bg-white p-6 md:p-8 rounded-[2rem] border border-gray-100 shadow-sm";
                     div.innerHTML = `
                         <div class="flex justify-between items-start mb-6">
-                            <p class="font-black text-primary text-lg flex-1"><span class="text-sky/40 mr-2">Q${idx+1}</span> ${q.q}</p>
-                            ${isDone ? '<span class="bg-green-50 text-green-500 text-[9px] font-black px-2 py-1 rounded-lg">+20 XP</span>' : ''}
+                            <p class="font-black text-primary text-base md:text-lg flex-1"><span class="text-sky/40 mr-2">Q${idx+1}</span> ${q.q}</p>
+                            ${isDone ? '<span class="bg-green-50 text-green-500 text-[8px] md:text-[9px] font-black px-2 py-1 rounded-lg">+20 XP</span>' : ''}
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             ${q.options.map(opt => `
-                                <button onclick="app.checkAnswer(${this.state.activeModule.id}, ${idx}, '${opt}', '${q.ans}')" class="bg-gray-50 hover:bg-accent hover:text-white font-bold py-4 px-5 rounded-2xl border border-gray-100 text-left transition-all text-sm shadow-sm">${opt}</button>
+                                <button onclick="app.checkAnswer(${this.state.activeModule.id}, ${idx}, '${opt}', '${q.ans}')" class="bg-gray-50 hover:bg-accent hover:text-white font-bold py-3 md:py-4 px-4 md:px-5 rounded-2xl border border-gray-100 text-left transition-all text-xs md:text-sm shadow-sm">${opt}</button>
                             `).join('')}
                         </div>
                     `;
@@ -662,23 +679,35 @@
                 if(this.state.isSpeaking) {
                     window.speechSynthesis.cancel();
                     this.state.isSpeaking = false;
-                    btn.innerHTML = `<i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi`;
+                    btn.innerHTML = `<i data-lucide="play-circle" class="w-4 h-4"></i> Putar Materi`;
                 } else {
                     const ut = new SpeechSynthesisUtterance(this.state.activeModule.content);
                     ut.lang = 'id-ID';
                     ut.onend = () => {
                         this.state.isSpeaking = false;
-                        btn.innerHTML = `<i data-lucide="play-circle" class="w-5 h-5"></i> Putar Materi`;
+                        btn.innerHTML = `<i data-lucide="play-circle" class="w-4 h-4"></i> Putar Materi`;
                         lucide.createIcons();
                     };
                     window.speechSynthesis.speak(ut);
                     this.state.isSpeaking = true;
-                    btn.innerHTML = `<i data-lucide="square" class="w-5 h-5"></i> Hentikan Audio`;
+                    btn.innerHTML = `<i data-lucide="square" class="w-4 h-4"></i> Berhenti`;
                 }
                 lucide.createIcons();
             },
 
-            // --- PERBAIKAN INTEGRASI AI MENGGUNAKAN LOGIC PROGRAM BARU ---
+            // --- AI CONTENT FORMATTER (FIXING MESSY SYMBOLS) ---
+            formatBotResponse(text) {
+                // Remove Markdown bold symbols and replace with HTML tags
+                let formatted = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                // Remove Markdown header symbols
+                formatted = formatted.replace(/^###\s*(.*)/gm, '<b>$1</b>');
+                // Replace single asterisks/lists
+                formatted = formatted.replace(/^\*\s*(.*)/gm, '• $1');
+                // Format newlines into paragraphs
+                formatted = formatted.split('\n').filter(p => p.trim() !== '').map(p => `<p>${p}</p>`).join('');
+                return formatted;
+            },
+
             async handleChatSubmit(e) {
                 e.preventDefault();
                 const input = document.getElementById('chat-input');
@@ -687,7 +716,6 @@
                 
                 if(!userText || this.state.isChatting) return;
 
-                // Tampilkan pesan user
                 this.addChatMessage('user', userText);
                 input.value = '';
                 input.disabled = true;
@@ -696,29 +724,27 @@
                 this.state.hasChatted = true;
                 this.updateUI();
 
-                // Tampilkan indikator mengetik
                 const typingId = this.showTypingIndicator();
 
                 try {
                     this.state.chatHistory.push({ role: "user", content: userText });
 
-                    // Panggilan API Menggunakan Base URL & Key yang diberikan
                     const response = await fetch(KIMI_ENDPOINT, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + KIMI_API_KEY // Standard OpenAI format
+                            'Authorization': 'Bearer ' + KIMI_API_KEY
                         },
                         body: JSON.stringify({
                             model: "kimi-pro",
                             messages: [
-                                { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dalam Bahasa Indonesia yang informatif dan ramah." },
+                                { role: "system", content: "Kamu adalah EcoNeo Asisten Pintar, ahli literasi lingkungan. Jawablah dalam Bahasa Indonesia yang informatif, ramah, dan hindari penggunaan simbol markdown berlebihan seperti pagar atau bintang ganda yang tebal kecuali diperlukan." },
                                 ...this.state.chatHistory
                             ]
                         })
                     });
 
-                    if (!response.ok) throw new Error("Gagal terhubung ke AI. Pastikan Key valid dan Server Aktif.");
+                    if (!response.ok) throw new Error("Gagal terhubung ke AI.");
 
                     const data = await response.json();
                     const botContent = data.choices[0].message.content;
@@ -772,9 +798,12 @@
                 if (!box) return;
                 const div = document.createElement('div');
                 div.className = `flex flex-col ${sender === 'user' ? 'items-end' : 'items-start'} animate-fadeIn`;
+                
+                const content = sender === 'bot' ? this.formatBotResponse(text) : text;
+                
                 div.innerHTML = `
-                    <div class="max-w-[85%] p-5 rounded-3xl ${sender === 'user' ? 'bg-primary text-white rounded-tr-none shadow-xl' : 'bg-gray-100 text-primary rounded-tl-none border border-gray-50 shadow-sm'} text-sm md:text-base leading-relaxed font-medium">
-                        ${text}
+                    <div class="max-w-[90%] md:max-w-[85%] p-4 md:p-5 rounded-3xl ${sender === 'user' ? 'bg-primary text-white rounded-tr-none shadow-xl' : 'bg-gray-100 text-primary rounded-tl-none border border-gray-50 shadow-sm'} text-sm md:text-base leading-relaxed font-medium ai-message-content">
+                        ${content}
                     </div>
                 `;
                 box.appendChild(div);
@@ -792,18 +821,18 @@
                 const list = document.getElementById('leaderboard-list');
                 if (!list) return;
                 list.innerHTML = `
-                    <div class="p-5 flex items-center justify-between rounded-3xl bg-white border border-gray-100 shadow-sm animate-fadeIn">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center font-black text-white shadow-lg bg-accent rotate-1">
-                                <i data-lucide="user-check" class="w-6 h-6"></i>
+                    <div class="p-4 md:p-5 flex items-center justify-between rounded-3xl bg-white border border-gray-100 shadow-sm animate-fadeIn">
+                        <div class="flex items-center gap-3 md:gap-4">
+                            <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center font-black text-white shadow-lg bg-accent rotate-1">
+                                <i data-lucide="user-check" class="w-5 h-5 md:w-6 md:h-6"></i>
                             </div>
                             <div>
-                                <p class="font-black text-primary text-lg">${this.state.user.name} (Anda)</p>
-                                <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest">Peringkat 1 Sesi Ini</p>
+                                <p class="font-black text-primary text-sm md:text-lg">${this.state.user.name} (Anda)</p>
+                                <p class="text-gray-400 text-[8px] md:text-[10px] font-black uppercase tracking-widest">Peringkat 1 Sesi Ini</p>
                             </div>
                         </div>
-                        <div class="bg-gray-50 px-5 py-2.5 rounded-2xl border border-gray-100 shadow-inner">
-                            <p class="font-black text-primary text-lg">${this.state.xp} XP</p>
+                        <div class="bg-gray-50 px-4 md:px-5 py-2 md:py-2.5 rounded-2xl border border-gray-100 shadow-inner">
+                            <p class="font-black text-primary text-sm md:text-lg">${this.state.xp} XP</p>
                         </div>
                     </div>
                 `;
