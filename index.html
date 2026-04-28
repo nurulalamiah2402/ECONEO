@@ -87,6 +87,22 @@
         input, textarea, select {
             font-size: 16px !important;
         }
+
+        /* Float EXP Animation */
+        @keyframes floatExp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+        }
+        .exp-popup {
+            position: fixed;
+            color: #1E293B;
+            font-weight: 900;
+            font-size: 24px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatExp 1.5s ease-out forwards;
+        }
     </style>
 </head>
 <body class="text-nDark overflow-hidden h-screen w-full">
@@ -96,8 +112,20 @@
     <!-- ================= LOGIN SCREEN ================= -->
     <div id="login-screen" class="fixed inset-0 z-50 flex flex-col justify-center items-center bg-white/40 backdrop-blur-2xl transition-opacity duration-500 p-6">
         <div class="w-full max-w-sm md:max-w-md glass-panel p-8 rounded-[2.5rem] shadow-glass text-center modal-enter border-2 border-white/80">
-            <div class="w-24 h-24 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center mx-auto mb-6 shadow-float border-4 border-white">
-                <i class="ph-fill ph-planet text-5xl text-white"></i>
+            <div class="w-24 h-24 bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-[2rem] flex items-center justify-center mx-auto mb-6 shadow-2xl border-[3px] border-[#ADD8E6]/30 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-[#ADD8E6]/10 to-[#FFF4B3]/10"></div>
+                <svg viewBox="0 0 64 64" class="w-14 h-14 relative z-10 drop-shadow-md" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ADD8E6" />
+                            <stop offset="100%" stop-color="#FFF4B3" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Huruf E Elegan -->
+                    <path d="M 28 16 L 14 16 L 14 48 L 28 48 M 14 32 L 24 32" stroke="url(#logoGrad2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Huruf N Elegan bersambung -->
+                    <path d="M 38 48 L 38 16 L 52 48 L 52 16" stroke="url(#logoGrad2)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
             <h1 class="text-4xl font-black text-nDark mb-2 tracking-tight">EcoNeo</h1>
             <p class="text-sm text-gray-600 font-medium mb-8 leading-snug">Silakan masukkan nama Anda untuk memulai eksplorasi.</p>
@@ -107,7 +135,6 @@
                     <label class="block text-xs font-bold text-nDark mb-1.5 ml-2 uppercase tracking-wider">Nama Pengguna</label>
                     <input type="text" id="username-input" required placeholder="" class="w-full bg-white/90 p-4 rounded-2xl border-2 border-transparent outline-none focus:border-nBlue shadow-sm font-bold text-nDark transition-colors">
                 </div>
-                <!-- Tombol berubah warna saat di hover/disentuh -->
                 <button type="submit" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold shadow-float click-anim hover:bg-nBlue hover:text-nDark flex items-center justify-center gap-2 transition-all">
                     Mulai Eksplorasi <i class="ph-bold ph-arrow-right text-lg"></i>
                 </button>
@@ -137,128 +164,213 @@
         </header>
 
         <!-- KONTEN GULIR UTAMA -->
-        <main class="flex-1 overflow-y-auto px-4 md:px-8 pb-28 md:pb-32 hide-scroll w-full">
+        <main class="flex-1 overflow-y-auto px-4 md:px-8 pb-28 md:pb-32 hide-scroll w-full relative">
             
             <!-- 1. TAB BERANDA -->
             <div id="tab-beranda" class="tab-content active space-y-6 pt-2">
-                
                 <!-- Layanan Horizontal -->
                 <div class="w-full">
                     <div class="flex md:flex-wrap gap-3 md:justify-center overflow-x-auto hide-scroll pb-4 snap-x px-1">
-                        <!-- Info Beasiswa -->
                         <div onclick="openModal('modal-beasiswa')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink hover:bg-white/80">
                             <div class="w-12 h-12 md:w-14 md:h-14 bg-nPink/40 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-graduation-cap text-2xl md:text-3xl"></i></div>
                             <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Info<br>Beasiswa</span>
                         </div>
-                        <!-- Magang & Loker -->
                         <div onclick="openModal('modal-magang')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue hover:bg-white/80">
                             <div class="w-12 h-12 md:w-14 md:h-14 bg-nBlue/40 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-briefcase text-2xl md:text-3xl"></i></div>
                             <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Magang &<br>Loker</span>
                         </div>
-                        <!-- Volunteer -->
                         <div onclick="openModal('modal-volunteer')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nYellow hover:bg-white/80">
                             <div class="w-12 h-12 md:w-14 md:h-14 bg-nYellow/70 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-users-three text-2xl md:text-3xl"></i></div>
                             <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Volunteer<br>Kepanitiaan</span>
                         </div>
-                        <!-- Lost & Found -->
                         <div onclick="openModal('modal-lostfound'); renderLostFound()" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nSand hover:bg-white/80">
                             <div class="w-12 h-12 md:w-14 md:h-14 bg-nSand/60 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-magnifying-glass text-2xl md:text-3xl"></i></div>
                             <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Lost &<br>Found</span>
                         </div>
-                        <!-- Jadwal Kuliah -->
+                        <div onclick="openModal('modal-krs')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-file-text text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">KRS<br>Digital</span>
+                        </div>
                         <div onclick="openModal('modal-jadwal'); renderJadwal()" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink hover:bg-white/80">
                             <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-calendar text-2xl md:text-3xl"></i></div>
                             <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Jadwal<br>Kuliah</span>
                         </div>
-                        <!-- Event Kampus -->
-                        <div onclick="openModal('modal-event')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue hover:bg-white/80">
-                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-ticket text-2xl md:text-3xl"></i></div>
-                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Event<br>Kampus</span>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Forum Mahasiswa -->
-                <div class="glass-panel rounded-[2rem] p-5 md:p-8 shadow-sm w-full">
-                    <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
-                        <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum Kampus</h3>
-                        <button onclick="openModal('modal-forum'); renderForum()" class="text-sm bg-nDark text-white px-5 py-2 rounded-full font-bold click-anim hover:bg-nDark/80 shadow-sm">Buka Forum</button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Forum Mahasiswa -->
+                    <div class="glass-panel rounded-[2rem] p-5 md:p-8 shadow-sm w-full h-full">
+                        <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
+                            <h3 class="font-black text-xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum</h3>
+                            <button onclick="openModal('modal-forum'); renderForum()" class="text-sm bg-nDark text-white px-5 py-2 rounded-full font-bold click-anim hover:bg-nDark/80 shadow-sm">Buka</button>
+                        </div>
+                        <div class="space-y-4" id="forum-preview">
+                            <!-- Preview diisi lewat JS -->
+                        </div>
                     </div>
-                    <div class="space-y-4" id="forum-preview">
-                        <!-- Preview diisi lewat JS -->
+
+                    <!-- Event Kampus -->
+                    <div onclick="openModal('modal-event')" class="bg-gradient-to-br from-nBlue/50 to-nPink/30 rounded-[2rem] p-5 md:p-8 border border-white shadow-sm flex flex-col items-center text-center click-anim hover:shadow-md w-full justify-center">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-3"><i class="ph-fill ph-ticket text-4xl text-nBlue"></i></div>
+                        <span class="text-xs font-black tracking-widest text-nBlue/80 uppercase">Event Mendatang</span>
+                        <h3 class="font-bold text-xl mt-1 leading-tight">Seminar Industri 5.0 & AI</h3>
+                        <p class="text-sm text-gray-700 mt-2">Auditorium Utama • Besok, 09:00</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. TAB IZIN DIGITAL -->
-            <div id="tab-izin" class="tab-content space-y-4 pt-2">
-                <div class="glass-panel p-6 md:p-10 rounded-[2rem] text-center md:max-w-2xl md:mx-auto w-full">
-                    <div class="w-20 h-20 md:w-24 md:h-24 bg-nSand rounded-full mx-auto flex items-center justify-center mb-5 shadow-sm">
-                        <i class="ph-duotone ph-file-text text-4xl md:text-5xl text-nDark"></i>
+            <!-- 2. TAB PRESENSI GABUNGAN (PRESENSI & IZIN) -->
+            <div id="tab-presensigabungan" class="tab-content space-y-6 pt-2">
+                
+                <!-- Card Presensi Barcode -->
+                <div class="glass-panel p-6 md:p-8 rounded-[2rem] text-center shadow-sm w-full md:max-w-2xl md:mx-auto">
+                    <div class="w-20 h-20 bg-nSand rounded-full mx-auto flex items-center justify-center mb-4 shadow-sm border-2 border-white">
+                        <i class="ph-duotone ph-scan text-4xl text-nDark"></i>
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-black mb-2 text-nDark">Surat Izin Digital</h2>
-                    <p class="text-sm md:text-base text-gray-600 mb-8 px-2">Ajukan izin tidak masuk kelas. Unggah surat keterangan dokter atau bukti pendukung lainnya.</p>
+                    <h2 class="text-2xl font-black mb-2 text-nDark">Presensi Barcode</h2>
+                    <p class="text-sm text-gray-600 mb-6">Pindai barcode di layar kelas. Tombol absensi otomatis muncul setelah scan.</p>
                     
-                    <div class="text-left space-y-5">
-                        <input type="text" id="izin-alasan" placeholder="Keterangan Izin (Sakit, Acara Keluarga, dll)" class="w-full bg-white/90 p-4 md:p-5 rounded-2xl border-2 border-transparent outline-none focus:border-nPink text-base font-bold shadow-sm text-nDark">
+                    <button onclick="openModal('modal-scan')" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold shadow-float click-anim text-base flex items-center justify-center gap-2 hover:bg-nDark/90">
+                        <i class="ph-bold ph-barcode text-2xl"></i> Mulai Pindai Barcode
+                    </button>
+
+                    <!-- Daftar Kehadiran (Preview) -->
+                    <div class="mt-6 text-left border-t border-gray-200 pt-4">
+                        <h3 class="font-black text-sm mb-3 text-nDark">Daftar Kehadiran Kelas (A-Z)</h3>
+                        <div id="presensi-list" class="space-y-2 max-h-40 overflow-y-auto hide-scroll">
+                            <!-- Diisi via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Surat Izin Digital -->
+                <div class="bg-white/80 backdrop-blur-md p-6 md:p-8 rounded-[2rem] text-center shadow-sm w-full md:max-w-2xl md:mx-auto border border-white">
+                    <div class="w-16 h-16 bg-nPink/30 rounded-full mx-auto flex items-center justify-center mb-4 shadow-sm border border-nPink">
+                        <i class="ph-duotone ph-file-text text-3xl text-nDark"></i>
+                    </div>
+                    <h2 class="text-xl font-black mb-2 text-nDark">Surat Izin Digital</h2>
+                    <p class="text-sm text-gray-600 mb-6">Ajukan izin tidak masuk kelas. Lampirkan surat dokter atau bukti terkait.</p>
+                    
+                    <div class="text-left space-y-4">
+                        <input type="text" id="izin-alasan" placeholder="Keterangan Izin (Sakit, Acara Keluarga, dll)" class="w-full bg-white p-4 rounded-xl border border-gray-200 outline-none focus:border-nPink text-sm font-bold shadow-sm text-nDark">
                         
                         <div class="relative w-full">
-                            <!-- accept="image/*" membuka galeri/kamera standar -->
                             <input type="file" accept="image/*" id="izin-kamera" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleFotoIzin(event)">
-                            <div id="izin-btn-ui" class="w-full bg-nDark text-white py-4 md:py-5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-float transition-colors hover:bg-nDark/90 text-base md:text-lg">
-                                <i class="ph-bold ph-image text-xl md:text-2xl"></i> <span>Pilih Foto untuk Bukti</span>
+                            <div id="izin-btn-ui" class="w-full bg-gray-50 text-nDark py-4 rounded-xl font-bold flex items-center justify-center gap-2 border border-gray-200 transition-colors shadow-sm text-sm">
+                                <i class="ph-bold ph-image text-xl"></i> <span>Pilih Foto untuk Bukti</span>
                             </div>
                         </div>
 
-                        <img id="izin-preview" src="" class="hidden w-full h-56 md:h-64 object-cover rounded-2xl border-4 border-white shadow-md mt-2">
+                        <img id="izin-preview" src="" class="hidden w-full h-40 object-cover rounded-xl border-2 border-gray-200 shadow-sm mt-2">
 
-                        <button onclick="submitIzin()" class="w-full bg-nPink text-nDark py-4 md:py-5 rounded-2xl font-black click-anim shadow-float mt-4 hover:opacity-90 text-base md:text-lg uppercase tracking-wide">Kirim Pengajuan</button>
+                        <button onclick="submitIzin()" class="w-full bg-nPink text-nDark py-4 rounded-xl font-black click-anim shadow-sm mt-2 hover:opacity-90 text-base uppercase tracking-wide">Kirim Pengajuan Izin</button>
                     </div>
                 </div>
             </div>
 
             <!-- 3. TAB ECONEO ASISTEN (FULL SCREEN LAYOUT) -->
-            <div id="tab-assistant" class="tab-content h-full flex flex-col pt-0 w-full pb-24 md:pb-28">
-                <div class="bg-nBlue/40 p-6 md:p-8 pt-10 md:pt-14 rounded-[2rem] rounded-b-none border border-white text-center shadow-sm relative shrink-0">
-                    <h2 class="font-black text-2xl md:text-3xl flex justify-center items-center gap-2 text-nDark"><i class="ph-fill ph-robot text-nBlue"></i> EcoNeo Asisten</h2>
-                    <p class="text-xs md:text-sm font-bold text-nDark/70 mt-1 uppercase tracking-widest">AI Khusus Kampus</p>
-                </div>
-                <div class="flex-1 bg-white/80 backdrop-blur-md border border-white rounded-[2rem] rounded-t-none p-5 md:p-8 flex flex-col shadow-glass overflow-hidden">
-                    <div class="flex-1 overflow-y-auto space-y-5 md:space-y-6 mb-4 hide-scroll pr-2" id="chat-container">
-                        <div class="flex gap-3 md:gap-4">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-nBlue rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-robot text-white md:text-xl"></i></div>
-                            <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium leading-relaxed">
-                                Halo <span class="nama-user-text font-black text-nBlue"></span>! Saya EcoNeo, asisten AI eksklusif Anda. Tanyakan apa saja!
+            <div id="tab-assistant" class="tab-content h-full w-full pb-24 md:pb-28">
+                <div class="h-full flex flex-col pt-0">
+                    <div class="bg-nBlue/40 p-6 md:p-8 pt-10 md:pt-14 rounded-[2rem] rounded-b-none border border-white text-center shadow-sm relative shrink-0">
+                        <h2 class="font-black text-2xl md:text-3xl flex justify-center items-center gap-3 text-nDark">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center shadow-sm border-2 border-white">
+                                <i class="ph-fill ph-sparkle text-white text-xl md:text-2xl"></i>
+                            </div>
+                            EcoNeo Asisten
+                        </h2>
+                        <p class="text-xs md:text-sm font-bold text-nDark/70 mt-2 uppercase tracking-widest">AI Khusus Kampus</p>
+                    </div>
+                    <div class="flex-1 bg-white/80 backdrop-blur-md border border-white rounded-[2rem] rounded-t-none p-5 md:p-8 flex flex-col shadow-glass overflow-hidden">
+                        <div class="flex-1 overflow-y-auto space-y-5 md:space-y-6 mb-4 hide-scroll pr-2" id="chat-container">
+                            <div class="flex gap-3 md:gap-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white">
+                                    <i class="ph-fill ph-sparkle text-white md:text-xl"></i>
+                                </div>
+                                <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium leading-relaxed">
+                                    Halo <span class="nama-user-text font-black text-nBlue"></span>! Saya EcoNeo, asisten AI eksklusif Anda. Tanyakan apa saja!
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="relative shrink-0 mt-2">
-                        <input type="text" id="chat-input" placeholder="Tulis pesan..." class="w-full bg-white border border-gray-200 py-4 md:py-5 pl-5 pr-16 md:pr-20 rounded-full outline-none focus:border-nBlue text-base md:text-lg font-bold shadow-sm" onkeypress="if(event.key === 'Enter') sendChat()">
-                        <button onclick="sendChat()" class="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-nDark text-nYellow rounded-full flex items-center justify-center click-anim shadow-md hover:bg-nDark/80">
-                            <i class="ph-bold ph-paper-plane-right text-lg md:text-xl"></i>
-                        </button>
+                        <div class="relative shrink-0 mt-2">
+                            <input type="text" id="chat-input" placeholder="Tulis pesan..." class="w-full bg-white border border-gray-200 py-4 md:py-5 pl-5 pr-16 md:pr-20 rounded-full outline-none focus:border-nBlue text-base md:text-lg font-bold shadow-sm" onkeypress="if(event.key === 'Enter') sendChat()">
+                            <button onclick="sendChat()" class="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-nDark text-nYellow rounded-full flex items-center justify-center click-anim shadow-md hover:bg-nDark/80">
+                                <i class="ph-bold ph-paper-plane-right text-lg md:text-xl"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 4. TAB PRESENSI -->
-            <div id="tab-presensi" class="tab-content space-y-5 pt-2 w-full">
-                <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] text-center shadow-sm md:max-w-2xl md:mx-auto">
-                    <div class="w-24 h-24 md:w-28 md:h-28 bg-nSand rounded-3xl rotate-3 mx-auto flex items-center justify-center mb-6 shadow-sm border-4 border-white">
-                        <i class="ph-duotone ph-check-square-offset text-5xl md:text-6xl text-nDark -rotate-3"></i>
+            <!-- 4. TAB GREEN CAMPUS -->
+            <div id="tab-greencampus" class="tab-content space-y-6 pt-2">
+                <!-- Level & EXP Header -->
+                <div class="bg-gradient-to-br from-nBlue to-nSand rounded-[2rem] p-6 shadow-sm border border-white relative overflow-hidden">
+                    <div class="relative z-10 flex justify-between items-center mb-4">
+                        <div>
+                            <p class="text-xs font-bold text-nDark uppercase tracking-widest">Level Pengguna</p>
+                            <h2 class="text-3xl font-black text-nDark mt-1">Lvl <span id="gc-level">1</span></h2>
+                        </div>
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-md">
+                            <i class="ph-fill ph-leaf text-3xl text-nDark"></i>
+                        </div>
                     </div>
-                    <h2 class="text-2xl md:text-3xl font-black mb-2 text-nDark">Presensi Barcode</h2>
-                    <p class="text-sm md:text-base text-gray-600 mb-8 px-4">Pindai barcode di layar kelas. Tombol absensi otomatis muncul setelah scan.</p>
-                    
-                    <button onclick="openModal('modal-scan')" class="w-full bg-nDark text-white py-4 md:py-5 rounded-2xl font-bold shadow-float click-anim text-base md:text-lg flex items-center justify-center gap-2 hover:bg-nDark/90">
-                        <i class="ph-bold ph-barcode text-2xl"></i> Mulai Pindai Barcode
-                    </button>
+                    <div class="relative z-10">
+                        <div class="flex justify-between text-xs font-bold text-nDark mb-1.5">
+                            <span id="gc-exp-text">0 EXP</span>
+                            <span id="gc-exp-target">100 EXP</span>
+                        </div>
+                        <div class="w-full bg-white/50 h-3 rounded-full overflow-hidden shadow-inner border border-white/50">
+                            <div id="gc-progress" class="bg-nDark h-full w-0 transition-all duration-500 rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
                 </div>
 
-                <div class="bg-white/90 p-6 md:p-8 rounded-[2rem] border border-white shadow-sm md:max-w-4xl md:mx-auto">
-                    <h3 class="font-black text-base md:text-lg mb-5 text-nDark">Daftar Kehadiran Kelas</h3>
-                    <div id="presensi-list" class="space-y-3 md:space-y-4 grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-0">
-                        <!-- Diisi via JS (Diurutkan A-Z) -->
+                <!-- Grid Aksi (Bento) -->
+                <div class="grid grid-cols-3 gap-3 md:gap-5">
+                    <div onclick="openGCAction('sampah')" class="bg-white shadow-sm border border-gray-100 flex flex-col items-center justify-center p-4 md:p-6 text-center click-anim hover:bg-gray-50 rounded-[1.5rem]">
+                        <div class="w-14 h-14 bg-nYellow/40 rounded-full flex items-center justify-center mb-3"><i class="ph-duotone ph-recycle text-3xl text-nDark"></i></div>
+                        <h4 class="font-black text-xs md:text-sm text-nDark">Kelola Sampah</h4>
+                    </div>
+                    <div onclick="openGCAction('penghijauan')" class="bg-white shadow-sm border border-gray-100 flex flex-col items-center justify-center p-4 md:p-6 text-center click-anim hover:bg-gray-50 rounded-[1.5rem]">
+                        <div class="w-14 h-14 bg-nSand/50 rounded-full flex items-center justify-center mb-3"><i class="ph-duotone ph-plant text-3xl text-nDark"></i></div>
+                        <h4 class="font-black text-xs md:text-sm text-nDark">Penghijauan</h4>
+                    </div>
+                    <div onclick="openGCAction('listrik')" class="bg-white shadow-sm border border-gray-100 flex flex-col items-center justify-center p-4 md:p-6 text-center click-anim hover:bg-gray-50 rounded-[1.5rem]">
+                        <div class="w-14 h-14 bg-nBlue/40 rounded-full flex items-center justify-center mb-3"><i class="ph-duotone ph-lightning text-3xl text-nDark"></i></div>
+                        <h4 class="font-black text-xs md:text-sm text-nDark">Hemat Energi</h4>
+                    </div>
+                </div>
+
+                <!-- Dashboard Dampak -->
+                <div class="glass-panel rounded-[2rem] p-6 shadow-sm">
+                    <h3 class="font-black text-lg mb-4 text-nDark">Dampak Ekologimu</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-plant text-xl text-nSand"></i> <span class="text-sm font-bold">Pohon Ditanam</span>
+                            </div>
+                            <h4 class="font-black text-lg" id="stat-pohon">0</h4>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-recycle text-xl text-nYellow"></i> <span class="text-sm font-bold">Sampah Dikelola</span>
+                            </div>
+                            <h4 class="font-black text-lg" id="stat-sampah">0</h4>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-lightning text-xl text-nBlue"></i> <span class="text-sm font-bold">Aksi Hemat Energi</span>
+                            </div>
+                            <h4 class="font-black text-lg" id="stat-energi">0</h4>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-file-text text-xl text-nPink"></i> <span class="text-sm font-bold">Kertas Dihemat</span>
+                            </div>
+                            <h4 class="font-black text-lg" id="stat-kertas">0</h4>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -302,20 +414,20 @@
                 <i class="ph-fill ph-house text-2xl md:text-3xl nav-icon transition-transform"></i>
                 <span class="text-[10px] md:text-xs font-bold mt-0.5">Beranda</span>
             </button>
-            <button onclick="switchTab('izin')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="izin">
-                <i class="ph ph-file-text text-2xl md:text-3xl nav-icon transition-transform"></i>
-                <span class="text-[10px] md:text-xs font-bold mt-0.5">Izin</span>
+            <button onclick="switchTab('presensigabungan')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="presensigabungan">
+                <i class="ph ph-check-square-offset text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Presensi</span>
             </button>
             <button onclick="switchTab('assistant')" class="nav-btn flex flex-col items-center flex-1 click-anim text-gray-400 -translate-y-6 md:-translate-y-8 hover:opacity-90" data-target="assistant">
-                <div class="bg-nDark text-nYellow w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(30,41,59,0.3)] border-4 border-white transition-transform relative">
-                    <div class="absolute inset-0 rounded-full bg-nDark animate-ping opacity-20"></div>
-                    <i class="ph-fill ph-robot text-3xl nav-icon relative z-10"></i>
+                <div class="bg-gradient-to-tr from-nBlue to-nPink text-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(255,196,218,0.6)] border-4 border-white transition-transform relative">
+                    <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-nBlue to-nPink animate-ping opacity-30"></div>
+                    <i class="ph-fill ph-sparkle text-3xl nav-icon relative z-10 text-white"></i>
                 </div>
                 <span class="text-[10px] md:text-xs font-bold mt-1.5 text-nDark">Asisten</span>
             </button>
-            <button onclick="switchTab('presensi')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="presensi">
-                <i class="ph ph-check-square-offset text-2xl md:text-3xl nav-icon transition-transform"></i>
-                <span class="text-[10px] md:text-xs font-bold mt-0.5">Presensi</span>
+            <button onclick="switchTab('greencampus')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="greencampus">
+                <i class="ph ph-leaf text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Green Campus</span>
             </button>
             <button onclick="switchTab('profil')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="profil">
                 <i class="ph ph-user-circle text-2xl md:text-3xl nav-icon transition-transform"></i>
@@ -324,7 +436,7 @@
         </nav>
     </div>
 
-    <!-- ================= KUMPULAN MODAL (BOTTOM SHEETS DI HP, CENTER DI DESKTOP) ================= -->
+    <!-- ================= KUMPULAN MODAL (BOTTOM SHEETS & POPUPS) ================= -->
     
     <!-- 1. Notifikasi Panel -->
     <div id="notif-panel" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
@@ -384,19 +496,44 @@
                 <button onclick="closeModal('modal-magang')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
             <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
-                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md">
+                
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
-                        <div class="flex gap-4 items-center mb-4">
-                            <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-sm">T</div>
-                            <div>
-                                <h4 class="font-black text-base md:text-lg leading-tight">Product Manager Intern</h4>
-                                <p class="text-xs text-gray-500 mt-1">Tokopedia • Jakarta (Hybrid)</p>
-                            </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] md:text-xs font-black bg-blue-100 text-blue-800 px-3 py-1.5 rounded-lg uppercase tracking-widest">Kampus Merdeka (MSIB)</span>
+                            <i class="ph-fill ph-check-circle text-blue-500 text-xl"></i>
                         </div>
-                        <p class="text-sm text-gray-600 mb-4">Dicari mahasiswa tingkat akhir. Paid internship dengan benefit lengkap.</p>
+                        <h4 class="font-black text-lg mt-1">Data Scientist Intern</h4>
+                        <p class="text-xs text-gray-500 mt-1">Telkom Indonesia • Bandung (Hybrid)</p>
+                        <p class="text-sm text-gray-600 mt-3 mb-4 leading-relaxed">Program resmi Kemdikbud. Dapatkan konversi 20 SKS dan uang saku bulanan.</p>
                     </div>
-                    <button class="w-full bg-nBlue/20 text-blue-800 border border-nBlue py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nBlue/30" onclick="actionLamarCepat('Product Manager Intern, Tokopedia')">Lamar Cepat (Auto-CV)</button>
+                    <a href="https://kampusmerdeka.kemdikbud.go.id/" target="_blank" class="w-full text-center bg-nBlue/20 text-blue-800 border border-nBlue py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nBlue/30">Buka Portal MSIB</a>
                 </div>
+
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] md:text-xs font-black bg-purple-100 text-purple-800 px-3 py-1.5 rounded-lg uppercase tracking-widest">Glints Indonesia</span>
+                        </div>
+                        <h4 class="font-black text-lg mt-1">Social Media Specialist</h4>
+                        <p class="text-xs text-gray-500 mt-1">Ruangguru • Jakarta Selatan (WFO)</p>
+                        <p class="text-sm text-gray-600 mt-3 mb-4 leading-relaxed">Paid internship 3 bulan. Terbuka untuk mahasiswa tingkat akhir semua jurusan.</p>
+                    </div>
+                    <a href="https://glints.com/id" target="_blank" class="w-full text-center bg-purple-600 text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-purple-700">Lamar via Glints</a>
+                </div>
+
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] md:text-xs font-black bg-blue-100 text-blue-800 px-3 py-1.5 rounded-lg uppercase tracking-widest">Kalibrr / LinkedIn</span>
+                        </div>
+                        <h4 class="font-black text-lg mt-1">UI/UX Designer (Entry Level)</h4>
+                        <p class="text-xs text-gray-500 mt-1">Gojek Tech • Remote</p>
+                        <p class="text-sm text-gray-600 mt-3 mb-4 leading-relaxed">Bergabung dengan tim desain Gojek. Portofolio diperlukan untuk melamar.</p>
+                    </div>
+                    <a href="https://www.kalibrr.com/id" target="_blank" class="w-full text-center bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90">Buka di Kalibrr</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -425,14 +562,34 @@
                 <button onclick="closeModal('modal-volunteer')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
             <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
-                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md">
+                
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
-                        <span class="text-[10px] md:text-xs font-black bg-nYellow/60 text-yellow-800 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-2">Open Recruitment</span>
-                        <h4 class="font-black text-lg mt-3">Panitia Ospek / PKKMB 2026</h4>
-                        <p class="text-sm text-gray-600 mt-2 mb-4 leading-relaxed">Dibutuhkan divisi Acara, Humas, Pubdekdok. Tambah relasi dan pengalaman organisasimu!</p>
+                        <span class="text-[10px] md:text-xs font-black bg-blue-100 text-blue-800 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-2">UNICEF Indonesia</span>
+                        <h4 class="font-black text-lg mt-3">Relawan Edukasi Anak</h4>
+                        <p class="text-sm text-gray-600 mt-2 mb-4 leading-relaxed">Berikan dampak langsung dengan mengajar dan mendampingi anak-anak di daerah pelosok.</p>
                     </div>
-                    <button class="w-full bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90" onclick="actionGabungKepanitiaan('Panitia Ospek')">Gabung Kepanitiaan</button>
+                    <a href="https://www.unicef.org/indonesia/id/relawan" target="_blank" class="w-full text-center bg-blue-500 text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-blue-600">Buka Web Pendaftaran</a>
                 </div>
+
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <span class="text-[10px] md:text-xs font-black bg-green-100 text-green-800 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-2">Indorelawan.org</span>
+                        <h4 class="font-black text-lg mt-3">Aksi Bersih Pantai Jakarta</h4>
+                        <p class="text-sm text-gray-600 mt-2 mb-4 leading-relaxed">Jadilah pahlawan lingkungan! Bergabung bersama 500 relawan lainnya membersihkan pesisir utara.</p>
+                    </div>
+                    <a href="https://www.indorelawan.org/" target="_blank" class="w-full text-center bg-green-600 text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-green-700">Daftar di Indorelawan</a>
+                </div>
+
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <span class="text-[10px] md:text-xs font-black bg-orange-100 text-orange-800 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-2">Kemdikbud RI</span>
+                        <h4 class="font-black text-lg mt-3">Kampus Mengajar Angkatan 8</h4>
+                        <p class="text-sm text-gray-600 mt-2 mb-4 leading-relaxed">Bantu peningkatan literasi & numerasi di sekolah dasar seluruh Indonesia.</p>
+                    </div>
+                    <a href="https://kampusmerdeka.kemdikbud.go.id/program/mengajar" target="_blank" class="w-full text-center bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90">Buka Portal Resmi</a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -585,7 +742,7 @@
         <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-forum')"></div>
         <div class="bg-white w-full md:max-w-lg mx-auto h-[90vh] md:h-auto md:max-h-[90vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
             <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum Kampus</h3>
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum</h3>
                 <button onclick="closeModal('modal-forum')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
             
@@ -685,6 +842,21 @@
         </div>
     </div>
 
+    <!-- 12. Modal Green Campus (Actions) -->
+    <div id="modal-gc-action" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-gc-action')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl text-nDark" id="gc-action-title">Aksi</h3>
+                <button onclick="closeModal('modal-gc-action')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80" id="gc-action-content">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Alert Global -->
     <div id="global-alert" class="fixed top-12 left-1/2 transform -translate-x-1/2 bg-nDark text-white px-6 py-3.5 rounded-full font-bold shadow-float z-[100] transition-all duration-300 opacity-0 -translate-y-10 flex items-center gap-2 pointer-events-none whitespace-nowrap">
         <i class="ph-fill ph-check-circle text-nYellow text-2xl"></i> <span id="alert-msg" class="text-base">Sukses!</span>
@@ -698,8 +870,14 @@
         let presensiData = ["Citra Kirana", "Budi Santoso", "Zaki Ahmad"]; 
         let notifications = [];
 
+        // Green Campus State
+        let userEXP = 0;
+        let userLevel = 1;
+        let expTarget = 100;
+        let gcStats = { pohon: 0, sampah: 0, energi: 0, kertas: 0 };
+
         let forumPosts = [
-            { id: 1, user: 'Dina F.', text: 'Ada yang punya catatan PPT Matkul Jaringan gak? Bagi dong pls 😭', img: null, time: '5 mnt lalu', replies: [
+            { id: 1, user: 'Dina F.', text: 'Ada yang punya catatan PPT Matkul Jaringan gak? Bagi dong pls 😭', img: null, time: '5 mnt lalu', likes: 12, shares: 3, likedByMe: false, replies: [
                 { user: 'Budi S.', text: 'Nih aku ada PDF nya, baru aja bikin.' }
             ]}
         ];
@@ -743,6 +921,7 @@
                 renderForum();
                 renderLostFound();
                 renderPresensi(); 
+                updateGreenUI();
             }, 500);
         }
 
@@ -768,11 +947,11 @@
                 if (btn.dataset.target === tabId) {
                     btn.classList.add('text-nDark');
                     btn.classList.remove('text-gray-400');
-                    icon.classList.replace('ph', 'ph-fill');
+                    if(tabId !== 'assistant') icon.classList.replace('ph', 'ph-fill');
                 } else {
                     btn.classList.remove('text-nDark');
                     btn.classList.add('text-gray-400');
-                    icon.classList.replace('ph-fill', 'ph');
+                    if(btn.dataset.target !== 'assistant') icon.classList.replace('ph-fill', 'ph');
                 }
             });
         }
@@ -829,6 +1008,7 @@
             });
         }
 
+        // IZIN & PRESENSI
         function handleFotoIzin(event) {
             const file = event.target.files[0];
             if (file) {
@@ -837,9 +1017,9 @@
                     const preview = document.getElementById('izin-preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-check text-xl"></i> <span>Foto Bukti Tersimpan</span>`;
-                    document.getElementById('izin-btn-ui').classList.replace('bg-nDark', 'bg-nBlue');
-                    document.getElementById('izin-btn-ui').classList.replace('text-white', 'text-nDark');
+                    document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-check text-xl"></i> <span>Foto Bukti Terpilih</span>`;
+                    document.getElementById('izin-btn-ui').classList.replace('bg-gray-50', 'bg-nBlue');
+                    document.getElementById('izin-btn-ui').classList.replace('text-nDark', 'text-nDark');
                 }
                 reader.readAsDataURL(file);
             }
@@ -849,7 +1029,7 @@
             const alasan = document.getElementById('izin-alasan').value;
             const preview = document.getElementById('izin-preview');
             if(!alasan) return showAlert("Keterangan izin wajib diisi!");
-            if(preview.classList.contains('hidden')) return showAlert("Mohon lampirkan foto surat keterangan/bukti.");
+            if(preview.classList.contains('hidden')) return showAlert("Mohon pilih foto surat bukti.");
             
             addNotification("Izin Diproses", "Izin sedang divalidasi oleh sistem akademik.", "ph-file-text", "text-nBlue");
             
@@ -857,37 +1037,8 @@
             preview.classList.add('hidden');
             preview.src = '';
             document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-image text-xl"></i> <span>Pilih Foto untuk Bukti</span>`;
-            document.getElementById('izin-btn-ui').classList.replace('bg-nBlue', 'bg-nDark');
-            document.getElementById('izin-btn-ui').classList.replace('text-nDark', 'text-white');
+            document.getElementById('izin-btn-ui').classList.replace('bg-nBlue', 'bg-gray-50');
             showAlert("Izin berhasil terkirim!");
-        }
-
-        function sendChat() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if(!text) return;
-            const chatContainer = document.getElementById('chat-container');
-            chatContainer.innerHTML += `
-                <div class="flex gap-3 md:gap-4 flex-row-reverse">
-                    <div class="w-10 h-10 md:w-12 md:h-12 bg-nDark text-white rounded-full flex items-center justify-center shadow-sm shrink-0 text-sm font-bold border-2 border-white">${userName.charAt(0)}</div>
-                    <div class="bg-nDark text-white p-4 md:p-5 rounded-2xl rounded-tr-none shadow-sm text-sm md:text-base max-w-[85%] md:max-w-[75%] font-medium">
-                        ${text}
-                    </div>
-                </div>
-            `;
-            input.value = '';
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            setTimeout(() => {
-                chatContainer.innerHTML += `
-                    <div class="flex gap-3 md:gap-4">
-                        <div class="w-10 h-10 md:w-12 md:h-12 bg-nBlue rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-robot text-white md:text-xl"></i></div>
-                        <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium">
-                            Tentu ${userName}. Saya siap memproses informasi terkait "${text}".
-                        </div>
-                    </div>
-                `;
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }, 800);
         }
 
         function renderPresensi() {
@@ -926,35 +1077,274 @@
             }
         }
 
-        function changeAvatar(event) {
+        // GREEN CAMPUS LOGIC (EXP & LEVEL)
+        function updateGreenUI() {
+            document.getElementById('gc-level').innerText = userLevel;
+            document.getElementById('gc-exp-text').innerText = `${userEXP} EXP`;
+            document.getElementById('gc-exp-target').innerText = `${expTarget} EXP`;
+            
+            let percent = Math.min((userEXP / expTarget) * 100, 100);
+            document.getElementById('gc-progress').style.width = `${percent}%`;
+
+            document.getElementById('stat-pohon').innerText = gcStats.pohon;
+            document.getElementById('stat-sampah').innerText = gcStats.sampah;
+            document.getElementById('stat-energi').innerText = gcStats.energi;
+            document.getElementById('stat-kertas').innerText = gcStats.kertas;
+        }
+
+        function showExpFloat(amount) {
+            const floatEl = document.createElement('div');
+            floatEl.className = 'exp-popup';
+            floatEl.innerText = `+${amount} EXP`;
+            floatEl.style.left = '50%';
+            floatEl.style.top = '50%';
+            floatEl.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(floatEl);
+            setTimeout(() => { floatEl.remove(); }, 1500);
+        }
+
+        function addEXP(amount, actionName, statType) {
+            userEXP += amount;
+            if(statType) gcStats[statType]++;
+            
+            let leveledUp = false;
+            if (userEXP >= expTarget) {
+                userLevel++;
+                userEXP -= expTarget;
+                expTarget = userLevel * 100;
+                leveledUp = true;
+            }
+            
+            updateGreenUI();
+            showExpFloat(amount);
+            
+            if(leveledUp) {
+                addNotification("Level Up!", `Selamat! Kamu mencapai Level ${userLevel} di Green Campus.`, "ph-star", "text-nYellow");
+                showAlert(`🎉 Naik ke Level ${userLevel}!`);
+            } else {
+                showAlert(`+${amount} EXP - ${actionName}`);
+            }
+            closeModal('modal-gc-action');
+        }
+
+        function openGCAction(type) {
+            const titleEl = document.getElementById('gc-action-title');
+            const contentEl = document.getElementById('gc-action-content');
+            let contentHtml = '';
+
+            if (type === 'penghijauan') {
+                titleEl.innerHTML = `<i class="ph-fill ph-plant text-nSand"></i> Penghijauan`;
+                contentHtml = `
+                    <div class="text-center">
+                        <div class="relative w-full h-48 bg-nSand/20 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-nSand click-anim cursor-pointer hover:bg-nSand/40 transition-colors">
+                            <input type="file" accept="image/*" capture="environment" id="green-kamera" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleGreenScan(event)">
+                            <i id="green-icon" class="ph-duotone ph-camera text-5xl text-nDark"></i>
+                            <span id="green-text" class="text-sm font-bold text-nDark mt-2">Ambil Foto / Upload Tanaman</span>
+                            <img id="green-preview" src="" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl z-0">
+                        </div>
+                        <div class="mt-4 bg-white p-3 md:p-4 rounded-xl border border-gray-100 flex flex-col items-start gap-2 text-sm text-gray-600 text-left shadow-sm">
+                            <div class="flex items-center justify-between w-full">
+                                <span class="font-black text-nDark text-xs uppercase tracking-widest"><i class="ph-fill ph-map-pin"></i> Data Lokasi (GPS)</span>
+                                <button onclick="getGPSLocation()" class="text-[10px] bg-nBlue/20 text-blue-800 px-3 py-1.5 rounded-lg font-bold hover:bg-nBlue/40 transition-colors">Deteksi Ulang</button>
+                            </div>
+                            <p id="gps-status" class="text-xs mt-1 animate-pulse text-gray-400 font-medium">Meminta izin lokasi...</p>
+                        </div>
+                        <button id="btn-submit-green" disabled onclick="addEXP(20, 'Berkontribusi pada lingkungan!', 'pohon')" class="w-full bg-gray-300 text-gray-500 py-4 rounded-xl font-bold mt-5 transition-colors text-lg shadow-sm">Kirim Laporan Penghijauan</button>
+                    </div>
+                `;
+                setTimeout(getGPSLocation, 300);
+            } 
+            else if (type === 'sampah') {
+                titleEl.innerHTML = `<i class="ph-fill ph-recycle text-nYellow"></i> Pengelolaan Sampah`;
+                contentHtml = `
+                    <div class="text-center">
+                        <p class="text-sm font-bold mb-3 text-nDark">Deteksi Kategori Sampah Otomatis</p>
+                        <div class="relative w-full h-48 bg-gray-50 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300 click-anim hover:bg-gray-100 transition-colors cursor-pointer">
+                            <input type="file" accept="image/*" capture="environment" id="sampah-kamera" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleSampahScan(event)">
+                            <i id="sampah-icon" class="ph-duotone ph-camera text-4xl text-gray-500"></i>
+                            <span id="sampah-text" class="text-sm font-bold text-gray-500 mt-2">Buka Kamera / Upload File</span>
+                            <img id="sampah-preview" src="" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl z-0">
+                            
+                            <div id="sampah-loading" class="hidden absolute inset-0 bg-nDark/80 rounded-2xl flex flex-col items-center justify-center z-20 backdrop-blur-sm">
+                                <i class="ph-bold ph-spinner-gap animate-spin text-white text-4xl mb-3"></i>
+                                <span class="text-white text-sm font-bold tracking-widest uppercase">Menganalisis AI...</span>
+                            </div>
+                        </div>
+                        <div id="sampah-result" class="hidden mt-4 bg-green-50 p-4 rounded-xl border border-green-200 text-left shadow-sm">
+                            <p class="text-[10px] text-green-600 font-black uppercase tracking-widest mb-1 flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Hasil Deteksi AI</p>
+                            <h4 id="sampah-category" class="font-black text-xl text-green-800">Organik</h4>
+                            <p class="text-xs text-green-700 mt-1 font-medium">Sistem mendeteksi komposisi yang sesuai. +10 EXP</p>
+                        </div>
+                        <button id="btn-submit-sampah" disabled onclick="addEXP(10, 'Sampah berhasil dikelola!', 'sampah')" class="w-full bg-gray-300 text-gray-500 py-4 rounded-xl font-bold mt-5 transition-colors text-lg shadow-sm">Upload & Dapatkan EXP</button>
+                    </div>
+                `;
+            }
+            else if (type === 'listrik') {
+                titleEl.innerHTML = `<i class="ph-fill ph-lightning text-nBlue"></i> Hemat Energi`;
+                contentHtml = `
+                    <p class="text-sm font-bold mb-4 text-nDark text-center">Pilih aktivitas hemat energi yang Anda lakukan hari ini.</p>
+                    <div class="space-y-3 h-[50vh] overflow-y-auto hide-scroll pr-2 pb-6">
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-lightbulb text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Matikan Lampu Ruangan / Kelas</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-wind text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Matikan AC Kelas Setelah Selesai</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-plug text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Cabut Charger Saat Tidak Dipakai</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-bicycle text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Naik Sepeda / Transportasi Umum</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-drop text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Hemat Penggunaan Air (Keran/Toilet)</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-laptop text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Aktifkan Sleep Mode pada PC/Laptop</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                        <div onclick="addEXP(15, 'Kamu hemat energi!', 'energi')" class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                            <div class="flex items-center gap-3"><div class="w-10 h-10 bg-nBlue/20 rounded-xl flex items-center justify-center shrink-0"><i class="ph-fill ph-coffee text-xl text-nBlue"></i></div><span class="font-bold text-sm leading-snug">Bawa Tumbler & Kotak Makan Sendiri</span></div>
+                            <i class="ph-bold ph-plus-circle text-2xl text-nDark"></i>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            contentEl.innerHTML = contentHtml;
+            openModal('modal-gc-action');
+        }
+
+        // FORUM
+        function renderForum() {
+            const feedFull = document.getElementById('forum-feed-full');
+            const feedPrev = document.getElementById('forum-preview');
+            let html = '';
+            
+            [...forumPosts].reverse().forEach(post => {
+                let repliesHtml = '';
+                post.replies.forEach(rep => {
+                    repliesHtml += `
+                        <div class="flex gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 text-xs flex justify-center items-center font-bold shrink-0 border border-white shadow-sm">${rep.user.charAt(0)}</div>
+                            <div class="bg-gray-50 p-3.5 rounded-2xl rounded-tl-none w-full border border-gray-100">
+                                <p class="text-sm font-black mb-0.5 text-nDark">${rep.user}</p>
+                                <p class="text-[13px] text-gray-700 font-medium">${rep.text}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    <div class="bg-white p-5 md:p-6 rounded-[2rem] border border-gray-100 shadow-sm mb-5 transition-all hover:shadow-md">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-nBlue to-nPink text-white flex justify-center items-center font-black text-xl shadow-sm border-2 border-white">${post.user.charAt(0)}</div>
+                                <div>
+                                    <p class="text-base font-black leading-none text-nDark flex items-center gap-1">${post.user} <i class="ph-fill ph-seal-check text-blue-500 text-sm"></i></p>
+                                    <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-1">${post.time} • <i class="ph-bold ph-globe-hemisphere-west"></i></p>
+                                </div>
+                            </div>
+                            <button class="text-gray-400 hover:text-nDark click-anim"><i class="ph-bold ph-dots-three text-2xl"></i></button>
+                        </div>
+                        
+                        <p class="text-[15px] font-medium mb-4 text-nDark leading-relaxed">${post.text}</p>
+                        ${post.img ? `<img src="${post.img}" class="w-full max-h-72 object-cover rounded-2xl mb-4 border border-gray-100 shadow-sm">` : ''}
+                        
+                        <!-- X / Instagram Style Interaction Bar -->
+                        <div class="flex items-center justify-between py-3 border-y border-gray-100 mb-4">
+                            <div class="flex gap-6">
+                                <button onclick="toggleLike(${post.id})" class="flex items-center gap-1.5 ${post.likedByMe ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-colors click-anim">
+                                    <i class="${post.likedByMe ? 'ph-fill' : 'ph-bold'} ph-heart text-2xl"></i>
+                                    <span class="text-sm font-bold">${post.likes}</span>
+                                </button>
+                                <button class="flex items-center gap-1.5 text-gray-500 hover:text-nBlue transition-colors click-anim" onclick="document.getElementById('reply-${post.id}').focus()">
+                                    <i class="ph-bold ph-chat-circle text-2xl"></i>
+                                    <span class="text-sm font-bold">${post.replies.length}</span>
+                                </button>
+                                <button class="flex items-center gap-1.5 text-gray-500 hover:text-green-500 transition-colors click-anim">
+                                    <i class="ph-bold ph-arrows-left-right text-2xl"></i>
+                                    <span class="text-sm font-bold">${post.shares}</span>
+                                </button>
+                            </div>
+                            <div class="text-gray-400 click-anim"><i class="ph-bold ph-bookmark-simple text-2xl hover:text-nDark cursor-pointer"></i></div>
+                        </div>
+
+                        <div class="space-y-1">
+                            ${repliesHtml}
+                            <div class="flex gap-2 items-center mt-3 relative">
+                                <div class="w-9 h-9 rounded-full bg-nDark text-white flex justify-center items-center font-bold shrink-0 text-sm shadow-sm">${userName.charAt(0)}</div>
+                                <input type="text" placeholder="Tambahkan komentar..." class="w-full bg-gray-50 border border-transparent focus:border-nBlue focus:bg-white py-3.5 pl-4 pr-12 rounded-full text-sm font-medium outline-none transition-all shadow-inner" id="reply-${post.id}" onkeypress="if(event.key === 'Enter') replyForum(${post.id})">
+                                <button onclick="replyForum(${post.id})" class="absolute right-2 text-nBlue p-2 click-anim hover:text-blue-600"><i class="ph-bold ph-paper-plane-right text-xl"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if(feedFull) feedFull.innerHTML = html;
+            
+            if(feedPrev && forumPosts.length > 0) {
+                const latest = forumPosts[forumPosts.length-1];
+                feedPrev.innerHTML = `
+                    <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-white flex flex-col gap-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-nDark text-xs flex justify-center items-center font-bold text-white">${latest.user.charAt(0)}</div>
+                                <span class="text-xs md:text-sm font-black flex items-center gap-1">${latest.user} <i class="ph-fill ph-seal-check text-blue-500 text-[10px]"></i></span>
+                            </div>
+                            <span class="text-[10px] text-gray-500 font-bold">${latest.time}</span>
+                        </div>
+                        <p class="text-sm md:text-base font-bold leading-snug truncate text-gray-700">${latest.text}</p>
+                    </div>
+                `;
+            }
+        }
+        function handleFotoForum(event) {
             const file = event.target.files[0];
-            if(file){
+            if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const imgUrl = e.target.result;
-                    document.getElementById('profil-avatar-large').src = imgUrl;
-                    document.getElementById('header-avatar').src = imgUrl;
-                    showAlert("Foto Profil Diperbarui!");
+                    tempForumImage = e.target.result;
+                    document.getElementById('forum-img-preview').src = tempForumImage;
+                    document.getElementById('forum-img-preview-container').style.display = 'flex';
                 }
                 reader.readAsDataURL(file);
             }
         }
-        
-        function savePengaturan() {
-            userName = document.getElementById('set-nama').value || userName;
-            userNIM = document.getElementById('set-nim').value || userNIM;
-            userEmail = document.getElementById('set-email').value || userEmail;
+        function clearForumImg() {
+            tempForumImage = null;
+            document.getElementById('forum-img-preview-container').style.display = 'none';
+        }
+        function postForum() {
+            const text = document.getElementById('forum-input-full').value.trim();
+            if(!text && !tempForumImage) return;
             
-            document.getElementById('user-name-display').innerText = userName;
-            document.getElementById('profil-nama').innerText = userName;
-            document.getElementById('profil-nim').innerText = userNIM;
-            document.getElementById('profil-email').innerText = userEmail;
-            document.querySelectorAll('.nama-user-text').forEach(el => el.innerText = userName);
+            forumPosts.push({
+                id: Date.now(), user: userName, text: text, img: tempForumImage, time: 'Baru saja', replies: []
+            });
             
-            closeModal('modal-pengaturan');
-            showAlert("Pengaturan Akun Tersimpan!");
+            document.getElementById('forum-input-full').value = '';
+            clearForumImg();
+            renderForum();
+            showAlert("Berhasil memposting ke Forum!");
+        }
+        function replyForum(id) {
+            const input = document.getElementById(`reply-${id}`);
+            if(!input || !input.value.trim()) return;
+            const post = forumPosts.find(p => p.id === id);
+            if(post) {
+                post.replies.push({ user: userName, text: input.value.trim() });
+                renderForum();
+            }
         }
 
+        // LOST & FOUND
         function renderLostFound() {
             const feed = document.getElementById('lf-feed');
             feed.innerHTML = '';
@@ -993,6 +1383,7 @@
             });
         }
 
+        let tempLFImage = null;
         function handleFotoLF(event) {
             const file = event.target.files[0];
             if (file) {
@@ -1050,6 +1441,7 @@
             }
         }
 
+        // JADWAL KULIAH
         function renderJadwal() {
             const tabs = document.getElementById('jadwal-tabs');
             const list = document.getElementById('jadwal-list');
@@ -1108,120 +1500,147 @@
             showAlert("Jadwal Berhasil Ditambah!");
         }
 
-        function actionLamarCepat(posisi) {
-            document.getElementById('judul-lamar').innerText = `Melamar ${posisi}`;
-            openModal('modal-lamar-cepat');
-            const progress = document.getElementById('lamar-progress');
-            progress.style.width = '0%';
-            setTimeout(() => { progress.style.width = '100%'; }, 100);
+        // ASSISTANT
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.innerHTML += `
+                <div class="flex gap-3 md:gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-nDark text-white rounded-full flex items-center justify-center shadow-sm shrink-0 text-sm font-bold border-2 border-white">${userName.charAt(0)}</div>
+                    <div class="bg-nDark text-white p-4 md:p-5 rounded-2xl rounded-tr-none shadow-sm text-sm md:text-base max-w-[85%] md:max-w-[75%] font-medium">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
             setTimeout(() => {
-                closeModal('modal-lamar-cepat');
-                showAlert(`CV Anda terkirim untuk posisi ${posisi}`);
-            }, 1800);
-        }
-        function actionGabungKepanitiaan(divisi) {
-            document.getElementById('judul-volunteer').innerText = `Gabung ${divisi}`;
-            openModal('modal-form-volunteer');
-        }
-        function submitVolunteer() {
-            const text = document.getElementById('alasan-volunteer').value;
-            if(!text) return showAlert("Isi alasan bergabung!");
-            document.getElementById('alasan-volunteer').value = '';
-            closeModal('modal-form-volunteer');
-            showAlert("Formulir sukses dikirimkan ke panitia.");
-        }
-
-        function renderForum() {
-            const feedFull = document.getElementById('forum-feed-full');
-            const feedPrev = document.getElementById('forum-preview');
-            let html = '';
-            
-            [...forumPosts].reverse().forEach(post => {
-                let repliesHtml = '';
-                post.replies.forEach(rep => {
-                    repliesHtml += `
-                        <div class="flex gap-3">
-                            <div class="w-8 h-8 rounded-full bg-nBlue text-white text-xs flex justify-center items-center font-bold shrink-0">${rep.user.charAt(0)}</div>
-                            <div class="bg-gray-50 p-4 rounded-xl rounded-tl-none w-full border border-gray-100">
-                                <p class="text-sm font-bold mb-1 text-nDark">${rep.user}</p>
-                                <p class="text-sm text-gray-700">${rep.text}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                html += `
-                    <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm mb-4">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-full bg-nDark text-white flex justify-center items-center font-bold text-lg">${post.user.charAt(0)}</div>
-                            <div><p class="text-base font-bold leading-none text-nDark">${post.user}</p><p class="text-[11px] text-gray-500 mt-1">${post.time}</p></div>
-                        </div>
-                        <p class="text-base font-medium mb-4 text-nDark">${post.text}</p>
-                        ${post.img ? `<img src="${post.img}" class="w-full h-48 object-cover rounded-xl mb-4 border border-gray-200">` : ''}
-                        
-                        <div class="border-t border-gray-100 pt-4 space-y-3">
-                            ${repliesHtml}
-                            <div class="flex gap-2 items-center mt-2">
-                                <input type="text" placeholder="Balas..." class="w-full bg-gray-50 border border-gray-100 p-3 rounded-xl text-sm outline-none focus:border-nBlue" id="reply-${post.id}">
-                                <button onclick="replyForum(${post.id})" class="bg-nDark text-white p-3 rounded-xl click-anim"><i class="ph-bold ph-paper-plane-right"></i></button>
-                            </div>
+                chatContainer.innerHTML += `
+                    <div class="flex gap-3 md:gap-4">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-sparkle text-white md:text-xl"></i></div>
+                        <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium">
+                            Tentu ${userName}. Saya siap memproses informasi terkait "${text}".
                         </div>
                     </div>
                 `;
-            });
-            
-            if(feedFull) feedFull.innerHTML = html;
-            
-            if(feedPrev && forumPosts.length > 0) {
-                const latest = forumPosts[forumPosts.length-1];
-                feedPrev.innerHTML = `
-                    <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-white">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-7 h-7 rounded-full bg-nDark text-xs flex justify-center items-center font-bold text-white">${latest.user.charAt(0)}</div>
-                            <span class="text-xs md:text-sm font-bold">${latest.user}</span>
-                            <span class="text-[10px] text-gray-500">${latest.time}</span>
-                        </div>
-                        <p class="text-sm md:text-base font-bold leading-snug truncate">${latest.text}</p>
-                    </div>
-                `;
-            }
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 800);
         }
-        function handleFotoForum(event) {
+
+        // PROFIL & SETTINGS
+        function changeAvatar(event) {
             const file = event.target.files[0];
-            if (file) {
+            if(file){
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    tempForumImage = e.target.result;
-                    document.getElementById('forum-img-preview').src = tempForumImage;
-                    document.getElementById('forum-img-preview-container').style.display = 'flex';
+                    const imgUrl = e.target.result;
+                    document.getElementById('profil-avatar-large').src = imgUrl;
+                    document.getElementById('header-avatar').src = imgUrl;
+                    showAlert("Foto Profil Diperbarui!");
                 }
                 reader.readAsDataURL(file);
             }
         }
-        function clearForumImg() {
-            tempForumImage = null;
-            document.getElementById('forum-img-preview-container').style.display = 'none';
-        }
-        function postForum() {
-            const text = document.getElementById('forum-input-full').value.trim();
-            if(!text && !tempForumImage) return;
+        
+        function savePengaturan() {
+            userName = document.getElementById('set-nama').value || userName;
+            userNIM = document.getElementById('set-nim').value || userNIM;
+            userEmail = document.getElementById('set-email').value || userEmail;
             
-            forumPosts.push({
-                id: Date.now(), user: userName, text: text, img: tempForumImage, time: 'Baru saja', replies: []
-            });
+            document.getElementById('user-name-display').innerText = userName;
+            document.getElementById('profil-nama').innerText = userName;
+            document.getElementById('profil-nim').innerText = userNIM;
+            document.getElementById('profil-email').innerText = userEmail;
+            document.querySelectorAll('.nama-user-text').forEach(el => el.innerText = userName);
             
-            document.getElementById('forum-input-full').value = '';
-            clearForumImg();
-            renderForum();
-            showAlert("Berhasil memposting ke Forum!");
+            closeModal('modal-pengaturan');
+            showAlert("Pengaturan Akun Tersimpan!");
         }
-        function replyForum(id) {
-            const input = document.getElementById(`reply-${id}`);
-            if(!input || !input.value.trim()) return;
+
+        // FUNGSI TAMBAHAN BARU (Like, GPS, Scanner)
+        function toggleLike(id) {
             const post = forumPosts.find(p => p.id === id);
             if(post) {
-                post.replies.push({ user: userName, text: input.value.trim() });
+                post.likedByMe = !post.likedByMe;
+                post.likes += post.likedByMe ? 1 : -1;
                 renderForum();
+            }
+        }
+
+        function handleSampahScan(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('sampah-preview').src = e.target.result;
+                    document.getElementById('sampah-preview').classList.remove('hidden');
+                    document.getElementById('sampah-loading').classList.remove('hidden');
+                    
+                    // Simulasi delay AI
+                    setTimeout(() => {
+                        document.getElementById('sampah-loading').classList.add('hidden');
+                        document.getElementById('sampah-result').classList.remove('hidden');
+                        
+                        const categories = ['Organik', 'Plastik', 'Kertas / Kardus'];
+                        const randomCat = categories[Math.floor(Math.random() * categories.length)];
+                        document.getElementById('sampah-category').innerText = randomCat;
+                        
+                        const btn = document.getElementById('btn-submit-sampah');
+                        btn.disabled = false;
+                        btn.classList.replace('bg-gray-300', 'bg-nDark');
+                        btn.classList.replace('text-gray-500', 'text-white');
+                        btn.classList.add('shadow-float');
+                    }, 2000); 
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function getGPSLocation() {
+            const statusEl = document.getElementById('gps-status');
+            if(!statusEl) return;
+            
+            statusEl.innerText = "Mendeteksi lokasi satelit...";
+            statusEl.classList.add('animate-pulse', 'text-gray-400');
+            statusEl.classList.remove('text-green-600', 'text-red-500', 'font-bold');
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude.toFixed(5);
+                        const lng = position.coords.longitude.toFixed(5);
+                        statusEl.innerText = `Lat: ${lat}, Lng: ${lng} (Satelit OK)`;
+                        statusEl.classList.remove('animate-pulse', 'text-gray-400');
+                        statusEl.classList.add('text-green-600', 'font-bold');
+                    },
+                    (error) => {
+                        statusEl.innerText = "Gagal. Izin lokasi GPS ditolak/tidak aktif.";
+                        statusEl.classList.remove('animate-pulse', 'text-gray-400');
+                        statusEl.classList.add('text-red-500', 'font-bold');
+                    }
+                );
+            } else {
+                statusEl.innerText = "GPS tidak didukung di perangkat ini.";
+            }
+        }
+
+        function handleGreenScan(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('green-preview').src = e.target.result;
+                    document.getElementById('green-preview').classList.remove('hidden');
+                    
+                    const btn = document.getElementById('btn-submit-green');
+                    btn.disabled = false;
+                    btn.classList.replace('bg-gray-300', 'bg-nDark');
+                    btn.classList.replace('text-gray-500', 'text-white');
+                    btn.classList.add('shadow-float');
+                }
+                reader.readAsDataURL(file);
             }
         }
 
