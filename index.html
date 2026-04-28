@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EcoNeo Nexus - Kampus 5.0</title>
+    <title>EcoNeo - Era Digital</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,6 +27,7 @@
                     },
                     boxShadow: {
                         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                        'float': '0 10px 30px -10px rgba(0,0,0,0.1)',
                     }
                 }
             }
@@ -46,15 +47,16 @@
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
         .click-anim {
-            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s, background-color 0.2s;
+            cursor: pointer;
         }
         .click-anim:active {
-            transform: scale(0.92);
+            transform: scale(0.95);
             opacity: 0.8;
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -65,20 +67,25 @@
             top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
             background: linear-gradient(135deg, #FFF4B3 0%, #FFC4DA 50%, #ADD8E6 100%);
-            opacity: 0.35;
+            opacity: 0.4;
         }
 
-        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease-out; }
         .tab-content.active { display: block; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .modal-enter { animation: modalIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            from { opacity: 0; transform: scale(0.95) translateY(30px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Prevent iOS zoom on inputs */
+        input, textarea, select {
+            font-size: 16px !important;
         }
     </style>
 </head>
@@ -88,599 +95,626 @@
 
     <!-- ================= LOGIN SCREEN ================= -->
     <div id="login-screen" class="fixed inset-0 z-50 flex flex-col justify-center items-center bg-white/40 backdrop-blur-2xl transition-opacity duration-500 p-6">
-        <div class="w-full max-w-sm glass-panel p-8 rounded-[2rem] shadow-glass text-center modal-enter">
-            <div class="w-20 h-20 bg-gradient-to-tr from-nBlue to-nPink rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-sm">
-                <i class="ph-fill ph-planet text-4xl text-white"></i>
+        <div class="w-full max-w-sm md:max-w-md glass-panel p-8 rounded-[2.5rem] shadow-glass text-center modal-enter border-2 border-white/80">
+            <div class="w-24 h-24 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center mx-auto mb-6 shadow-float border-4 border-white">
+                <i class="ph-fill ph-planet text-5xl text-white"></i>
             </div>
-            <h1 class="text-3xl font-black text-nDark mb-2 tracking-tight">EcoNeo Nexus</h1>
-            <p class="text-xs text-gray-500 font-medium mb-8">Silakan masukkan nama Anda untuk memulai eksplorasi.</p>
+            <h1 class="text-4xl font-black text-nDark mb-2 tracking-tight">EcoNeo</h1>
+            <p class="text-sm text-gray-600 font-medium mb-8 leading-snug">Silakan masukkan nama Anda untuk memulai eksplorasi.</p>
             
-            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4 text-left">
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5 text-left">
                 <div>
-                    <label class="block text-xs font-bold text-nDark mb-1 ml-2">Nama Pengguna</label>
-                    <input type="text" id="username-input" required placeholder="Contoh: Andi" class="w-full bg-white p-4 rounded-2xl border border-white outline-none focus:border-nBlue shadow-sm font-bold text-nDark">
+                    <label class="block text-xs font-bold text-nDark mb-1.5 ml-2 uppercase tracking-wider">Nama Pengguna</label>
+                    <input type="text" id="username-input" required placeholder="" class="w-full bg-white/90 p-4 rounded-2xl border-2 border-transparent outline-none focus:border-nBlue shadow-sm font-bold text-nDark transition-colors">
                 </div>
-                <button type="submit" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold shadow-lg click-anim flex items-center justify-center gap-2">
-                    Masuk Portal <i class="ph-bold ph-arrow-right"></i>
+                <!-- Tombol berubah warna saat di hover/disentuh -->
+                <button type="submit" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold shadow-float click-anim hover:bg-nBlue hover:text-nDark flex items-center justify-center gap-2 transition-all">
+                    Mulai Eksplorasi <i class="ph-bold ph-arrow-right text-lg"></i>
                 </button>
             </form>
         </div>
     </div>
 
     <!-- ================= MAIN APP ================= -->
-    <div id="main-app" class="hidden h-full w-full max-w-md mx-auto relative bg-white/20 backdrop-blur-md shadow-2xl flex flex-col overflow-hidden">
+    <div id="main-app" class="hidden h-full w-full md:max-w-4xl lg:max-w-6xl mx-auto relative bg-white/30 backdrop-blur-md md:shadow-2xl flex flex-col overflow-hidden md:border-x md:border-white/50">
         
         <!-- HEADER -->
-        <header class="px-6 pt-8 pb-4 flex justify-between items-center z-20">
-            <div class="flex items-center gap-3">
-                <div class="relative click-anim cursor-pointer" onclick="switchTab('profil')">
-                    <img id="header-avatar" src="https://ui-avatars.com/api/?name=User&background=FFC4DA&color=1E293B" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm">
+        <header id="main-header" class="px-5 md:px-8 pt-8 pb-3 flex justify-between items-center z-20 transition-all duration-300">
+            <div class="flex items-center gap-3 md:gap-4">
+                <div class="relative click-anim" onclick="switchTab('profil')">
+                    <img id="header-avatar" src="" alt="Avatar" class="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover border-2 border-white shadow-sm bg-white">
                 </div>
                 <div>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Selamat datang,</p>
-                    <h2 id="user-name-display" class="text-lg font-black leading-tight truncate max-w-[150px]">Pengguna</h2>
+                    <p class="text-[10px] md:text-xs text-gray-600 font-bold uppercase tracking-wider">Selamat datang,</p>
+                    <h2 id="user-name-display" class="text-lg md:text-2xl font-black leading-tight truncate max-w-[150px] md:max-w-[300px] text-nDark">Pengguna</h2>
                 </div>
             </div>
             
-            <button onclick="toggleNotifications()" class="click-anim w-12 h-12 glass-panel rounded-full flex items-center justify-center shadow-sm relative">
-                <i class="ph-fill ph-bell-ringing text-2xl text-nDark"></i>
-                <span id="notif-badge" class="absolute top-1 right-1 w-3 h-3 bg-nPink rounded-full border-2 border-white hidden"></span>
+            <button onclick="toggleNotifications()" class="click-anim w-12 h-12 md:w-14 md:h-14 glass-panel rounded-full flex items-center justify-center shadow-sm relative hover:bg-white/80 transition-colors">
+                <i class="ph-fill ph-bell-ringing text-2xl md:text-3xl text-nDark"></i>
+                <span id="notif-badge" class="absolute top-2 right-2 w-3 h-3 md:w-3.5 md:h-3.5 bg-nPink rounded-full border-2 border-white hidden"></span>
             </button>
         </header>
 
         <!-- KONTEN GULIR UTAMA -->
-        <main class="flex-1 overflow-y-auto px-4 pb-32 hide-scroll">
+        <main class="flex-1 overflow-y-auto px-4 md:px-8 pb-28 md:pb-32 hide-scroll w-full">
             
             <!-- 1. TAB BERANDA -->
             <div id="tab-beranda" class="tab-content active space-y-6 pt-2">
                 
-                <!-- Layanan Horizontal (Semua Menu Pilihan) -->
-                <div>
-                    <div class="flex gap-3 overflow-x-auto hide-scroll pb-4 snap-x px-2">
+                <!-- Layanan Horizontal -->
+                <div class="w-full">
+                    <div class="flex md:flex-wrap gap-3 md:justify-center overflow-x-auto hide-scroll pb-4 snap-x px-1">
                         <!-- Info Beasiswa -->
-                        <div onclick="openModal('modal-beasiswa')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink">
-                            <div class="w-12 h-12 bg-nPink/30 rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-graduation-cap text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">Info<br>Beasiswa</span>
+                        <div onclick="openModal('modal-beasiswa')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-nPink/40 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-graduation-cap text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Info<br>Beasiswa</span>
                         </div>
                         <!-- Magang & Loker -->
-                        <div onclick="openModal('modal-magang')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue">
-                            <div class="w-12 h-12 bg-nBlue/30 rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-briefcase text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">Magang &<br>Loker</span>
+                        <div onclick="openModal('modal-magang')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-nBlue/40 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-briefcase text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Magang &<br>Loker</span>
                         </div>
                         <!-- Volunteer -->
-                        <div onclick="openModal('modal-volunteer')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nYellow">
-                            <div class="w-12 h-12 bg-nYellow/60 rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-hand-heart text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">Volunteer<br>Kepanitiaan</span>
+                        <div onclick="openModal('modal-volunteer')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nYellow hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-nYellow/70 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-users-three text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Volunteer<br>Kepanitiaan</span>
                         </div>
                         <!-- Lost & Found -->
-                        <div onclick="openModal('modal-lostfound')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nSand">
-                            <div class="w-12 h-12 bg-nSand/50 rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-magnifying-glass text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">Lost &<br>Found</span>
+                        <div onclick="openModal('modal-lostfound'); renderLostFound()" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nSand hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-nSand/60 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-magnifying-glass text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Lost &<br>Found</span>
                         </div>
-                        <!-- KRS -->
-                        <div onclick="openModal('modal-krs')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue">
-                            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-file-text text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">KRS<br>Digital</span>
+                        <!-- Jadwal Kuliah -->
+                        <div onclick="openModal('modal-jadwal'); renderJadwal()" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-calendar text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Jadwal<br>Kuliah</span>
                         </div>
-                        <!-- Jadwal -->
-                        <div onclick="openModal('modal-jadwal')" class="click-anim snap-center shrink-0 w-[100px] glass-panel rounded-3xl p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink">
-                            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-nDark"><i class="ph-duotone ph-calendar text-2xl"></i></div>
-                            <span class="text-[10px] font-bold text-center leading-tight">Jadwal<br>Kuliah</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Forum Mahasiswa (Preview) -->
-                <div class="glass-panel rounded-[2rem] p-5 shadow-sm">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-black text-lg flex items-center gap-2"><i class="ph-fill ph-users-three text-nBlue"></i> Forum Threads</h3>
-                        <button onclick="openModal('modal-forum')" class="text-xs bg-nDark text-white px-3 py-1 rounded-full font-bold click-anim">Buka Forum</button>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="bg-white/80 p-4 rounded-2xl shadow-sm border border-white">
-                            <div class="flex items-center gap-2 mb-2">
-                                <div class="w-6 h-6 rounded-full bg-nPink text-[10px] flex justify-center items-center font-bold text-white">D</div>
-                                <span class="text-xs font-bold">Dina F.</span>
-                                <span class="text-[10px] text-gray-400">5 mnt lalu</span>
-                            </div>
-                            <p class="text-sm font-bold leading-snug">Ada yang punya catatan PPT Matkul Jaringan gak? Bagi dong pls 😭</p>
-                            <div class="mt-3 flex gap-4 text-gray-500">
-                                <span class="text-xs flex items-center gap-1"><i class="ph-bold ph-chat-teardrop"></i> 12 Balasan</span>
-                            </div>
+                        <!-- Event Kampus -->
+                        <div onclick="openModal('modal-event')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nBlue hover:bg-white/80">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-ticket text-2xl md:text-3xl"></i></div>
+                            <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Event<br>Kampus</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Event Kampus -->
-                <div class="bg-gradient-to-br from-nBlue/40 to-nPink/20 rounded-[2rem] p-5 border border-white shadow-sm flex items-center gap-4 click-anim">
-                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shrink-0 shadow-sm"><i class="ph-fill ph-ticket text-3xl text-nBlue"></i></div>
-                    <div>
-                        <span class="text-[10px] font-black tracking-widest text-nBlue uppercase">Event Mendatang</span>
-                        <h3 class="font-bold text-base mt-0.5 leading-tight">Seminar Industri 5.0 & AI</h3>
-                        <p class="text-[11px] text-gray-600 mt-1">Auditorium Utama • Besok, 09:00</p>
+                <!-- Forum Mahasiswa -->
+                <div class="glass-panel rounded-[2rem] p-5 md:p-8 shadow-sm w-full">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-200 pb-3">
+                        <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum Kampus</h3>
+                        <button onclick="openModal('modal-forum'); renderForum()" class="text-sm bg-nDark text-white px-5 py-2 rounded-full font-bold click-anim hover:bg-nDark/80 shadow-sm">Buka Forum</button>
+                    </div>
+                    <div class="space-y-4" id="forum-preview">
+                        <!-- Preview diisi lewat JS -->
                     </div>
                 </div>
             </div>
 
             <!-- 2. TAB IZIN DIGITAL -->
             <div id="tab-izin" class="tab-content space-y-4 pt-2">
-                <div class="glass-panel p-6 rounded-3xl text-center">
-                    <div class="w-16 h-16 bg-nSand rounded-full mx-auto flex items-center justify-center mb-4">
-                        <i class="ph-duotone ph-stethoscope text-3xl text-nDark"></i>
+                <div class="glass-panel p-6 md:p-10 rounded-[2rem] text-center md:max-w-2xl md:mx-auto w-full">
+                    <div class="w-20 h-20 md:w-24 md:h-24 bg-nSand rounded-full mx-auto flex items-center justify-center mb-5 shadow-sm">
+                        <i class="ph-duotone ph-file-text text-4xl md:text-5xl text-nDark"></i>
                     </div>
-                    <h2 class="text-xl font-black mb-1">Surat Izin Digital</h2>
-                    <p class="text-sm text-gray-600 mb-6">Ajukan izin tidak masuk. Buka kamera bukti untuk foto surat izin / surat dokter secara langsung.</p>
+                    <h2 class="text-2xl md:text-3xl font-black mb-2 text-nDark">Surat Izin Digital</h2>
+                    <p class="text-sm md:text-base text-gray-600 mb-8 px-2">Ajukan izin tidak masuk kelas. Unggah surat keterangan dokter atau bukti pendukung lainnya.</p>
                     
-                    <div class="text-left space-y-4">
-                        <input type="text" id="izin-alasan" placeholder="Keterangan Izin (Sakit, Acara Keluarga, dll)" class="w-full bg-white p-4 rounded-2xl border border-gray-100 outline-none focus:border-nPink text-sm font-bold shadow-sm">
+                    <div class="text-left space-y-5">
+                        <input type="text" id="izin-alasan" placeholder="Keterangan Izin (Sakit, Acara Keluarga, dll)" class="w-full bg-white/90 p-4 md:p-5 rounded-2xl border-2 border-transparent outline-none focus:border-nPink text-base font-bold shadow-sm text-nDark">
                         
-                        <!-- PENGGUNAAN KAMERA NATIVE DEVICE -->
                         <div class="relative w-full">
-                            <input type="file" accept="image/*" capture="environment" id="izin-kamera" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleFotoIzin(event)">
-                            <div id="izin-btn-ui" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg transition-colors">
-                                <i class="ph-bold ph-camera"></i> Buka Kamera Bukti
+                            <!-- accept="image/*" membuka galeri/kamera standar -->
+                            <input type="file" accept="image/*" id="izin-kamera" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="handleFotoIzin(event)">
+                            <div id="izin-btn-ui" class="w-full bg-nDark text-white py-4 md:py-5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-float transition-colors hover:bg-nDark/90 text-base md:text-lg">
+                                <i class="ph-bold ph-image text-xl md:text-2xl"></i> <span>Pilih Foto untuk Bukti</span>
                             </div>
                         </div>
 
-                        <img id="izin-preview" src="" class="hidden w-full h-48 object-cover rounded-2xl border-4 border-white shadow-sm mt-2">
+                        <img id="izin-preview" src="" class="hidden w-full h-56 md:h-64 object-cover rounded-2xl border-4 border-white shadow-md mt-2">
 
-                        <button onclick="submitIzin()" class="w-full bg-nPink text-nDark py-4 rounded-2xl font-black click-anim shadow-sm mt-2">Kirim Pengajuan Izin</button>
+                        <button onclick="submitIzin()" class="w-full bg-nPink text-nDark py-4 md:py-5 rounded-2xl font-black click-anim shadow-float mt-4 hover:opacity-90 text-base md:text-lg uppercase tracking-wide">Kirim Pengajuan</button>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. TAB NEO ASSISTANT -->
-            <div id="tab-assistant" class="tab-content h-full flex flex-col pt-2 pb-10">
-                <div class="bg-nBlue/30 p-5 rounded-[2rem] rounded-b-none border border-white text-center">
-                    <h2 class="font-black text-xl flex justify-center items-center gap-2"><i class="ph-fill ph-robot text-nBlue text-3xl"></i> Neo Assistant</h2>
-                    <p class="text-xs font-bold text-nDark/70 mt-1">Konsultasi AI Khusus Kampus</p>
+            <!-- 3. TAB ECONEO ASISTEN (FULL SCREEN LAYOUT) -->
+            <div id="tab-assistant" class="tab-content h-full flex flex-col pt-0 w-full pb-24 md:pb-28">
+                <div class="bg-nBlue/40 p-6 md:p-8 pt-10 md:pt-14 rounded-[2rem] rounded-b-none border border-white text-center shadow-sm relative shrink-0">
+                    <h2 class="font-black text-2xl md:text-3xl flex justify-center items-center gap-2 text-nDark"><i class="ph-fill ph-robot text-nBlue"></i> EcoNeo Asisten</h2>
+                    <p class="text-xs md:text-sm font-bold text-nDark/70 mt-1 uppercase tracking-widest">AI Khusus Kampus</p>
                 </div>
-                <div class="flex-1 bg-white/60 border border-white rounded-[2rem] rounded-t-none p-4 flex flex-col shadow-sm">
-                    <div class="flex-1 overflow-y-auto space-y-4 mb-4 hide-scroll" id="chat-container">
-                        <!-- Chat Default -->
-                        <div class="flex gap-2">
-                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0"><i class="ph-fill ph-robot text-nBlue"></i></div>
-                            <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm border border-gray-100">
-                                Halo <span class="nama-user-text font-bold"></span>! Saya Neo, asisten di era 5.0. Tanyakan apa saja!
+                <div class="flex-1 bg-white/80 backdrop-blur-md border border-white rounded-[2rem] rounded-t-none p-5 md:p-8 flex flex-col shadow-glass overflow-hidden">
+                    <div class="flex-1 overflow-y-auto space-y-5 md:space-y-6 mb-4 hide-scroll pr-2" id="chat-container">
+                        <div class="flex gap-3 md:gap-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-nBlue rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-robot text-white md:text-xl"></i></div>
+                            <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium leading-relaxed">
+                                Halo <span class="nama-user-text font-black text-nBlue"></span>! Saya EcoNeo, asisten AI eksklusif Anda. Tanyakan apa saja!
                             </div>
                         </div>
                     </div>
-                    <!-- Input -->
-                    <div class="relative">
-                        <input type="text" id="chat-input" placeholder="Tanya Neo sesuatu..." class="w-full bg-white border border-gray-200 py-4 pl-5 pr-14 rounded-full outline-none focus:border-nBlue text-sm font-bold shadow-sm" onkeypress="if(event.key === 'Enter') sendChat()">
-                        <button onclick="sendChat()" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-nDark text-nYellow rounded-full flex items-center justify-center click-anim shadow-md">
-                            <i class="ph-bold ph-paper-plane-right"></i>
+                    <div class="relative shrink-0 mt-2">
+                        <input type="text" id="chat-input" placeholder="Tulis pesan..." class="w-full bg-white border border-gray-200 py-4 md:py-5 pl-5 pr-16 md:pr-20 rounded-full outline-none focus:border-nBlue text-base md:text-lg font-bold shadow-sm" onkeypress="if(event.key === 'Enter') sendChat()">
+                        <button onclick="sendChat()" class="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-nDark text-nYellow rounded-full flex items-center justify-center click-anim shadow-md hover:bg-nDark/80">
+                            <i class="ph-bold ph-paper-plane-right text-lg md:text-xl"></i>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- 4. TAB PRESENSI -->
-            <div id="tab-presensi" class="tab-content space-y-5 pt-2">
-                <div class="glass-panel p-6 rounded-[2rem] text-center shadow-sm">
-                    <div class="w-20 h-20 bg-nSand rounded-full mx-auto flex items-center justify-center mb-4">
-                        <i class="ph-duotone ph-scan text-4xl text-nDark"></i>
+            <div id="tab-presensi" class="tab-content space-y-5 pt-2 w-full">
+                <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] text-center shadow-sm md:max-w-2xl md:mx-auto">
+                    <div class="w-24 h-24 md:w-28 md:h-28 bg-nSand rounded-3xl rotate-3 mx-auto flex items-center justify-center mb-6 shadow-sm border-4 border-white">
+                        <i class="ph-duotone ph-check-square-offset text-5xl md:text-6xl text-nDark -rotate-3"></i>
                     </div>
-                    <h2 class="text-xl font-black mb-2">Presensi Barcode</h2>
-                    <p class="text-sm text-gray-600 mb-6">Pindai barcode di layar kelas. Tombol "Hadir" akan muncul setelah barcode berhasil dipindai.</p>
+                    <h2 class="text-2xl md:text-3xl font-black mb-2 text-nDark">Presensi Barcode</h2>
+                    <p class="text-sm md:text-base text-gray-600 mb-8 px-4">Pindai barcode di layar kelas. Tombol absensi otomatis muncul setelah scan.</p>
                     
-                    <button onclick="openModal('modal-scan')" class="w-full bg-nDark text-white py-4 rounded-2xl font-bold shadow-lg click-anim text-sm flex items-center justify-center gap-2">
-                        <i class="ph-bold ph-barcode"></i> Mulai Scan Barcode
+                    <button onclick="openModal('modal-scan')" class="w-full bg-nDark text-white py-4 md:py-5 rounded-2xl font-bold shadow-float click-anim text-base md:text-lg flex items-center justify-center gap-2 hover:bg-nDark/90">
+                        <i class="ph-bold ph-barcode text-2xl"></i> Mulai Pindai Barcode
                     </button>
                 </div>
 
-                <div class="bg-white/80 p-5 rounded-[2rem] border border-white shadow-sm">
-                    <h3 class="font-black text-sm mb-4">Daftar Kehadiran Kelas</h3>
-                    <div id="presensi-list" class="space-y-2">
+                <div class="bg-white/90 p-6 md:p-8 rounded-[2rem] border border-white shadow-sm md:max-w-4xl md:mx-auto">
+                    <h3 class="font-black text-base md:text-lg mb-5 text-nDark">Daftar Kehadiran Kelas</h3>
+                    <div id="presensi-list" class="space-y-3 md:space-y-4 grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-0">
                         <!-- Diisi via JS (Diurutkan A-Z) -->
                     </div>
                 </div>
             </div>
 
             <!-- 5. TAB PROFIL -->
-            <div id="tab-profil" class="tab-content pt-2 space-y-6">
-                <div class="glass-panel p-6 rounded-[2rem] text-center relative mt-8">
-                    <!-- Ganti Foto via Galeri -->
-                    <div class="relative w-28 h-28 mx-auto absolute -top-14 left-1/2 transform -translate-x-1/2 click-anim">
-                        <img id="profil-avatar-large" src="https://ui-avatars.com/api/?name=User&background=FFC4DA&color=1E293B" class="w-full h-full rounded-full object-cover border-4 border-white shadow-lg">
-                        <label class="absolute bottom-0 right-0 w-8 h-8 bg-nDark text-white rounded-full flex items-center justify-center shadow-md cursor-pointer border-2 border-white">
-                            <i class="ph-bold ph-camera"></i>
+            <div id="tab-profil" class="tab-content pt-2 space-y-6 md:max-w-2xl md:mx-auto w-full">
+                <div class="glass-panel p-6 md:p-10 rounded-[2.5rem] text-center relative mt-12 md:mt-16 flex flex-col items-center">
+                    
+                    <div class="relative w-32 h-32 md:w-40 md:h-40 mx-auto click-anim mt-2">
+                        <img id="profil-avatar-large" src="" class="w-full h-full rounded-full object-cover border-4 border-white shadow-float bg-white">
+                        <label class="absolute bottom-1 right-1 w-10 h-10 md:w-12 md:h-12 bg-nDark text-white rounded-full flex items-center justify-center shadow-md cursor-pointer border-4 border-white hover:bg-nDark/90 transition-colors">
+                            <i class="ph-bold ph-camera text-lg md:text-xl"></i>
                             <input type="file" accept="image/*" class="hidden" onchange="changeAvatar(event)">
                         </label>
                     </div>
                     
-                    <div class="mt-14">
-                        <h2 id="profil-nama" class="text-2xl font-black text-nDark">Pengguna</h2>
-                        <p id="profil-nim" class="text-sm font-bold text-gray-500">2026000000</p>
+                    <div class="mt-6">
+                        <h2 id="profil-nama" class="text-3xl md:text-4xl font-black text-nDark">Pengguna</h2>
+                        <p id="profil-nim" class="text-base md:text-lg font-bold text-gray-500 mt-1 tracking-widest">2026000000</p>
+                        <p id="profil-email" class="text-sm md:text-base text-gray-400 mt-1">user@kampus.ac.id</p>
                     </div>
                 </div>
 
-                <div class="bg-white/80 rounded-[2rem] p-3 border border-white shadow-sm space-y-2">
-                    <div onclick="openModal('modal-pengaturan')" class="p-4 bg-white rounded-2xl border border-gray-100 flex justify-between items-center click-anim cursor-pointer">
-                        <span class="font-bold text-sm flex items-center gap-3"><i class="ph-fill ph-gear text-nBlue text-xl"></i> Pengaturan Akun</span>
-                        <i class="ph-bold ph-caret-right text-gray-400"></i>
+                <div class="bg-white/90 rounded-[2rem] p-3 md:p-4 border border-white shadow-sm">
+                    <div onclick="openModal('modal-pengaturan')" class="p-4 md:p-5 bg-white rounded-2xl border border-gray-100 flex justify-between items-center click-anim cursor-pointer hover:bg-nBlue/10 transition-colors">
+                        <span class="font-bold text-base flex items-center gap-3 text-nDark"><i class="ph-fill ph-gear text-nBlue text-2xl"></i> Pengaturan Akun</span>
+                        <i class="ph-bold ph-caret-right text-gray-400 text-xl"></i>
                     </div>
                 </div>
 
-                <!-- Tombol Keluar Eksplisit -->
-                <button onclick="location.reload()" class="w-full flex items-center justify-center gap-2 p-4 text-red-500 bg-red-50 rounded-[2rem] font-bold border border-red-100 click-anim mt-8">
-                    <i class="ph-bold ph-sign-out text-xl"></i> Keluar Aplikasi
+                <button onclick="location.reload()" class="w-full flex items-center justify-center gap-2 p-4 md:p-5 text-red-500 bg-red-50/80 rounded-[2rem] font-bold border border-red-100 click-anim mt-8 text-base md:text-lg hover:bg-red-100 transition-colors shadow-sm">
+                    <i class="ph-bold ph-sign-out text-2xl"></i> Keluar Aplikasi
                 </button>
             </div>
 
         </main>
 
         <!-- BOTTOM NAVIGATION -->
-        <nav class="absolute bottom-0 w-full bg-white/90 backdrop-blur-xl border-t border-white pb-safe pt-3 px-6 flex justify-between z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] rounded-t-[2rem]">
-            <button onclick="switchTab('beranda')" class="nav-btn active flex flex-col items-center gap-1 min-w-[50px] click-anim text-nDark" data-target="beranda">
-                <i class="ph-fill ph-house text-2xl nav-icon"></i>
-                <span class="text-[10px] font-bold">Beranda</span>
+        <nav id="bottom-nav" class="absolute bottom-0 left-0 right-0 w-full max-w-md md:max-w-4xl lg:max-w-6xl mx-auto bg-white/90 backdrop-blur-2xl border-t border-white/60 pb-6 pt-3 px-1 flex justify-evenly items-center z-30 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] md:rounded-b-[2rem] transition-all duration-300">
+            <button onclick="switchTab('beranda')" class="nav-btn active flex flex-col items-center gap-1 flex-1 click-anim text-nDark hover:opacity-80" data-target="beranda">
+                <i class="ph-fill ph-house text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Beranda</span>
             </button>
-            <button onclick="switchTab('izin')" class="nav-btn flex flex-col items-center gap-1 min-w-[50px] click-anim text-gray-400" data-target="izin">
-                <i class="ph ph-stethoscope text-2xl nav-icon"></i>
-                <span class="text-[10px] font-bold">Izin</span>
+            <button onclick="switchTab('izin')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="izin">
+                <i class="ph ph-file-text text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Izin</span>
             </button>
-            <button onclick="switchTab('assistant')" class="nav-btn flex flex-col items-center gap-1 min-w-[50px] click-anim text-gray-400 -translate-y-4" data-target="assistant">
-                <div class="bg-nDark text-nYellow w-12 h-12 rounded-full flex items-center justify-center shadow-lg border-4 border-white">
-                    <i class="ph-fill ph-robot text-2xl nav-icon"></i>
+            <button onclick="switchTab('assistant')" class="nav-btn flex flex-col items-center flex-1 click-anim text-gray-400 -translate-y-6 md:-translate-y-8 hover:opacity-90" data-target="assistant">
+                <div class="bg-nDark text-nYellow w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(30,41,59,0.3)] border-4 border-white transition-transform relative">
+                    <div class="absolute inset-0 rounded-full bg-nDark animate-ping opacity-20"></div>
+                    <i class="ph-fill ph-robot text-3xl nav-icon relative z-10"></i>
                 </div>
+                <span class="text-[10px] md:text-xs font-bold mt-1.5 text-nDark">Asisten</span>
             </button>
-            <button onclick="switchTab('presensi')" class="nav-btn flex flex-col items-center gap-1 min-w-[50px] click-anim text-gray-400" data-target="presensi">
-                <i class="ph ph-fingerprint text-2xl nav-icon"></i>
-                <span class="text-[10px] font-bold">Presensi</span>
+            <button onclick="switchTab('presensi')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="presensi">
+                <i class="ph ph-check-square-offset text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Presensi</span>
             </button>
-            <button onclick="switchTab('profil')" class="nav-btn flex flex-col items-center gap-1 min-w-[50px] click-anim text-gray-400" data-target="profil">
-                <i class="ph ph-user text-2xl nav-icon"></i>
-                <span class="text-[10px] font-bold">Profil</span>
+            <button onclick="switchTab('profil')" class="nav-btn flex flex-col items-center gap-1 flex-1 click-anim text-gray-400 hover:opacity-80" data-target="profil">
+                <i class="ph ph-user-circle text-2xl md:text-3xl nav-icon transition-transform"></i>
+                <span class="text-[10px] md:text-xs font-bold mt-0.5">Profil</span>
             </button>
         </nav>
     </div>
 
-    <!-- ================= KUMPULAN MODAL (FULL SCREEN POPUPS) ================= -->
+    <!-- ================= KUMPULAN MODAL (BOTTOM SHEETS DI HP, CENTER DI DESKTOP) ================= -->
     
     <!-- 1. Notifikasi Panel -->
-    <div id="notif-panel" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="toggleNotifications()"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[70vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl">Notifikasi Sistem</h3>
-                <button onclick="toggleNotifications()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="notif-panel" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="toggleNotifications()"></div>
+        <div class="bg-white w-full md:max-w-md mx-auto h-[75vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-2xl text-nDark">Notifikasi</h3>
+                <button onclick="toggleNotifications()" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
-            <div id="notif-list" class="flex-1 overflow-y-auto p-4 space-y-3 hide-scroll bg-gray-50/50">
+            <div id="notif-list" class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50">
                 <!-- Diisi via JS -->
             </div>
         </div>
     </div>
 
     <!-- 2. Modal Info Beasiswa -->
-    <div id="modal-beasiswa" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-beasiswa')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl flex items-center gap-2"><i class="ph-fill ph-graduation-cap text-nPink"></i> Beasiswa Resmi</h3>
-                <button onclick="closeModal('modal-beasiswa')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="modal-beasiswa" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-beasiswa')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-graduation-cap text-nPink text-3xl"></i> Beasiswa Resmi</h3>
+                <button onclick="closeModal('modal-beasiswa')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-4 hide-scroll bg-gray-50/50">
-                <p class="text-xs font-bold text-gray-500 mb-2">Terhubung dengan website resmi kementerian dan instansi.</p>
-                <!-- Item LPDP -->
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-[10px] font-black bg-nBlue/20 text-blue-700 px-2 py-1 rounded">KEMENKEU RI</span>
-                        <span class="text-[10px] text-red-500 font-bold"><i class="ph-bold ph-clock"></i> 10 Hari Lagi</span>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <p class="text-xs md:text-sm font-bold text-gray-500 mb-2">Terhubung dengan instansi resmi.</p>
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-[10px] md:text-xs font-black bg-nBlue/20 text-blue-700 px-3 py-1.5 rounded-lg tracking-widest">KEMENKEU RI</span>
+                            <span class="text-xs text-red-500 font-bold bg-red-50 px-3 py-1.5 rounded-lg"><i class="ph-bold ph-clock"></i> 10 Hari Lagi</span>
+                        </div>
+                        <h4 class="font-black text-lg md:text-xl">LPDP Reguler 2026</h4>
+                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">Pendanaan S2/S3 dalam dan luar negeri. Biaya kuliah penuh + biaya hidup.</p>
                     </div>
-                    <h4 class="font-black text-base">LPDP Reguler 2026</h4>
-                    <p class="text-xs text-gray-500 mt-1 mb-3">Pendanaan S2/S3 dalam dan luar negeri. Biaya kuliah penuh + biaya hidup.</p>
-                    <a href="#" target="_blank" class="block text-center w-full bg-nDark text-white py-2 rounded-xl text-xs font-bold click-anim">Buka Web Pendaftaran</a>
+                    <a href="https://lpdp.kemenkeu.go.id/" target="_blank" class="text-center w-full bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90">Buka Pendaftaran</a>
                 </div>
-                <!-- Item BSI -->
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-[10px] font-black bg-nYellow/40 text-yellow-800 px-2 py-1 rounded">SWASTA / BUMN</span>
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-[10px] md:text-xs font-black bg-nYellow/60 text-yellow-800 px-3 py-1.5 rounded-lg tracking-widest">SWASTA / BUMN</span>
+                        </div>
+                        <h4 class="font-black text-lg md:text-xl">BSI Scholarship Inspirasi</h4>
+                        <p class="text-sm text-gray-500 mt-2 mb-4 leading-relaxed">Bantuan UKT selama 4 semester & program leadership mentoring.</p>
                     </div>
-                    <h4 class="font-black text-base">BSI Scholarship Inspirasi</h4>
-                    <p class="text-xs text-gray-500 mt-1 mb-3">Bantuan UKT selama 4 semester & program leadership mentoring.</p>
-                    <a href="#" target="_blank" class="block text-center w-full bg-nDark text-white py-2 rounded-xl text-xs font-bold click-anim">Buka Web Pendaftaran</a>
-                </div>
-                 <!-- Item Kemenag -->
-                 <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="text-[10px] font-black bg-green-100 text-green-700 px-2 py-1 rounded">KEMENAG RI</span>
-                    </div>
-                    <h4 class="font-black text-base">Beasiswa Indonesia Bangkit</h4>
-                    <p class="text-xs text-gray-500 mt-1 mb-3">Kolaborasi LPDP dan Kemenag untuk program gelar dan non-gelar.</p>
-                    <a href="#" target="_blank" class="block text-center w-full bg-nDark text-white py-2 rounded-xl text-xs font-bold click-anim">Buka Web Pendaftaran</a>
+                    <a href="https://www.bankbsi.co.id/" target="_blank" class="text-center w-full bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90">Buka Pendaftaran</a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 3. Modal Magang -->
-    <div id="modal-magang" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-magang')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl flex items-center gap-2"><i class="ph-fill ph-briefcase text-nBlue"></i> Magang & Loker</h3>
-                <button onclick="closeModal('modal-magang')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="modal-magang" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-magang')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-briefcase text-nBlue text-3xl"></i> Magang & Loker</h3>
+                <button onclick="closeModal('modal-magang')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-4 hide-scroll bg-gray-50/50">
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex gap-3 items-center mb-3">
-                        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white font-bold">T</div>
-                        <div>
-                            <h4 class="font-black text-sm">Product Manager Intern</h4>
-                            <p class="text-[10px] text-gray-500">Tokopedia • Jakarta (Hybrid)</p>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md">
+                    <div>
+                        <div class="flex gap-4 items-center mb-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-sm">T</div>
+                            <div>
+                                <h4 class="font-black text-base md:text-lg leading-tight">Product Manager Intern</h4>
+                                <p class="text-xs text-gray-500 mt-1">Tokopedia • Jakarta (Hybrid)</p>
+                            </div>
                         </div>
+                        <p class="text-sm text-gray-600 mb-4">Dicari mahasiswa tingkat akhir. Paid internship dengan benefit lengkap.</p>
                     </div>
-                    <p class="text-xs text-gray-600 mb-3">Dicari mahasiswa tingkat akhir. Paid internship dengan benefit lengkap.</p>
-                    <button class="w-full bg-nBlue/20 text-blue-700 border border-nBlue py-2 rounded-xl text-xs font-bold click-anim">Lamar Cepat (Auto-CV)</button>
+                    <button class="w-full bg-nBlue/20 text-blue-800 border border-nBlue py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nBlue/30" onclick="actionLamarCepat('Product Manager Intern, Tokopedia')">Lamar Cepat (Auto-CV)</button>
                 </div>
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex gap-3 items-center mb-3">
-                        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">T</div>
-                        <div>
-                            <h4 class="font-black text-sm">Data Analyst MSIB</h4>
-                            <p class="text-[10px] text-gray-500">Telkom Indonesia • Remote</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-600 mb-3">Program Kampus Merdeka Batch terbaru. Konversi 20 SKS.</p>
-                    <button class="w-full bg-nBlue/20 text-blue-700 border border-nBlue py-2 rounded-xl text-xs font-bold click-anim">Lamar via MSIB</button>
-                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lamar Cepat -->
+    <div id="modal-lamar-cepat" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-5">
+        <div class="absolute inset-0 bg-nDark/70 backdrop-blur-sm"></div>
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 relative z-10 shadow-2xl modal-enter text-center border-4 border-nBlue/30">
+            <div class="w-20 h-20 bg-nBlue/20 rounded-full mx-auto flex items-center justify-center mb-4 border border-nBlue shadow-sm">
+                <i class="ph-duotone ph-paper-plane-right text-4xl text-nBlue"></i>
+            </div>
+            <h3 class="font-black text-xl text-nDark mb-2" id="judul-lamar">Mengirim Lamaran...</h3>
+            <p class="text-sm text-gray-600 mb-6">Sistem sedang menarik data profil dan dokumen Anda untuk dikirim secara otomatis.</p>
+            <div class="w-full bg-gray-100 h-3 rounded-full mb-6 overflow-hidden shadow-inner">
+                <div id="lamar-progress" class="bg-nBlue h-full w-0 transition-all duration-[1500ms]"></div>
             </div>
         </div>
     </div>
 
     <!-- 4. Modal Volunteer -->
-    <div id="modal-volunteer" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-volunteer')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl flex items-center gap-2"><i class="ph-fill ph-hand-heart text-nYellow"></i> Kepanitiaan</h3>
-                <button onclick="closeModal('modal-volunteer')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="modal-volunteer" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-volunteer')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-hand-heart text-nYellow text-3xl"></i> Kepanitiaan</h3>
+                <button onclick="closeModal('modal-volunteer')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-4 hide-scroll bg-gray-50/50">
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <span class="text-[10px] font-black bg-nYellow text-yellow-800 px-2 py-1 rounded">Open Recruitment</span>
-                    <h4 class="font-black text-base mt-2">Panitia Ospek / PKKMB 2026</h4>
-                    <p class="text-xs text-gray-500 mt-1 mb-3">Dibutuhkan divisi Acara, Humas, Pubdekdok. Tambah relasi dan pengalaman organisasimu!</p>
-                    <button class="w-full bg-nDark text-white py-2 rounded-xl text-xs font-bold click-anim">Gabung Kepanitiaan</button>
-                </div>
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <span class="text-[10px] font-black bg-nPink/40 text-pink-800 px-2 py-1 rounded">Volunteer External</span>
-                    <h4 class="font-black text-base mt-2">Pengajar Muda Peduli Desa</h4>
-                    <p class="text-xs text-gray-500 mt-1 mb-3">Mengajar anak-anak SD di desa binaan selama akhir pekan. Mendapatkan sertifikat resmi.</p>
-                    <button class="w-full bg-nDark text-white py-2 rounded-xl text-xs font-bold click-anim">Daftar Volunteer</button>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md">
+                    <div>
+                        <span class="text-[10px] md:text-xs font-black bg-nYellow/60 text-yellow-800 px-3 py-1.5 rounded-lg uppercase tracking-widest w-max mb-2">Open Recruitment</span>
+                        <h4 class="font-black text-lg mt-3">Panitia Ospek / PKKMB 2026</h4>
+                        <p class="text-sm text-gray-600 mt-2 mb-4 leading-relaxed">Dibutuhkan divisi Acara, Humas, Pubdekdok. Tambah relasi dan pengalaman organisasimu!</p>
+                    </div>
+                    <button class="w-full bg-nDark text-white py-3 md:py-4 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90" onclick="actionGabungKepanitiaan('Panitia Ospek')">Gabung Kepanitiaan</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 5. Modal KRS Digital -->
-    <div id="modal-krs" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-krs')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl">KRS Digital</h3>
-                <button onclick="closeModal('modal-krs')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <!-- Modal Form Gabung Volunteer -->
+    <div id="modal-form-volunteer" class="hidden fixed inset-0 z-[60] flex flex-col justify-end md:justify-center md:items-center p-0 md:p-4">
+        <div class="absolute inset-0 bg-nDark/70 backdrop-blur-sm" onclick="closeModal('modal-form-volunteer')"></div>
+        <div class="bg-white w-full max-w-sm rounded-t-[2.5rem] md:rounded-[2.5rem] p-6 md:p-8 relative z-10 shadow-2xl modal-enter text-left flex flex-col h-[70vh] md:h-auto">
+            <h3 class="font-black text-xl text-nDark mb-2" id="judul-volunteer">Form Pendaftaran</h3>
+            <p class="text-xs text-gray-600 mb-6">Profil Anda otomatis dilampirkan. Silakan isi alasan bergabung.</p>
+            
+            <div class="space-y-4 flex-1">
+                <textarea id="alasan-volunteer" placeholder="Mengapa Anda tertarik bergabung di sini?" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nYellow font-bold text-sm h-32 resize-none shadow-sm"></textarea>
             </div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-3 hide-scroll bg-gray-50/50">
-                <div class="bg-nBlue/20 p-4 rounded-2xl text-center mb-4 border border-nBlue">
-                    <p class="text-xs font-bold">Total SKS Diambil</p>
-                    <h2 class="text-3xl font-black text-nBlue">21 <span class="text-sm">/ 24</span></h2>
+            <div class="pt-4 flex gap-3">
+                <button onclick="closeModal('modal-form-volunteer')" class="w-1/3 bg-gray-100 text-gray-600 font-bold py-3 rounded-xl click-anim">Batal</button>
+                <button onclick="submitVolunteer()" class="w-2/3 bg-nYellow text-yellow-900 font-bold py-3 rounded-xl click-anim shadow-sm">Kirim Form</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Modal KRS -->
+    <div id="modal-krs" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-krs')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl text-nDark">KRS Digital</h3>
+                <button onclick="closeModal('modal-krs')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-3 hide-scroll bg-gray-50/80">
+                <div class="bg-nBlue/20 p-5 rounded-[1.5rem] text-center mb-6 border border-nBlue shadow-sm">
+                    <p class="text-sm font-bold text-nDark">Total SKS Diambil</p>
+                    <h2 class="text-4xl font-black text-nBlue mt-1">21 <span class="text-xl text-nBlue/60">/ 24</span></h2>
                 </div>
-                <!-- Daftar Matkul -->
-                <div class="bg-white p-3 rounded-2xl flex justify-between items-center border border-gray-100 shadow-sm">
-                    <div><p class="font-bold text-sm">Pemrograman Web Lanjut</p><p class="text-[10px] text-gray-500">3 SKS • Kelas A</p></div>
-                    <input type="checkbox" checked class="w-5 h-5 accent-nDark">
-                </div>
-                <div class="bg-white p-3 rounded-2xl flex justify-between items-center border border-gray-100 shadow-sm">
-                    <div><p class="font-bold text-sm">Kecerdasan Buatan (AI)</p><p class="text-[10px] text-gray-500">3 SKS • Kelas B</p></div>
-                    <input type="checkbox" checked class="w-5 h-5 accent-nDark">
-                </div>
-                <div class="bg-white p-3 rounded-2xl flex justify-between items-center border border-gray-100 shadow-sm">
-                    <div><p class="font-bold text-sm">Metodologi Penelitian</p><p class="text-[10px] text-gray-500">2 SKS • Kelas A</p></div>
-                    <input type="checkbox" checked class="w-5 h-5 accent-nDark">
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-2xl flex justify-between items-center border border-gray-100 shadow-sm cursor-pointer hover:bg-nBlue/10 transition-colors" onclick="this.querySelector('input').checked = !this.querySelector('input').checked">
+                        <div><p class="font-bold text-base text-nDark">Web Lanjut</p><p class="text-xs text-gray-500 mt-0.5">3 SKS • Kelas A</p></div>
+                        <input type="checkbox" checked class="w-6 h-6 accent-nDark pointer-events-none">
+                    </div>
                 </div>
             </div>
-            <div class="p-5 border-t border-gray-100 bg-white">
-                <button class="w-full bg-nDark text-white py-3 rounded-xl font-bold click-anim">Simpan KRS Semester Ini</button>
+            <div class="p-5 md:p-6 border-t border-gray-100 bg-white rounded-b-[2.5rem]">
+                <button onclick="showAlert('KRS Disimpan!'); closeModal('modal-krs')" class="w-full bg-nDark text-white py-4 rounded-xl font-bold click-anim hover:bg-nDark/90 text-lg shadow-float">Simpan KRS</button>
             </div>
         </div>
     </div>
 
     <!-- 6. Modal Jadwal -->
-    <div id="modal-jadwal" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-jadwal')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl">Jadwal Kuliah</h3>
-                <button onclick="closeModal('modal-jadwal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="modal-jadwal" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-jadwal')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl text-nDark">Jadwal Kuliah</h3>
+                <div class="flex gap-2">
+                    <button onclick="openModal('modal-tambah-jadwal')" class="bg-nPink text-nDark px-4 py-2 rounded-full font-black text-sm click-anim flex items-center gap-1.5 shadow-sm hover:bg-nPink/80"><i class="ph-bold ph-plus"></i> Tambah</button>
+                    <button onclick="closeModal('modal-jadwal')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
+                </div>
             </div>
-            <div class="flex-1 overflow-y-auto p-5 space-y-4 hide-scroll bg-gray-50/50">
-                <div class="flex gap-2 overflow-x-auto hide-scroll pb-2">
-                    <div class="bg-nDark text-white px-4 py-1.5 rounded-full text-xs font-bold shrink-0">Senin</div>
-                    <div class="bg-white border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold shrink-0 text-gray-500">Selasa</div>
-                    <div class="bg-white border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold shrink-0 text-gray-500">Rabu</div>
-                    <div class="bg-white border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold shrink-0 text-gray-500">Kamis</div>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <div class="flex gap-3 overflow-x-auto hide-scroll pb-2" id="jadwal-tabs">
+                    <!-- Tabs diisi JS -->
                 </div>
                 
-                <div class="relative border-l-2 border-dashed border-gray-200 ml-4 pl-6 space-y-6 mt-6">
-                    <div class="relative">
-                        <div class="absolute -left-[31px] top-1 w-3 h-3 bg-nPink rounded-full border-2 border-white shadow-sm"></div>
-                        <p class="text-[10px] font-bold text-nPink mb-1">08:00 - 10:30 WIB</p>
-                        <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
-                            <h4 class="font-black text-sm">Kecerdasan Buatan (AI)</h4>
-                            <p class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="ph-fill ph-map-pin"></i> Ruang Lab. Komputer 1</p>
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-[31px] top-1 w-3 h-3 bg-nBlue rounded-full border-2 border-white shadow-sm"></div>
-                        <p class="text-[10px] font-bold text-nBlue mb-1">13:00 - 15:30 WIB</p>
-                        <div class="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
-                            <h4 class="font-black text-sm">Pemrograman Web Lanjut</h4>
-                            <p class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="ph-fill ph-map-pin"></i> Gedung A, Lt. 3</p>
-                        </div>
-                    </div>
+                <div class="relative border-l-2 border-dashed border-gray-300 ml-5 pl-8 space-y-8 mt-6" id="jadwal-list">
+                    <!-- Data Jadwal -->
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Jadwal -->
+    <div id="modal-tambah-jadwal" class="hidden fixed inset-0 z-[60] flex flex-col justify-end md:justify-center md:items-center p-0 md:p-4">
+        <div class="absolute inset-0 bg-nDark/70 backdrop-blur-sm" onclick="closeModal('modal-tambah-jadwal')"></div>
+        <div class="bg-white w-full max-w-sm rounded-t-[2.5rem] md:rounded-[2.5rem] p-6 md:p-8 relative z-10 shadow-2xl modal-enter text-left flex flex-col h-[80vh] md:h-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-black text-xl text-nDark">Tambah Jadwal</h3>
+                <button onclick="closeModal('modal-tambah-jadwal')" class="text-gray-400"><i class="ph-bold ph-x text-2xl"></i></button>
+            </div>
+            <div class="space-y-4 flex-1 overflow-y-auto hide-scroll">
+                <div>
+                    <label class="text-xs font-bold ml-2">Hari</label>
+                    <select id="jadwal-hari" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nBlue font-bold text-sm shadow-sm">
+                        <option value="Senin">Senin</option><option value="Selasa">Selasa</option><option value="Rabu">Rabu</option>
+                        <option value="Kamis">Kamis</option><option value="Jumat">Jumat</option><option value="Sabtu">Sabtu</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold ml-2">Mata Kuliah</label>
+                    <input type="text" id="jadwal-matkul" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nBlue font-bold text-sm shadow-sm">
+                </div>
+                <div class="flex gap-3">
+                    <div class="w-1/2">
+                        <label class="text-xs font-bold ml-2">Mulai (08:00)</label>
+                        <input type="time" id="jadwal-waktu" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nBlue font-bold text-sm shadow-sm">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-xs font-bold ml-2">Selesai (10:30)</label>
+                        <input type="time" id="jadwal-waktu-end" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nBlue font-bold text-sm shadow-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold ml-2">Ruangan</label>
+                    <input type="text" id="jadwal-ruang" class="w-full bg-gray-50 border border-gray-200 p-4 rounded-xl outline-none focus:border-nBlue font-bold text-sm shadow-sm">
+                </div>
+            </div>
+            <button onclick="submitJadwal()" class="w-full bg-nDark text-white font-bold py-4 rounded-xl click-anim mt-6 shadow-sm hover:bg-nDark/90 text-lg">Simpan Jadwal</button>
         </div>
     </div>
 
     <!-- 7. Modal Lost & Found -->
-    <div id="modal-lostfound" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-lostfound')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[85vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-6 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl">Lost & Found</h3>
-                <div class="flex gap-2">
-                    <button onclick="document.getElementById('lf-form').classList.remove('hidden')" class="bg-nPink text-nDark px-3 py-1 rounded-full font-bold text-xs click-anim flex items-center gap-1"><i class="ph-bold ph-plus"></i> Lapor</button>
-                    <button onclick="closeModal('modal-lostfound')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <div id="modal-lostfound" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-lostfound')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl text-nDark">Lost & Found</h3>
+                <div class="flex gap-3">
+                    <button onclick="document.getElementById('lf-form').classList.remove('hidden')" class="bg-nPink text-nDark px-4 py-2 rounded-full font-black text-sm click-anim flex items-center gap-1.5 shadow-sm hover:bg-nPink/80"><i class="ph-bold ph-plus"></i> Lapor</button>
+                    <button onclick="closeModal('modal-lostfound')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
                 </div>
             </div>
             
-            <div id="lf-feed" class="flex-1 overflow-y-auto p-5 space-y-4 hide-scroll bg-gray-50/50">
-                <!-- Data dummy awal -->
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm relative">
-                    <div class="w-full h-32 bg-gray-100 rounded-xl mb-3 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover">
-                    </div>
-                    <h4 class="font-bold text-base mb-1">Dompet Hitam Kulit</h4>
-                    <p class="text-xs text-gray-500 mb-2"><i class="ph-fill ph-map-pin"></i> Ditemukan di Perpustakaan (Lantai 2)</p>
-                    <a href="#" class="inline-block bg-nDark text-white px-4 py-2 rounded-xl text-xs font-bold click-anim">Hubungi Penemu</a>
-                </div>
+            <div id="lf-feed" class="flex-1 overflow-y-auto p-5 md:p-6 space-y-5 hide-scroll bg-gray-50/80">
+                <!-- Data diisi JS -->
             </div>
 
             <!-- Form Upload L&F -->
-            <div id="lf-form" class="hidden absolute inset-0 bg-white rounded-t-[2rem] p-6 z-20 flex flex-col">
+            <div id="lf-form" class="hidden absolute inset-0 bg-white rounded-t-[2.5rem] md:rounded-[2.5rem] p-6 md:p-8 z-20 flex flex-col">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-black text-xl">Lapor Barang</h3>
-                    <button onclick="document.getElementById('lf-form').classList.add('hidden')" class="text-gray-400"><i class="ph-bold ph-x text-2xl"></i></button>
+                    <h3 class="font-black text-2xl text-nDark">Lapor Barang</h3>
+                    <button onclick="document.getElementById('lf-form').classList.add('hidden')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-arrow-down text-xl"></i></button>
                 </div>
-                <div class="space-y-4 flex-1 overflow-y-auto hide-scroll">
-                    <!-- Kamera Upload (Native) -->
-                    <div class="relative w-full h-32 bg-nSand/30 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-nSand click-anim">
-                        <input type="file" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="alert('Foto disimulasikan berhasil diambil!')">
-                        <i class="ph-duotone ph-camera-plus text-4xl text-nDark"></i>
-                        <span class="text-xs font-bold text-nDark mt-2">Ambil Foto Barang</span>
+                <div class="space-y-5 flex-1 overflow-y-auto hide-scroll pb-4">
+                    <div class="relative w-full h-40 bg-nSand/30 rounded-[1.5rem] flex flex-col items-center justify-center border-2 border-dashed border-nSand click-anim cursor-pointer hover:bg-nSand/50 transition-colors">
+                        <input type="file" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" id="lf-kamera" onchange="handleFotoLF(event)">
+                        <i id="lf-kamera-icon" class="ph-duotone ph-image text-5xl text-nDark"></i>
+                        <span id="lf-kamera-text" class="text-sm font-bold text-nDark mt-2">Masukkan Foto Barang</span>
+                        <img id="lf-preview" src="" class="hidden absolute inset-0 w-full h-full object-cover rounded-[1.5rem] z-0">
                     </div>
-                    <input type="text" id="lf-nama" placeholder="Nama Barang (Cth: Kunci Motor)" class="w-full p-4 rounded-2xl border border-gray-200 outline-none focus:border-nBlue font-bold text-sm">
-                    <input type="text" id="lf-lokasi" placeholder="Lokasi Terakhir / Ditemukan" class="w-full p-4 rounded-2xl border border-gray-200 outline-none focus:border-nBlue font-bold text-sm">
-                    <input type="number" id="lf-wa" placeholder="No. WhatsApp Anda (Untuk dihubungi)" class="w-full p-4 rounded-2xl border border-gray-200 outline-none focus:border-nBlue font-bold text-sm">
+                    <input type="text" id="lf-nama" placeholder="Nama Barang" class="w-full p-4 rounded-xl border border-gray-200 outline-none focus:border-nBlue font-bold text-base shadow-sm">
+                    <input type="text" id="lf-lokasi" placeholder="Lokasi Terakhir / Ditemukan" class="w-full p-4 rounded-xl border border-gray-200 outline-none focus:border-nBlue font-bold text-base shadow-sm">
+                    <input type="number" id="lf-wa" placeholder="No. WhatsApp" class="w-full p-4 rounded-xl border border-gray-200 outline-none focus:border-nBlue font-bold text-base shadow-sm">
                 </div>
-                <button onclick="submitLostItem()" class="w-full bg-nDark text-nYellow py-4 rounded-2xl font-black click-anim mt-4 shadow-lg">Sebarkan Laporan</button>
+                <button onclick="submitLostItem()" class="w-full bg-nDark text-nYellow py-4 rounded-xl font-black click-anim mt-2 shadow-float text-lg tracking-wide hover:bg-nDark/90">Sebarkan Laporan</button>
             </div>
         </div>
     </div>
 
-    <!-- 8. Modal Forum Threads -->
-    <div id="modal-forum" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-forum')"></div>
-        <div class="bg-white w-full max-w-md mx-auto h-[90vh] rounded-t-[2rem] shadow-2xl relative z-10 flex flex-col modal-enter">
-            <div class="p-5 flex justify-between items-center border-b border-gray-100">
-                <h3 class="font-black text-xl flex items-center gap-2"><i class="ph-fill ph-users-three text-nBlue"></i> Forum Threads</h3>
-                <button onclick="closeModal('modal-forum')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+    <!-- 8. Modal Forum -->
+    <div id="modal-forum" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-forum')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[90vh] md:h-auto md:max-h-[90vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-users text-nBlue"></i> Forum Kampus</h3>
+                <button onclick="closeModal('modal-forum')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
             
-            <div class="flex-1 overflow-y-auto p-4 space-y-4 hide-scroll bg-gray-50/50" id="forum-feed">
-                <!-- Thread Dummy -->
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-nPink text-white flex justify-center items-center font-bold">D</div>
-                        <div><p class="text-sm font-bold leading-none">Dina F.</p><p class="text-[10px] text-gray-400">5 mnt lalu</p></div>
-                    </div>
-                    <p class="text-sm font-medium mb-3">Ada yang punya catatan PPT Matkul Jaringan gak? Bagi dong pls 😭</p>
-                    <div class="border-t border-gray-100 pt-3 space-y-2">
-                        <!-- Reply -->
-                        <div class="flex gap-2">
-                            <div class="w-6 h-6 rounded-full bg-nBlue text-white text-[10px] flex justify-center items-center font-bold shrink-0">B</div>
-                            <div class="bg-gray-50 p-2 rounded-xl rounded-tl-none w-full border border-gray-100">
-                                <p class="text-xs font-bold mb-1">Budi S.</p>
-                                <p class="text-xs">Nih aku ada PDF nya, baru aja bikin rangkuman.</p>
-                                <div class="mt-1 bg-white border border-gray-200 p-2 rounded-lg flex items-center gap-2 w-max">
-                                    <i class="ph-fill ph-file-pdf text-red-500"></i><span class="text-[10px] font-bold">Rangkuman_Jaringan.pdf</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-5 hide-scroll bg-gray-50/80" id="forum-feed-full">
+                <!-- Data diisi JS -->
             </div>
 
-            <!-- Thread Input (Gaya membalas) -->
-            <div class="p-4 bg-white border-t border-gray-100 flex gap-2 items-end">
-                <div class="relative w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center shrink-0 cursor-pointer click-anim">
-                    <i class="ph-bold ph-paperclip text-xl"></i>
-                    <input type="file" class="absolute inset-0 opacity-0 cursor-pointer">
+            <!-- Forum Input -->
+            <div class="p-4 md:p-6 bg-white border-t border-gray-100 flex flex-col gap-3 rounded-b-[2.5rem]">
+                <div class="flex items-center gap-2" id="forum-img-preview-container" style="display: none;">
+                    <img id="forum-img-preview" src="" class="h-16 w-16 object-cover rounded-xl border border-gray-200 shadow-sm">
+                    <button onclick="clearForumImg()" class="bg-red-50 text-red-500 p-1.5 rounded-full"><i class="ph-bold ph-x"></i></button>
                 </div>
-                <textarea id="forum-input" placeholder="Mulai diskusi atau unggah catatan..." class="w-full bg-gray-50 p-3 rounded-2xl outline-none text-sm resize-none hide-scroll" rows="2"></textarea>
-                <button onclick="postThread()" class="w-10 h-10 bg-nDark text-white rounded-full flex items-center justify-center shrink-0 click-anim"><i class="ph-bold ph-paper-plane-right"></i></button>
+                <div class="flex gap-3 items-end">
+                    <div class="relative w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center shrink-0 cursor-pointer click-anim hover:bg-gray-200">
+                        <i class="ph-bold ph-image text-2xl text-gray-600"></i>
+                        <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="handleFotoForum(event)">
+                    </div>
+                    <textarea id="forum-input-full" placeholder="Unggah catatan atau diskusi..." class="w-full bg-gray-50 p-4 rounded-2xl outline-none text-base resize-none hide-scroll focus:border-nBlue border border-transparent font-medium" rows="1"></textarea>
+                    <button onclick="postForum()" class="w-12 h-12 bg-nDark text-white rounded-full flex items-center justify-center shrink-0 click-anim shadow-md hover:bg-nDark/90"><i class="ph-bold ph-paper-plane-right text-xl"></i></button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 9. Modal Scan Barcode (Presensi) -->
-    <div id="modal-scan" class="hidden fixed inset-0 z-50 flex flex-col justify-end">
-        <div class="absolute inset-0 bg-nDark/60 backdrop-blur-md" onclick="closeModal('modal-scan')"></div>
-        <!-- Simulasi Kamera Scanner -->
+    <div id="modal-scan" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/80 backdrop-blur-md" onclick="closeModal('modal-scan')"></div>
         <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-            <div class="w-64 h-64 border-4 border-dashed border-white/50 rounded-3xl relative">
-                <div class="w-full h-1 bg-nPink shadow-[0_0_20px_#FFC4DA] absolute top-0 animate-[scan_2s_linear_infinite]"></div>
+            <div class="w-64 h-64 md:w-80 md:h-80 border-4 border-dashed border-white/50 rounded-[2.5rem] relative overflow-hidden">
+                <div class="w-full h-2 bg-nPink shadow-[0_0_20px_#FFC4DA] absolute top-0 animate-[scan_2s_linear_infinite]"></div>
             </div>
-            <p class="text-white font-bold mt-6">Arahkan kamera ke Barcode Kelas</p>
-            <button onclick="showScanResult()" class="mt-8 bg-white text-nDark px-6 py-2 rounded-full font-bold pointer-events-auto click-anim shadow-xl">Simulasi: Barcode Terbaca</button>
+            <p class="text-white font-bold mt-8 text-lg">Arahkan kamera ke Barcode Kelas</p>
+            <button onclick="showScanResult()" class="mt-8 bg-white text-nDark px-8 py-3.5 rounded-full font-black pointer-events-auto click-anim shadow-float text-lg hover:bg-gray-100">Simulasi: Barcode Terbaca</button>
         </div>
         
-        <!-- Hasil Scan popup di bawah -->
-        <div id="scan-result" class="hidden bg-white w-full max-w-md mx-auto rounded-t-[2rem] shadow-2xl relative z-20 flex flex-col p-6 translate-y-full transition-transform duration-300">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-black text-xl">Data Kelas Ditemukan</h3>
-                <button onclick="closeModal('modal-scan')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center click-anim"><i class="ph-bold ph-x"></i></button>
+        <div id="scan-result" class="hidden bg-white w-full max-w-md mx-auto rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-20 flex flex-col p-8 translate-y-full transition-transform duration-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-black text-2xl text-nDark">Data Ditemukan</h3>
+                <button onclick="closeModal('modal-scan')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
-            <div class="bg-nBlue/20 border border-nBlue p-4 rounded-2xl mb-6">
-                <h4 class="font-black text-lg">Kecerdasan Buatan (A)</h4>
-                <p class="text-xs text-gray-600 mt-1">Dosen: Dr. Ir. Budiawan, M.T.</p>
-                <p class="text-xs font-bold text-nBlue mt-2"><i class="ph-bold ph-clock"></i> Pertemuan Ke-4</p>
+            <div class="bg-nBlue/20 border border-nBlue p-5 rounded-2xl mb-8">
+                <h4 class="font-black text-xl text-nDark">Kecerdasan Buatan</h4>
+                <p class="text-sm text-gray-600 mt-1">Dosen: Dr. Ir. Budiawan</p>
+                <p class="text-sm font-bold text-nBlue mt-3 flex items-center gap-1.5"><i class="ph-bold ph-clock text-lg"></i> Pertemuan 4</p>
             </div>
-            <button onclick="markHadir(); closeModal('modal-scan')" class="w-full bg-nDark text-nYellow py-4 rounded-2xl font-black text-lg click-anim shadow-lg flex items-center justify-center gap-2">
-                <i class="ph-bold ph-fingerprint text-2xl"></i> Hadir Hari Ini
+            <button onclick="markHadir(); closeModal('modal-scan')" class="w-full bg-nDark text-nYellow py-4 rounded-2xl font-black text-xl click-anim shadow-float flex items-center justify-center gap-2 hover:bg-nDark/90">
+                <i class="ph-bold ph-fingerprint text-3xl"></i> Hadir Hari Ini
             </button>
         </div>
     </div>
 
     <!-- 10. Modal Pengaturan Akun -->
-    <div id="modal-pengaturan" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-nDark/40 backdrop-blur-sm" onclick="closeModal('modal-pengaturan')"></div>
-        <div class="bg-white w-full max-w-sm rounded-[2rem] p-6 relative z-10 shadow-2xl modal-enter text-left">
+    <div id="modal-pengaturan" class="hidden fixed inset-0 z-50 flex items-center justify-center p-5">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-pengaturan')"></div>
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 relative z-10 shadow-2xl modal-enter text-left">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="font-black text-xl">Pengaturan Akun</h3>
-                <button onclick="closeModal('modal-pengaturan')" class="text-gray-400"><i class="ph-bold ph-x text-xl"></i></button>
+                <h3 class="font-black text-2xl text-nDark">Pengaturan</h3>
+                <button onclick="closeModal('modal-pengaturan')" class="text-gray-400 hover:text-gray-600"><i class="ph-bold ph-x text-2xl"></i></button>
             </div>
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="text-xs font-bold ml-2">Nama Tampilan</label>
-                    <input type="text" id="set-nama" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl outline-none focus:border-nBlue font-bold text-sm">
+                    <label class="text-xs font-bold ml-2 text-nDark uppercase tracking-wider">Nama Tampilan</label>
+                    <input type="text" id="set-nama" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-xl outline-none focus:border-nBlue font-bold text-base mt-1 transition-colors">
                 </div>
                 <div>
-                    <label class="text-xs font-bold ml-2">NIM / ID Identitas</label>
-                    <input type="text" id="set-nim" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl outline-none focus:border-nBlue font-bold text-sm">
+                    <label class="text-xs font-bold ml-2 text-nDark uppercase tracking-wider">NIM Identitas</label>
+                    <input type="text" id="set-nim" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-xl outline-none focus:border-nBlue font-bold text-base mt-1 transition-colors">
+                </div>
+                <div>
+                    <label class="text-xs font-bold ml-2 text-nDark uppercase tracking-wider">Email Kampus</label>
+                    <input type="email" id="set-email" class="w-full bg-gray-50 border-2 border-transparent p-4 rounded-xl outline-none focus:border-nBlue font-bold text-base mt-1 transition-colors">
                 </div>
             </div>
-            <button onclick="savePengaturan()" class="w-full bg-nDark text-white font-bold py-3.5 rounded-xl mt-6 click-anim">Simpan Perubahan</button>
+            <button onclick="savePengaturan()" class="w-full bg-nDark text-white font-bold py-4 rounded-xl mt-8 click-anim text-lg shadow-md hover:bg-nDark/90">Simpan Perubahan</button>
+        </div>
+    </div>
+
+    <!-- 11. Modal Event Kampus -->
+    <div id="modal-event" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="closeModal('modal-event')"></div>
+        <div class="bg-white w-full md:max-w-lg mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-ticket text-nBlue text-3xl"></i> Event Kampus</h3>
+                <button onclick="closeModal('modal-event')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-full h-32 bg-nBlue/20 rounded-xl mb-4 flex items-center justify-center"><i class="ph-duotone ph-chalkboard-teacher text-5xl text-nBlue"></i></div>
+                        <h4 class="font-black text-lg">Seminar Nasional AI & Web3</h4>
+                        <p class="text-sm text-gray-600 mt-1 mb-4">Pemateri: Pakar Industri Tech. Free E-Certificate & Snack.</p>
+                    </div>
+                    <button class="w-full bg-nDark text-white py-3 rounded-xl text-sm font-bold click-anim hover:bg-nDark/90" onclick="showAlert('Pendaftaran Berhasil!'); closeModal('modal-event')">Daftar Event</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Alert Global -->
-    <div id="global-alert" class="fixed top-10 left-1/2 transform -translate-x-1/2 bg-nDark text-white px-6 py-3 rounded-full font-bold shadow-2xl z-[100] transition-all duration-300 opacity-0 -translate-y-10 flex items-center gap-2 pointer-events-none">
-        <i class="ph-fill ph-check-circle text-nYellow text-xl"></i> <span id="alert-msg">Sukses!</span>
+    <div id="global-alert" class="fixed top-12 left-1/2 transform -translate-x-1/2 bg-nDark text-white px-6 py-3.5 rounded-full font-bold shadow-float z-[100] transition-all duration-300 opacity-0 -translate-y-10 flex items-center gap-2 pointer-events-none whitespace-nowrap">
+        <i class="ph-fill ph-check-circle text-nYellow text-2xl"></i> <span id="alert-msg" class="text-base">Sukses!</span>
     </div>
 
-    <!-- SCRIPT LOGIKA APLIKASI 5.0 -->
+    <!-- SCRIPT LOGIKA APLIKASI -->
     <script>
-        // STATE
         let userName = "Andi";
         let userNIM = "2026001001";
+        let userEmail = "user@kampus.ac.id";
         let presensiData = ["Citra Kirana", "Budi Santoso", "Zaki Ahmad"]; 
         let notifications = [];
 
-        // INIT LOGIN
+        let forumPosts = [
+            { id: 1, user: 'Dina F.', text: 'Ada yang punya catatan PPT Matkul Jaringan gak? Bagi dong pls 😭', img: null, time: '5 mnt lalu', replies: [
+                { user: 'Budi S.', text: 'Nih aku ada PDF nya, baru aja bikin.' }
+            ]}
+        ];
+        let tempForumImage = null;
+
+        let lostItems = [
+            { id: 1, nama: 'Dompet Hitam Kulit', lokasi: 'Perpustakaan Lantai 2', wa: '08123', img: 'https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=80&w=300', status: 'hilang', owner: 'Sistem' }
+        ];
+
+        let jadwalKuliah = {
+            Senin: [ { matkul: 'Kecerdasan Buatan (AI)', waktu: '08:00 - 10:30', ruang: 'Lab. Komputer 1', color: 'bg-nPink' } ],
+            Selasa: [], Rabu: [], Kamis: [], Jumat: [], Sabtu: []
+        };
+        let activeJadwalDay = 'Senin';
+
         function handleLogin(e) {
             e.preventDefault();
             const inputName = document.getElementById('username-input').value.trim();
@@ -688,50 +722,61 @@
             
             userName = inputName;
             
-            // Set data to UI
             document.getElementById('user-name-display').innerText = userName;
             document.getElementById('profil-nama').innerText = userName;
             document.getElementById('set-nama').value = userName;
             document.getElementById('set-nim').value = userNIM;
+            document.getElementById('set-email').value = userEmail;
 
-            const initial = userName.charAt(0).toUpperCase();
             const headerAvatar = document.getElementById('header-avatar');
             headerAvatar.src = `https://ui-avatars.com/api/?name=${userName}&background=FFC4DA&color=1E293B&bold=true`;
             document.getElementById('profil-avatar-large').src = headerAvatar.src;
             
             document.querySelectorAll('.nama-user-text').forEach(el => el.innerText = userName);
 
-            // Hide Login, Show Main App
             document.getElementById('login-screen').classList.add('opacity-0');
             setTimeout(() => {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-app').classList.remove('hidden');
                 document.getElementById('main-app').style.animation = 'fadeIn 0.5s ease-out forwards';
                 
-                renderPresensi(); // Fixed function name from initPresensi to renderPresensi
+                renderForum();
+                renderLostFound();
+                renderPresensi(); 
             }, 500);
         }
 
-        // TABS
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
+            const targetTab = document.getElementById('tab-' + tabId);
+            targetTab.classList.add('active');
+
+            const header = document.getElementById('main-header');
+            
+            if (tabId === 'assistant') {
+                header.classList.add('hidden');
+                targetTab.classList.remove('pt-2');
+            } else {
+                header.classList.remove('hidden');
+                if(!targetTab.classList.contains('pt-2')) {
+                   targetTab.classList.add('pt-2');
+                }
+            }
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 const icon = btn.querySelector('.nav-icon');
                 if (btn.dataset.target === tabId) {
                     btn.classList.add('text-nDark');
                     btn.classList.remove('text-gray-400');
-                    if(tabId !== 'assistant') icon.classList.replace('ph', 'ph-fill');
+                    icon.classList.replace('ph', 'ph-fill');
                 } else {
                     btn.classList.remove('text-nDark');
                     btn.classList.add('text-gray-400');
-                    if(btn.dataset.target !== 'assistant') icon.classList.replace('ph-fill', 'ph');
+                    icon.classList.replace('ph-fill', 'ph');
                 }
             });
         }
 
-        // MODALS & ALERTS
         function showAlert(msg) {
             const alertEl = document.getElementById('global-alert');
             document.getElementById('alert-msg').innerText = msg;
@@ -741,7 +786,6 @@
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
-        // NOTIFICATIONS
         function toggleNotifications() {
             const panel = document.getElementById('notif-panel');
             if (panel.classList.contains('hidden')) {
@@ -752,39 +796,39 @@
                 panel.classList.add('hidden');
             }
         }
+        
         function addNotification(title, desc, icon="ph-bell-ringing", color="text-nPink", action="") {
             notifications.unshift({ title, desc, time: "Baru saja", icon, color, action });
             document.getElementById('notif-badge').classList.remove('hidden');
             showAlert(title);
         }
+        
         function renderNotifications() {
             const list = document.getElementById('notif-list');
             list.innerHTML = '';
             if(notifications.length === 0) {
-                list.innerHTML = `<p class="text-center text-xs text-gray-400 mt-10">Belum ada notifikasi.</p>`;
+                list.innerHTML = `<p class="text-center text-sm text-gray-500 mt-10 font-bold">Belum ada notifikasi.</p>`;
                 return;
             }
             notifications.forEach(n => {
-                // Notifikasi bisa di-klik jika punya action
                 const clickAttr = n.action ? `onclick="${n.action}; toggleNotifications()"` : '';
-                const cursor = n.action ? 'cursor-pointer click-anim' : '';
+                const cursor = n.action ? 'cursor-pointer click-anim hover:shadow-md transition-shadow' : '';
                 
                 list.innerHTML += `
-                    <div ${clickAttr} class="bg-white p-4 rounded-2xl flex items-start gap-3 border border-gray-100 shadow-sm ${cursor}">
-                        <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center shrink-0 shadow-inner">
-                            <i class="ph-fill ${n.icon} ${n.color} text-xl"></i>
+                    <div ${clickAttr} class="bg-white p-5 rounded-2xl flex items-start gap-4 border border-gray-100 shadow-sm ${cursor}">
+                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center shrink-0 shadow-inner">
+                            <i class="ph-fill ${n.icon} ${n.color} text-2xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-black text-sm text-nDark">${n.title}</h4>
-                            <p class="text-xs text-gray-500 mt-0.5 leading-snug">${n.desc}</p>
-                            <p class="text-[10px] text-gray-400 mt-2 font-bold">${n.time}</p>
+                            <h4 class="font-black text-base text-nDark">${n.title}</h4>
+                            <p class="text-sm text-gray-600 mt-1 leading-snug">${n.desc}</p>
+                            <p class="text-[11px] text-gray-400 mt-2 font-bold">${n.time}</p>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // IZIN KAMERA NATIVE
         function handleFotoIzin(event) {
             const file = event.target.files[0];
             if (file) {
@@ -793,41 +837,40 @@
                     const preview = document.getElementById('izin-preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-check"></i> Foto Berhasil Diambil`;
+                    document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-check text-xl"></i> <span>Foto Bukti Tersimpan</span>`;
                     document.getElementById('izin-btn-ui').classList.replace('bg-nDark', 'bg-nBlue');
                     document.getElementById('izin-btn-ui').classList.replace('text-white', 'text-nDark');
                 }
                 reader.readAsDataURL(file);
             }
         }
+        
         function submitIzin() {
             const alasan = document.getElementById('izin-alasan').value;
-            const imgSrc = document.getElementById('izin-preview').src;
-            if(!alasan) return showAlert("Keterangan izin wajib diisi.");
-            if(document.getElementById('izin-preview').classList.contains('hidden')) return showAlert("Ambil foto bukti terlebih dahulu.");
+            const preview = document.getElementById('izin-preview');
+            if(!alasan) return showAlert("Keterangan izin wajib diisi!");
+            if(preview.classList.contains('hidden')) return showAlert("Mohon lampirkan foto surat keterangan/bukti.");
             
-            addNotification("Surat Izin Diproses", "Izin Anda sedang dikirim ke database akademik.", "ph-stethoscope", "text-nBlue");
+            addNotification("Izin Diproses", "Izin sedang divalidasi oleh sistem akademik.", "ph-file-text", "text-nBlue");
             
-            // Reset
             document.getElementById('izin-alasan').value = '';
-            document.getElementById('izin-preview').classList.add('hidden');
-            document.getElementById('izin-preview').src = '';
-            document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-camera"></i> Buka Kamera Bukti`;
+            preview.classList.add('hidden');
+            preview.src = '';
+            document.getElementById('izin-btn-ui').innerHTML = `<i class="ph-bold ph-image text-xl"></i> <span>Pilih Foto untuk Bukti</span>`;
             document.getElementById('izin-btn-ui').classList.replace('bg-nBlue', 'bg-nDark');
             document.getElementById('izin-btn-ui').classList.replace('text-nDark', 'text-white');
-            showAlert("Izin berhasil dikirim!");
+            showAlert("Izin berhasil terkirim!");
         }
 
-        // NEO ASSISTANT
         function sendChat() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if(!text) return;
             const chatContainer = document.getElementById('chat-container');
             chatContainer.innerHTML += `
-                <div class="flex gap-2 flex-row-reverse">
-                    <div class="w-8 h-8 bg-nDark text-white rounded-full flex items-center justify-center shadow-sm shrink-0 text-xs font-bold">${userName.charAt(0)}</div>
-                    <div class="bg-nDark text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm">
+                <div class="flex gap-3 md:gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-nDark text-white rounded-full flex items-center justify-center shadow-sm shrink-0 text-sm font-bold border-2 border-white">${userName.charAt(0)}</div>
+                    <div class="bg-nDark text-white p-4 md:p-5 rounded-2xl rounded-tr-none shadow-sm text-sm md:text-base max-w-[85%] md:max-w-[75%] font-medium">
                         ${text}
                     </div>
                 </div>
@@ -836,10 +879,10 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
             setTimeout(() => {
                 chatContainer.innerHTML += `
-                    <div class="flex gap-2">
-                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0"><i class="ph-fill ph-robot text-nBlue"></i></div>
-                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm border border-gray-100">
-                            Terima kasih ${userName}. Saya sedang memproses informasi terkait "${text}" di sistem NeoCampus 5.0.
+                    <div class="flex gap-3 md:gap-4">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-nBlue rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-robot text-white md:text-xl"></i></div>
+                        <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium">
+                            Tentu ${userName}. Saya siap memproses informasi terkait "${text}".
                         </div>
                     </div>
                 `;
@@ -847,43 +890,42 @@
             }, 800);
         }
 
-        // PRESENSI & BARCODE
         function renderPresensi() {
             const list = document.getElementById('presensi-list');
-            // URUTKAN A-Z
             presensiData.sort((a, b) => a.localeCompare(b)); 
             
             list.innerHTML = '';
             presensiData.forEach(nama => {
                 const isMe = nama.includes('(Saya)');
                 list.innerHTML += `
-                    <div class="bg-white p-3 rounded-xl border ${isMe ? 'border-nBlue bg-nBlue/10' : 'border-gray-100'} flex items-center gap-3 shadow-sm">
-                        <div class="w-8 h-8 ${isMe ? 'bg-nBlue text-white' : 'bg-gray-100 text-gray-500'} rounded-full flex items-center justify-center font-bold text-xs">
+                    <div class="bg-white p-4 rounded-xl border ${isMe ? 'border-nBlue bg-nBlue/10' : 'border-gray-100 hover:bg-gray-50'} flex items-center gap-4 shadow-sm transition-colors cursor-default">
+                        <div class="w-10 h-10 ${isMe ? 'bg-nBlue text-white' : 'bg-gray-100 text-gray-500'} rounded-full flex items-center justify-center font-black text-sm">
                             ${nama.charAt(0).toUpperCase()}
                         </div>
-                        <span class="font-bold text-sm ${isMe ? 'text-nDark' : 'text-nDark'}">${nama}</span>
-                        <i class="ph-bold ph-check-circle text-green-500 ml-auto text-lg"></i>
+                        <span class="font-bold text-base text-nDark">${nama}</span>
+                        <i class="ph-bold ph-check-circle text-green-500 ml-auto text-2xl"></i>
                     </div>
                 `;
             });
         }
+        
         function showScanResult() {
             const res = document.getElementById('scan-result');
             res.classList.remove('hidden');
             setTimeout(() => res.classList.remove('translate-y-full'), 10);
         }
+        
         function markHadir() {
             const namaSaya = `${userName} (Saya)`;
             if(!presensiData.includes(namaSaya)) {
                 presensiData.push(namaSaya);
                 renderPresensi();
-                showAlert("Berhasil mencatatkan kehadiran!");
+                showAlert("Kehadiran sukses dicatat!");
             } else {
-                showAlert("Anda sudah hadir.");
+                showAlert("Anda sudah absen hari ini.");
             }
         }
 
-        // PROFIL & SETTINGS
         function changeAvatar(event) {
             const file = event.target.files[0];
             if(file){
@@ -897,75 +939,292 @@
                 reader.readAsDataURL(file);
             }
         }
+        
         function savePengaturan() {
             userName = document.getElementById('set-nama').value || userName;
             userNIM = document.getElementById('set-nim').value || userNIM;
+            userEmail = document.getElementById('set-email').value || userEmail;
             
             document.getElementById('user-name-display').innerText = userName;
             document.getElementById('profil-nama').innerText = userName;
             document.getElementById('profil-nim').innerText = userNIM;
+            document.getElementById('profil-email').innerText = userEmail;
             document.querySelectorAll('.nama-user-text').forEach(el => el.innerText = userName);
             
             closeModal('modal-pengaturan');
             showAlert("Pengaturan Akun Tersimpan!");
         }
 
-        // LOST & FOUND
+        function renderLostFound() {
+            const feed = document.getElementById('lf-feed');
+            feed.innerHTML = '';
+            
+            [...lostItems].reverse().forEach(item => {
+                const isOwner = item.owner === userName;
+                const isFound = item.status === 'ditemukan';
+                const statusBadge = isFound ? 
+                    `<div class="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-black px-3 py-1.5 rounded-lg z-10 flex items-center gap-1"><i class="ph-bold ph-check"></i> DITEMUKAN</div>` : 
+                    `<div class="absolute top-3 right-3 bg-nPink text-white text-[10px] font-black px-3 py-1.5 rounded-lg z-10">HILANG</div>`;
+                
+                const foundBtn = (isOwner && !isFound) ? 
+                    `<button onclick="tandaiDitemukan(${item.id})" class="w-full bg-green-500 text-white py-3 rounded-xl text-sm font-bold click-anim mt-2"><i class="ph-bold ph-check"></i> Tandai Sudah Ditemukan</button>` : '';
+
+                const contactBtn = (!isFound) ? 
+                    `<a href="https://wa.me/${item.wa}" target="_blank" class="text-center w-full bg-nDark text-white py-3 rounded-xl text-sm font-bold click-anim mt-2 block">Hubungi Pelapor</a>` : '';
+
+                const foundNotice = isFound ? `<p class="text-xs font-bold text-green-600 bg-green-50 p-2 rounded mt-2 border border-green-100">Pemilik postingan mengonfirmasi bahwa barang ini telah ditemukan.</p>` : '';
+
+                feed.innerHTML += `
+                    <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm relative flex flex-col justify-between hover:shadow-md transition-shadow mb-4 ${isFound ? 'opacity-70' : ''}">
+                        ${statusBadge}
+                        <div>
+                            <div class="w-full h-40 bg-gray-100 rounded-[1.5rem] mb-4 flex items-center justify-center overflow-hidden border border-gray-200">
+                                ${item.img ? `<img src="${item.img}" class="w-full h-full object-cover">` : `<i class="ph-duotone ph-image text-5xl text-gray-400"></i>`}
+                            </div>
+                            <h4 class="font-black text-lg mb-1 text-nDark">${item.nama}</h4>
+                            <p class="text-sm text-gray-500"><i class="ph-fill ph-map-pin"></i> Lokasi: ${item.lokasi}</p>
+                            <p class="text-xs text-gray-400 mt-1">Oleh: ${item.owner}</p>
+                            ${foundNotice}
+                        </div>
+                        ${contactBtn}
+                        ${foundBtn}
+                    </div>
+                `;
+            });
+        }
+
+        function handleFotoLF(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempLFImage = e.target.result;
+                    document.getElementById('lf-preview').src = tempLFImage;
+                    document.getElementById('lf-preview').classList.remove('hidden');
+                    document.getElementById('lf-kamera-icon').classList.add('hidden');
+                    document.getElementById('lf-kamera-text').classList.add('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
         function submitLostItem() {
             const nama = document.getElementById('lf-nama').value;
             const lokasi = document.getElementById('lf-lokasi').value;
             const wa = document.getElementById('lf-wa').value;
 
-            if(!nama || !lokasi || !wa) return showAlert("Mohon lengkapi semua data dan foto!");
+            if(!nama || !lokasi || !wa) return showAlert("Lengkapi seluruh form data!");
 
-            const feed = document.getElementById('lf-feed');
-            const newItem = `
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm relative">
-                    <div class="absolute top-2 right-2 bg-nPink text-white text-[9px] font-black px-2 py-1 rounded">BARU</div>
-                    <div class="w-full h-32 bg-gray-200 rounded-xl mb-3 flex items-center justify-center text-gray-400 overflow-hidden">
-                        <i class="ph-duotone ph-image text-4xl"></i>
-                    </div>
-                    <h4 class="font-bold text-base mb-1">${nama}</h4>
-                    <p class="text-xs text-gray-500 mb-2"><i class="ph-fill ph-map-pin"></i> Hilang di: ${lokasi}</p>
-                    <a href="https://wa.me/${wa}" target="_blank" class="inline-block bg-nDark text-white px-4 py-2 rounded-xl text-xs font-bold click-anim">Hubungi ${userName}</a>
-                </div>
-            `;
-            feed.insertAdjacentHTML('afterbegin', newItem);
+            lostItems.push({
+                id: Date.now(), nama, lokasi, wa, img: tempLFImage, status: 'hilang', owner: userName
+            });
 
-            // Trigger Global Notification to everyone. 
-            // The action string calls openModal for lost-found
             addNotification(
                 "Kehilangan Barang!", 
                 `${userName} melaporkan kehilangan: ${nama} di ${lokasi}.`, 
                 "ph-warning-circle", 
                 "text-red-500",
-                "openModal('modal-lostfound')"
+                "openModal('modal-lostfound'); renderLostFound()"
             );
 
             document.getElementById('lf-form').classList.add('hidden');
-            
             document.getElementById('lf-nama').value = '';
             document.getElementById('lf-lokasi').value = '';
             document.getElementById('lf-wa').value = '';
+            
+            tempLFImage = null;
+            document.getElementById('lf-preview').classList.add('hidden');
+            document.getElementById('lf-kamera-icon').classList.remove('hidden');
+            document.getElementById('lf-kamera-text').classList.remove('hidden');
+
+            renderLostFound();
+            showAlert("Laporan berhasil disebarkan.");
         }
 
-        // FORUM POST
-        function postThread() {
-            const text = document.getElementById('forum-input').value;
-            if(!text) return;
-            const feed = document.getElementById('forum-feed');
-            feed.insertAdjacentHTML('afterbegin', `
-                <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-nDark text-white flex justify-center items-center font-bold">${userName.charAt(0)}</div>
-                        <div><p class="text-sm font-bold leading-none">${userName}</p><p class="text-[10px] text-gray-400">Baru saja</p></div>
-                    </div>
-                    <p class="text-sm font-medium mb-3">${text}</p>
-                </div>
-            `);
-            document.getElementById('forum-input').value = '';
-            showAlert("Thread berhasil diposting!");
+        function tandaiDitemukan(id) {
+            const item = lostItems.find(i => i.id === id);
+            if(item) {
+                item.status = 'ditemukan';
+                renderLostFound();
+                showAlert("Status barang diubah menjadi ditemukan!");
+            }
         }
+
+        function renderJadwal() {
+            const tabs = document.getElementById('jadwal-tabs');
+            const list = document.getElementById('jadwal-list');
+            tabs.innerHTML = '';
+            list.innerHTML = '';
+
+            const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            days.forEach(day => {
+                const isActive = day === activeJadwalDay;
+                tabs.innerHTML += `
+                    <div onclick="activeJadwalDay='${day}'; renderJadwal()" class="${isActive ? 'bg-nDark text-white' : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50'} px-5 py-2.5 rounded-full text-sm font-bold shrink-0 click-anim cursor-pointer">${day}</div>
+                `;
+            });
+
+            const currentJadwal = jadwalKuliah[activeJadwalDay];
+            if(currentJadwal.length === 0) {
+                list.innerHTML = `<p class="text-sm text-gray-400 text-center mt-10 font-bold">Belum ada jadwal di hari ${activeJadwalDay}</p>`;
+                return;
+            }
+
+            currentJadwal.sort((a,b) => a.waktu.localeCompare(b.waktu)).forEach(item => {
+                list.innerHTML += `
+                    <div class="relative">
+                        <div class="absolute -left-[39px] top-1 w-4 h-4 ${item.color} rounded-full border-4 border-white shadow-sm"></div>
+                        <p class="text-xs font-black ${item.color.replace('bg-', 'text-')} mb-2 tracking-wide">${item.waktu}</p>
+                        <div class="bg-white p-4 md:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h4 class="font-black text-base md:text-lg">${item.matkul}</h4>
+                            <p class="text-sm text-gray-500 flex items-center gap-1.5 mt-2"><i class="ph-fill ph-map-pin text-nDark"></i> ${item.ruang}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        function submitJadwal() {
+            const hari = document.getElementById('jadwal-hari').value;
+            const matkul = document.getElementById('jadwal-matkul').value;
+            const start = document.getElementById('jadwal-waktu').value;
+            const end = document.getElementById('jadwal-waktu-end').value;
+            const ruang = document.getElementById('jadwal-ruang').value;
+
+            if(!matkul || !start || !end || !ruang) return showAlert("Lengkapi form jadwal!");
+
+            const colors = ['bg-nPink', 'bg-nBlue', 'bg-nYellow', 'bg-nSand', 'bg-nDark'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            jadwalKuliah[hari].push({
+                matkul, waktu: `${start} - ${end}`, ruang, color: randomColor
+            });
+
+            activeJadwalDay = hari;
+            renderJadwal();
+            closeModal('modal-tambah-jadwal');
+            
+            document.getElementById('jadwal-matkul').value = '';
+            document.getElementById('jadwal-ruang').value = '';
+            showAlert("Jadwal Berhasil Ditambah!");
+        }
+
+        function actionLamarCepat(posisi) {
+            document.getElementById('judul-lamar').innerText = `Melamar ${posisi}`;
+            openModal('modal-lamar-cepat');
+            const progress = document.getElementById('lamar-progress');
+            progress.style.width = '0%';
+            setTimeout(() => { progress.style.width = '100%'; }, 100);
+            setTimeout(() => {
+                closeModal('modal-lamar-cepat');
+                showAlert(`CV Anda terkirim untuk posisi ${posisi}`);
+            }, 1800);
+        }
+        function actionGabungKepanitiaan(divisi) {
+            document.getElementById('judul-volunteer').innerText = `Gabung ${divisi}`;
+            openModal('modal-form-volunteer');
+        }
+        function submitVolunteer() {
+            const text = document.getElementById('alasan-volunteer').value;
+            if(!text) return showAlert("Isi alasan bergabung!");
+            document.getElementById('alasan-volunteer').value = '';
+            closeModal('modal-form-volunteer');
+            showAlert("Formulir sukses dikirimkan ke panitia.");
+        }
+
+        function renderForum() {
+            const feedFull = document.getElementById('forum-feed-full');
+            const feedPrev = document.getElementById('forum-preview');
+            let html = '';
+            
+            [...forumPosts].reverse().forEach(post => {
+                let repliesHtml = '';
+                post.replies.forEach(rep => {
+                    repliesHtml += `
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-full bg-nBlue text-white text-xs flex justify-center items-center font-bold shrink-0">${rep.user.charAt(0)}</div>
+                            <div class="bg-gray-50 p-4 rounded-xl rounded-tl-none w-full border border-gray-100">
+                                <p class="text-sm font-bold mb-1 text-nDark">${rep.user}</p>
+                                <p class="text-sm text-gray-700">${rep.text}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    <div class="bg-white p-5 rounded-[1.5rem] border border-gray-100 shadow-sm mb-4">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-nDark text-white flex justify-center items-center font-bold text-lg">${post.user.charAt(0)}</div>
+                            <div><p class="text-base font-bold leading-none text-nDark">${post.user}</p><p class="text-[11px] text-gray-500 mt-1">${post.time}</p></div>
+                        </div>
+                        <p class="text-base font-medium mb-4 text-nDark">${post.text}</p>
+                        ${post.img ? `<img src="${post.img}" class="w-full h-48 object-cover rounded-xl mb-4 border border-gray-200">` : ''}
+                        
+                        <div class="border-t border-gray-100 pt-4 space-y-3">
+                            ${repliesHtml}
+                            <div class="flex gap-2 items-center mt-2">
+                                <input type="text" placeholder="Balas..." class="w-full bg-gray-50 border border-gray-100 p-3 rounded-xl text-sm outline-none focus:border-nBlue" id="reply-${post.id}">
+                                <button onclick="replyForum(${post.id})" class="bg-nDark text-white p-3 rounded-xl click-anim"><i class="ph-bold ph-paper-plane-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if(feedFull) feedFull.innerHTML = html;
+            
+            if(feedPrev && forumPosts.length > 0) {
+                const latest = forumPosts[forumPosts.length-1];
+                feedPrev.innerHTML = `
+                    <div class="bg-white/90 p-4 rounded-2xl shadow-sm border border-white">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-7 h-7 rounded-full bg-nDark text-xs flex justify-center items-center font-bold text-white">${latest.user.charAt(0)}</div>
+                            <span class="text-xs md:text-sm font-bold">${latest.user}</span>
+                            <span class="text-[10px] text-gray-500">${latest.time}</span>
+                        </div>
+                        <p class="text-sm md:text-base font-bold leading-snug truncate">${latest.text}</p>
+                    </div>
+                `;
+            }
+        }
+        function handleFotoForum(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempForumImage = e.target.result;
+                    document.getElementById('forum-img-preview').src = tempForumImage;
+                    document.getElementById('forum-img-preview-container').style.display = 'flex';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        function clearForumImg() {
+            tempForumImage = null;
+            document.getElementById('forum-img-preview-container').style.display = 'none';
+        }
+        function postForum() {
+            const text = document.getElementById('forum-input-full').value.trim();
+            if(!text && !tempForumImage) return;
+            
+            forumPosts.push({
+                id: Date.now(), user: userName, text: text, img: tempForumImage, time: 'Baru saja', replies: []
+            });
+            
+            document.getElementById('forum-input-full').value = '';
+            clearForumImg();
+            renderForum();
+            showAlert("Berhasil memposting ke Forum!");
+        }
+        function replyForum(id) {
+            const input = document.getElementById(`reply-${id}`);
+            if(!input || !input.value.trim()) return;
+            const post = forumPosts.find(p => p.id === id);
+            if(post) {
+                post.replies.push({ user: userName, text: input.value.trim() });
+                renderForum();
+            }
+        }
+
     </script>
 </body>
 </html>
