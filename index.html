@@ -14,6 +14,7 @@
     <!-- Google Fonts Poppins & QRCode.js -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -170,24 +171,6 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* 3D Tilt Card Styles */
-        .tilt-wrapper { perspective: 1000px; }
-        .tilt-card {
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            will-change: transform;
-        }
-        .tilt-inner { transform: translateZ(40px); }
-        .holo-glare {
-            position: absolute;
-            top: -50%; left: -50%; right: -50%; bottom: -50%;
-            background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.4) 25%, transparent 30%);
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
         /* Chat Markdown Styles */
         .chat-markdown { line-height: 1.6; word-break: break-word; }
         .chat-markdown > *:first-child { margin-top: 0; }
@@ -307,6 +290,10 @@
                                 <div class="w-12 h-12 md:w-14 md:h-14 bg-nYellow/70 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-users-three text-2xl md:text-3xl"></i></div>
                                 <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Volunteer<br>Kepanitiaan</span>
                             </div>
+                            <div onclick="window.openModal('modal-event')" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nSand hover:bg-white/80">
+                                <div class="w-12 h-12 md:w-14 md:h-14 bg-nSand/60 rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-presentation-chart text-2xl md:text-3xl"></i></div>
+                                <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Seminar<br>& Event</span>
+                            </div>
                             <div onclick="window.openModal('modal-jadwal'); window.renderJadwal && window.renderJadwal()" class="click-anim snap-center shrink-0 w-[105px] md:w-[130px] glass-panel rounded-[1.5rem] p-3 flex flex-col items-center gap-2 border-b-4 border-b-nPink hover:bg-white/80">
                                 <div class="w-12 h-12 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center text-nDark shadow-sm"><i class="ph-duotone ph-calendar text-2xl md:text-3xl"></i></div>
                                 <span class="text-[10px] md:text-xs font-bold text-center leading-tight">Jadwal<br>Kuliah</span>
@@ -392,8 +379,8 @@
                             <div class="flex-1 overflow-y-auto space-y-5 md:space-y-6 mb-4 hide-scroll pr-2" id="chat-container">
                                 <div class="flex gap-3 md:gap-4">
                                     <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-nBlue to-nPink rounded-full flex items-center justify-center shadow-sm shrink-0 border-2 border-white"><i class="ph-fill ph-sparkle text-white md:text-xl"></i></div>
-                                    <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium leading-relaxed">
-                                        Halo <span class="nama-user-text font-black text-nBlue"></span>! Saya EcoNeo, asisten AI eksklusif Anda. Tanyakan apa saja!
+                                    <div class="bg-white p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-sm md:text-base border border-gray-100 max-w-[85%] md:max-w-[75%] font-medium leading-relaxed chat-markdown">
+                                        Halo <strong class="nama-user-text text-nBlue"></strong>! 👋<br><br>Saya EcoNeo, asisten AI cerdas kampusmu. Ada yang bisa saya bantu hari ini?
                                     </div>
                                 </div>
                             </div>
@@ -564,19 +551,19 @@
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
                     <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     <div class="flex-1 w-full">
-                        <span class="text-[9px] font-black bg-green-50 text-green-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Negeri / Pemerintah</span>
-                        <h4 class="font-black text-base text-nDark leading-tight mb-1">KIP Kuliah</h4>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Bantuan biaya pendidikan dari pemerintah bagi lulusan SMA/sederajat yang memiliki keterbatasan ekonomi namun berprestasi.</p>
-                        <a href="https://kip-kuliah.kemdikbud.go.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
+                        <span class="text-[9px] font-black bg-green-50 text-green-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Swasta / Yayasan</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Tanoto Foundation</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Program beasiswa kepemimpinan TELADAN yang memberikan dukungan biaya kuliah penuh dan tunjangan bulanan.</p>
+                        <a href="https://tanotofoundation.org/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
                     </div>
                 </div>
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
                     <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     <div class="flex-1 w-full">
-                        <span class="text-[9px] font-black bg-purple-50 text-purple-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Internasional</span>
-                        <h4 class="font-black text-base text-nDark leading-tight mb-1">LPDP Reguler</h4>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Beasiswa bergengsi dari Kementerian Keuangan untuk studi lanjut S2/S3 di kampus top dunia dan dalam negeri.</p>
-                        <a href="https://lpdp.kemenkeu.go.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
+                        <span class="text-[9px] font-black bg-purple-50 text-purple-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Swasta / Korporat</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Astra 1st</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Program beasiswa plus pengembangan kompetensi komprehensif bagi mahasiswa teknik dan bisnis dari Astra.</p>
+                        <a href="https://career.astra.co.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
                     </div>
                 </div>
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -591,10 +578,10 @@
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
                     <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     <div class="flex-1 w-full">
-                        <span class="text-[9px] font-black bg-yellow-50 text-yellow-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Internasional / Exchange</span>
-                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Erasmus+ Scholarship</h4>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Program pertukaran pelajar dan beasiswa ke universitas-universitas terbaik di benua Eropa secara penuh.</p>
-                        <a href="https://erasmus-plus.ec.europa.eu/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
+                        <span class="text-[9px] font-black bg-yellow-50 text-yellow-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Swasta / Tech</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Tokopedia Scholarship</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Bantuan pendanaan pendidikan khusus mahasiswa program studi teknologi informasi dan data.</p>
+                        <a href="https://www.tokopedia.com/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-white px-5 py-2.5 rounded-xl text-xs font-bold click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
                     </div>
                 </div>
             </div>
@@ -652,11 +639,11 @@
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
                     <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     <div class="flex-1 w-full">
-                        <span class="text-[9px] font-black bg-purple-50 text-purple-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Government</span>
-                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Content Creator Kampus Merdeka</h4>
-                        <p class="text-[10px] text-nDark font-bold mb-1"><i class="ph-fill ph-buildings"></i> MSIB Kemdikbud • Remote</p>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Tingkatkan skill kreatifmu dengan membuat konten edukatif untuk program kementerian secara nasional.</p>
-                        <a href="https://kampusmerdeka.kemdikbud.go.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nBlue text-blue-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-blue-300 transition-colors w-full md:w-auto">Cek Program MSIB</a>
+                        <span class="text-[9px] font-black bg-red-50 text-red-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Corporate</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Digital Marketing Intern</h4>
+                        <p class="text-[10px] text-nDark font-bold mb-1"><i class="ph-fill ph-buildings"></i> Telkomsel • Jakarta</p>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Dapatkan pengalaman praktis merancang strategi pemasaran digital di perusahaan telekomunikasi terbesar.</p>
+                        <a href="https://careers.telkomsel.com" target="_blank" class="block text-center md:inline-block md:text-left bg-nBlue text-blue-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-blue-300 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
                     </div>
                 </div>
             </div>
@@ -677,7 +664,7 @@
                         <span class="text-[9px] font-black bg-yellow-100 text-yellow-700 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Internasional</span>
                         <h4 class="font-black text-base text-nDark leading-tight mb-1">AIESEC Global Volunteer</h4>
                         <p class="text-xs text-gray-500 line-clamp-2 mb-3">Kembangkan jiwa kepemimpinanmu dengan menjadi relawan di berbagai project sosial di luar negeri selama 6 minggu.</p>
-                        <a href="https://aiesec.or.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nYellow text-yellow-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-yellow-300 transition-colors w-full md:w-auto">Buka Web Pendaftaran</a>
+                        <a href="https://aiesec.or.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nYellow text-yellow-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-yellow-300 transition-colors w-full md:w-auto">Buka Pendaftaran</a>
                     </div>
                 </div>
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -692,10 +679,10 @@
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
                     <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
                     <div class="flex-1 w-full">
-                        <span class="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Pendidikan</span>
-                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Relawan Kampus Mengajar</h4>
-                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Bantu tingkatkan literasi dan numerasi siswa-siswi SD & SMP di daerah 3T selama 1 semester.</p>
-                        <a href="https://kampusmerdeka.kemdikbud.go.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nYellow text-yellow-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-yellow-300 transition-colors w-full md:w-auto">Daftar Kampus Mengajar</a>
+                        <span class="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Lingkungan</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Volunteer WWF Indonesia</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Bantu selamatkan keanekaragaman hayati dan kampanye lingkungan di berbagai wilayah Indonesia.</p>
+                        <a href="https://www.wwf.id/id/ambil-bagian/volunteer" target="_blank" class="block text-center md:inline-block md:text-left bg-nYellow text-yellow-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-yellow-300 transition-colors w-full md:w-auto">Daftar Volunteer</a>
                     </div>
                 </div>
                 <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -714,6 +701,63 @@
                         <h4 class="font-black text-base text-nDark leading-tight mb-1">Relawan Tanggap Bencana PMI</h4>
                         <p class="text-xs text-gray-500 line-clamp-2 mb-3">Siapkan dirimu menjadi relawan kemanusiaan tersertifikasi untuk terjun di daerah rawan bencana.</p>
                         <a href="https://pmi.or.id/" target="_blank" class="block text-center md:inline-block md:text-left bg-nYellow text-yellow-900 px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-yellow-300 transition-colors w-full md:w-auto">Daftar Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-event" class="hidden fixed inset-0 z-50 flex flex-col justify-end md:justify-center md:items-center">
+        <div class="absolute inset-0 bg-nDark/50 backdrop-blur-sm" onclick="window.closeModal('modal-event')"></div>
+        <div class="bg-white w-full md:max-w-2xl mx-auto h-[85vh] md:h-auto md:max-h-[85vh] rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl relative z-10 flex flex-col modal-enter overflow-hidden">
+            <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-100 shrink-0 bg-white z-10">
+                <h3 class="font-black text-xl md:text-2xl flex items-center gap-2 text-nDark"><i class="ph-fill ph-presentation-chart text-nSand text-3xl"></i> Seminar & Event</h3>
+                <button onclick="window.closeModal('modal-event')" class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center click-anim hover:bg-gray-200"><i class="ph-bold ph-x text-xl"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 hide-scroll bg-gray-50/80">
+                <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="flex-1 w-full">
+                        <span class="text-[9px] font-black bg-blue-50 text-blue-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Tech & Coding</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Dicoding Event: Career Developer</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Webinar gratis tentang teknologi terbaru (AI, Web, Mobile) langsung dari tech expert di industri.</p>
+                        <a href="https://www.dicoding.com/events" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-nSand px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Daftar Seminar</a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="flex-1 w-full">
+                        <span class="text-[9px] font-black bg-green-50 text-green-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Cloud & AI</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Google Developer Kejar 2026</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Sesi hands-on mendalam membahas implementasi Machine Learning menggunakan Google Cloud Platform.</p>
+                        <a href="https://developers.google.com/community/gdg" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-nSand px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Daftar Workshop</a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1475721025505-2312678c183f?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="flex-1 w-full">
+                        <span class="text-[9px] font-black bg-orange-50 text-orange-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Business</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Seminar Nasional Kewirausahaan</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Kupas tuntas strategi membangun startup dari nol bersama Founder sukses di kancah nasional.</p>
+                        <a href="https://www.loket.com/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-nSand px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Beli Tiket</a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="flex-1 w-full">
+                        <span class="text-[9px] font-black bg-purple-50 text-purple-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Soft Skill</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Public Speaking & Leadership</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Tingkatkan rasa percaya diri dan kemampuan berkomunikasimu untuk persiapan wawancara kerja.</p>
+                        <a href="https://event.detik.com/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-nSand px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Daftar Sesi</a>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-[1.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all group flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div class="w-full md:w-28 h-32 md:h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden relative"><img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                    <div class="flex-1 w-full">
+                        <span class="text-[9px] font-black bg-red-50 text-red-600 px-2 py-1 rounded tracking-widest uppercase mb-2 inline-block">Career</span>
+                        <h4 class="font-black text-base text-nDark leading-tight mb-1">Campus Career & Tech Expo</h4>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-3">Temukan ratusan lowongan kerja langsung dari perusahaan top nasional yang bekerja sama dengan kampusmu.</p>
+                        <a href="https://kitalulus.com/" target="_blank" class="block text-center md:inline-block md:text-left bg-nDark text-nSand px-5 py-2.5 rounded-xl text-xs font-black click-anim hover:bg-gray-800 transition-colors w-full md:w-auto">Lihat Jadwal</a>
                     </div>
                 </div>
             </div>
@@ -920,6 +964,7 @@
         import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global functions definition - Didefinisikan di awal agar selalu bisa diakses
+        // Global functions definition
         window.showAlert = (msg) => {
             const alertEl = document.getElementById('global-alert');
             const msgEl = document.getElementById('alert-msg');
@@ -941,7 +986,6 @@
 
         window.finishEdukasi = (expReward) => {
             if (expReward > 0) window.addEXP(expReward, "Menyelesaikan Modul Edukasi", null);
-            // Setelah selesai, modal modul edukasi akan dipanggil kembali (kembali ke list)
             setTimeout(() => {
                 window.openEdukasiModal();
             }, 300);
@@ -1102,8 +1146,13 @@
         window.userLevel = 1;
         window.expTarget = 100;
         window.gcStats = { pohon: 0, sampah: 0, energi: 0 };
-        const KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
-        window.chatHistory = [{ role: "system", content: "Kamu adalah EcoNeo, asisten AI cerdas untuk mahasiswa kampus. Jawablah dengan ramah, singkat, dan gunakan bahasa Indonesia." }];
+        
+        // Konfigurasi Kimi AI
+        window.KIMI_API_KEY = "knkt-IUeH4tEEZimmZQeqWT5Gi4rX"; 
+        window.KIMI_BASE_URL = "https://konektika.web.id/v1/chat/completions";
+        window.KIMI_MODEL = "kimi-pro";
+        
+        window.chatHistory = [{ role: "system", content: "Kamu adalah EcoNeo, asisten AI cerdas untuk mahasiswa kampus. Jawablah dengan ramah, ringkas namun sangat rapi (selalu gunakan markdown seperti bullet points, teks tebal, dan pemisahan paragraf yang baik), serta gunakan bahasa Indonesia yang asik." }];
         window.tempForumImage = null;
         window.tempLFImage = null;
         window.activeJadwalDay = 'Senin';
@@ -1624,9 +1673,9 @@
 
             try {
                 if (!window.KIMI_API_KEY) throw new Error("API_KEY_EMPTY");
-                const response = await fetch("https://konektika.web.id/v1/chat/completions", {
+                const response = await fetch(window.KIMI_BASE_URL, {
                     method: "POST", headers: { "Content-Type": "application/json", "Authorization": `Bearer ${window.KIMI_API_KEY}` },
-                    body: JSON.stringify({ model: "kimi-pro", messages: window.chatHistory, temperature: 0.7 })
+                    body: JSON.stringify({ model: window.KIMI_MODEL, messages: window.chatHistory, temperature: 0.7 })
                 });
                 if (!response.ok) throw new Error("Gagal mengambil respon dari Kimi AI");
                 const data = await response.json();
@@ -1997,7 +2046,6 @@
         };
 
         window.addEXP = async (amount, actionName, statType) => {
-            if(!window.isLoggedIn) { window.switchTab('profil'); return window.showAlert ? window.showAlert("Harap login di profil terlebih dahulu!") : null; }
             window.userEXP += amount;
             if(statType && window.gcStats[statType] !== undefined) window.gcStats[statType]++;
             let leveledUp = false;
@@ -2089,7 +2137,6 @@
         };
 
         window.openGCAction = (type) => {
-            if (!window.isLoggedIn) { window.switchTab('profil'); return window.showAlert ? window.showAlert("Harap login di menu Profil terlebih dahulu!") : null; }
             const titleEl = document.getElementById('gc-action-title');
             const contentEl = document.getElementById('gc-action-content');
             if(!titleEl || !contentEl) return;
